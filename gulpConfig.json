@@ -1,0 +1,22 @@
+{
+    "root": "bower_components",
+
+    "destDir": "dist",
+
+
+    "jsFiles": [
+        "bootstrap/dist/js/bootstrap.js",
+        "jquery/dist/jquery.js"
+    ],
+
+    "cssFiles": [
+        "bootstrap/dist/css/bootstrap.css"
+    ],
+
+    "fontsFiles": [
+        "bootstrap/dist/fonts/*"
+    ],
+
+    "excludeDir": [
+    ]
+}
