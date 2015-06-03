@@ -88,13 +88,13 @@ gulp.task('jshint', function () {
 
 // Optimize Images
 gulp.task('images', function () {
-  return gulp.src(['html/*/img/**/*', 'html/*/images/**/*'])
+  return gulp.src(['html/img/*'])
     .pipe($.cache($.imagemin({
       progressive: true,
       interlaced: true
     })))
 
-    .pipe(gulp.dest(configFiles.destDir))
+    .pipe(gulp.dest(path.join(configFiles.destDir, '/img/')))
     .pipe($.size({title: 'images'}));
 });
 
@@ -149,12 +149,9 @@ gulp.task('html', function () {
 
 // Clean Output Directory
 gulp.task('clean', function(){
-    var dirs = configFiles.cleanDirs.map(function(dir){
-        return path.join(configFiles.destDir, dir);
-    })
 
-    del( dirs, function(error, paths){
-        console.log('Deleted files/folders:\n', paths.join('\n'));
+    del( 'dist/', function(error, paths){
+        console.log('Deleted dist/');
     });
 });
 
