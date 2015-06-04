@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content=" "/>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/theme.css" rel="stylesheet">
+    <script src="../js/jquery.js"></script>
+</head>
+<body>
+
+<!--container -->
+<div class="container-fluid" id="container">
+
+    <!-- 头像部分// -->
+    <div class="row relative"  id="top">
+        <div class="col-xs-3 pr0 ">
+            <img src="../img/user_img.jpg" class="img img-circle img-user" alt="暂无头像" />
+        </div>
+        <div class="col-xs-9 ">
+            <div class="pt20 ">
+                    <div class="text-justify text-big">张晴予</div>
+                    <div class="text-gray">修改头像</div>
+            </div>
+        </div>
+        <span class="glyphicon glyphicon-menu-right pos-right-middle text-gray"> </span>
+    </div>
+    <!-- //头像部分 -->
+
+    <div class="row bg-space "></div>
+
+    <div class="row bg-line goto" data-id="nickname">
+        <div class="col-xs-12">
+            <img src="../img/my_ico_nickname.png" class="img-line">昵称
+        </div>
+        <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
+    </div>
+
+    <div class="row bg-line goto" data-id="password">
+        <div class="col-xs-12">
+            <img src="../img/my_ico_password.png" class="img-line">修改密码
+        </div>
+        <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
+    </div>
+
+    <div class="row bg-line noborder goto" data-id="shiming">
+        <div class="col-xs-12">
+            <img src="../img/my_ico_sm.png" class="img-line">实名认证
+        </div>
+        <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
+    </div>
+
+    <div class="row bg-space "></div>
+
+    <div class="row bg-line goto" data-id="weixin">
+        <div class="col-xs-12">
+            <img src="../img/my_ico_weixin.png" class="img-line">微信公众号
+        </div>
+        <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
+    </div>
+
+    <div class="row bg-line noborder goto" data-id="aboutus">
+        <div class="col-xs-12">
+            <img src="../img/my_ico_aboutus.png" class="img-line">关于我们
+        </div>
+        <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
+    </div>
+
+    <div class="row bg-space-big"></div>
+
+    <div class="row bg-line" id="logout">
+       <div class="text-green text-center text-big">退出登录</div> 
+    </div>
+
+</div>
+<!-- //container -->
+
+
+</body>
+</html>
+
+<script>
+$(document).ready(function(){
+
+$(".goto").click(function(){
+    var id = $(this).attr('data-id');
+
+    if(id=='aboutus'){
+        window.location.href = 'aboutus.html';
+    }else if(id == 'weixin'){
+        window.location.href = 'weixin.html';
+    }else if(id == 'shiming'){
+        //do sth
+    }else{
+        window.location.href = 'edit.html?a=' + id;
+    }
+});
+
+$("#logout").click(function(){
+    if(confirm('确定退出登录吗？')){
+        //window.location.href = 'login.html';
+    }
+});
+
+});
+
+</script>
