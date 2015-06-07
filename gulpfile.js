@@ -164,6 +164,7 @@ gulp.task('devel', ['styles'], function () {
     //       will present a certificate warning in the browser.
     // https: true,
     server: 'html',
+    open: false
 
   });
 
