@@ -18,15 +18,13 @@ body{background-color:#f5f5f5;}
 #building{margin-bottom:45px;}
 #building h4{margin:5px 0 5px;;}
 .top-right{ position:absolute;font-size:10px;font-weight:normal;top:7px;margin-left:5px;}
-.fs24{font-size:24px;} .fs20{font-size:20px;}
-.lh24{line-height:24px;}
-.lh28{line-height:28px;}
 .border-bottom-dash{border-bottom:1px dashed #6e6e6e;}
 .border-right-dash{border-right:1px dashed #6e6e6e;}
 #building .badge{padding:3px 5px;border-radius:5px;}
 .pos-left-center{position:absolute;top:30%;}
 .hui{word-break:break-all; line-height:16px;margin-top:5px;}
 .label-gray{background-color:#c1c1c1;}
+.label-green{background-color:#2cb182;}
 .nav > li > a:hover, .nav > li > a:focus{background-color:#fff;}
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{background-color:#fff;border:0 none;}
 .table{margin-bottom:0;}
@@ -41,6 +39,64 @@ body{background-color:#f5f5f5;}
 }
 .nav-bottom-fixed{position:fixed;bottom:0;left:0;background-color:#e8e8e8;border-top:1px solid #e7e7e7;padding:10px 30px;width:100%;text-align:center;}
 .nav-bottom-fixed .btn{width:100%;}
+ a{color:#333;}
+
+/* myscore.html */
+.bg-circle{background-color:#fff;text-align:center;padding:15px 0;border-radius:50%;line-height:14px;width:60px;z-index:9;}
+.myscore{position:relative;}
+.z2{z-index:2;}
+.myscore .point{
+    z-index:1;
+    position:absolute;
+    left:13.5%;
+    width:1px;
+    background-color:#ddd;
+    height:150%;
+    top:0;
+}
+.myscore:last-child .point{height:0;}
+
+/* score.html */
+.earn-score{
+    margin:15px 0 0;
+    padding:12px 1px 10px 30px;
+    background-color:#fff;
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    background-size: auto 50%;
+}
+.earn-score .ctit, .earn-score .cgreen{color:#ccc;}
+.earn-score.active .ctit{color:#333;} 
+.earn-score.active .cgreen{color:#2cb182;}
+.score-over{
+    padding:0;
+    text-align:center;
+    font-size:18px;
+    line-height:40px;
+    color:#ccc;
+}
+.score-login{
+    background-image: url(../img/icon_qiandao.png);
+}
+.score-qrcode{
+    background-image: url(../img/icon_saomiao_1.png);
+}
+.score-qrcode.active{
+    background-image: url(../img/icon_saomiao_2.png);
+}
+.score-huodong{
+    background-image: url(../img/icon_huodong_1.png);
+}
+.score-huodong.active{
+    background-image: url(../img/icon_huodong_2.png);
+}
+.score-ziyuan{
+    background-image: url(../img/icon_ziyuan_1.png);
+}
+.score-ziyuan.active{
+    background-image: url(../img/icon_ziyuan_2.png);
+}
+.underline{text-decoration:underline;}
 
 /* customers.html */
 .text-bg{font-size:16px;line-height:24px;}
@@ -208,6 +264,11 @@ body{background-color:#f5f5f5;}
 .container-fluid{max-width:720px;}
 
 /* base style */
+.text-red{color:#EC5A24;}.text-yellow{color:#F6AB3B;}.text-green{color:#21B57E;}.text-gray{color:#ccc;}
+.text-huge{font-size:36px;line-height:36px;padding:20px 0 15px;display:inline-block;}
+.text-big{font-size:24px;line-height:24px;padding:10px 0 5px;display:}
+.text-mid{font-size:20px;line-height:24px;padding:10px 0 5px;display:}
+
 .p0{padding:0;}.pr0{padding-right:0;}.pl0{padding-left:0;}.pt0{padding-top:0;}.pb0{padding-bottom:0;}
 .p5{padding:5px;}.pr5{padding-right:5px;}.pl5{padding-left:5px;}.pt5{padding-top:5px;}.pb5{padding-bottom:5px;}
 .p10{padding:10px;}.pr10{padding-right:10px;}.pl10{padding-left:10px;}.pt10{padding-top:10px;}.pb10{padding-bottom:10px;}
@@ -222,11 +283,8 @@ body{background-color:#f5f5f5;}
 .m25{margin:25px;}.mr25{margin-right:25px;}.ml25{margin-left:25px;}.mt25{margin-top:25px;}.mb25{margin-bottom:25px;}
 
 .relative{position: relative;}
-
-.text-red{color:#EC5A24;}.text-yellow{color:#F6AB3B;}.text-green{color:#21B57E;}.text-gray{color:#ccc;}
-.text-huge{font-size:36px;line-height:36px;padding:20px 0 15px;display:inline-block;}
-.text-big{font-size:24px;line-height:24px;padding:10px 0 5px;display:}
-.text-mid{font-size:20px;line-height:24px;padding:10px 0 5px;display:}
+.fs24{font-size:24px;} .fs20{font-size:20px;}.fs18{font-size:18px;}.fs16{font-size:16px;}.fs12{font-size:12px;}.fs14{font-size:14px;}
+.lh24{line-height:24px;} .lh28{line-height:28px;}.lh18{line-height:18px;}.lh16{line-height:16px;}.lh12{line-height:12px;}.lh14{line-height:14px;}
 
 .noborder{border:0 none;}
 .border-left{border-left: 1px solid #ccc;}
