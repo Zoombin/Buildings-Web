@@ -8,7 +8,6 @@
     <meta charset="utf-8">
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/theme.css" rel="stylesheet">
-    <script src="../js/jquery.js"></script>
 </head>
 <body>
 
@@ -86,4 +85,69 @@
 
 </body>
 </html>
+<script src="js/jquery.js"></script>
+<script src="js/script.js"></script>
+<script >
+$(document).ready(function(){
 
+//经纪人每日签到与否
+function getDayMark(){
+    _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/dayMark/' + _this.brokerid,
+        type: 'GET',
+        dataType: 'json',
+        success: function(){
+            //提交成功 
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+
+}
+
+//经纪人积分信息
+function getBrokerScore(){
+    _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerIntegral/' + _this.brokerid,
+        type: 'GET',
+        dataType: 'json',
+        success: function(){
+            //提交成功 
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+
+}
+
+
+function scoreMain(brokerid){
+    _this = BrokerWeb;
+
+    _this.brokerid = typeof(brokerid) === 'undefined' ? 0 : brokerid;
+
+    //经纪人积分信息
+    _this.getBrokerScore();
+
+    //经纪人每日签到/是否
+    _this.getDayMark();
+}
+
+$.extend(BrokerWeb, {
+    getBrokerScore: getBrokerScore,
+    getDayMark: getDayMark,
+    init: scoreMain
+});
+
+//主函数入口
+//参数为brokerid
+BrokerWeb.init(3);
+
+});
+</script>

@@ -186,8 +186,8 @@ body{background-color:#f5f5f5;}
 .cust-stat li:first-child .point{top:48%;}
 
 /* tuijian.html **/
-.tuijian{margin-top:30px;}
-.tuijian .input-group{border-width:2px;border-style:solid; border-color:#f38d1f;border-radius:20px;margin-bottom:15px;}
+.tuijian{margin-top:15px;}
+.tuijian .input-group{border-width:2px;border-style:solid; border-color:#f38d1f;border-radius:20px;margin-top:15px;}
 .tuijian .img-input{max-height:35px;margin:0 15px 0 0;display:inline-block;}
 .tuijian .img-input1{max-height:25px;margin:0 8px;display:inline-block;}
 .tuijian .img-input2{max-height:15px;margin:0 12px;display:inline-block;}

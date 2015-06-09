@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <title>推荐</title>
 <meta content="yes" name="apple-mobile-web-app-capable">
-<meta name="viewport" content="width=device-width,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<meta name="viewport" content="width=device-width,inital-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <link href="css/bootstrap.css"  rel="stylesheet" type="text/css">
 <link href="css/tuijian.css"  rel="stylesheet" type="text/css">
 <link href="css/theme.css"  rel="stylesheet" type="text/css">
+
 </head>
 
 <body style="background-color:#fff;">
@@ -15,23 +16,24 @@
     <form class="tuijian">
         <div class="input-group">
             <span class="input-group-addon text-orange"><img src="img/icon_name.png" class="img-input"/>客户姓名 |</span>
-            <input type="text" class="form-control" aria-label="" placeholder="必 填 项">
-            <span class="input-group-addon"><img src="img/icon_book.png" class="img-input1"/></span>
+            <input type="text" class="form-control" aria-label="" placeholder="必 填 项" name="clientName" id="clientName" max-length="20">
+            <span class="input-group-addon"><a href="xxx//:contacts"><img src="img/icon_book.png" class="img-input1"/></a></span>
         </div>
+        <div id="clientName_error" class="text-danger text-center " style="display:none;"></div>
 
         <div class="input-group">
             <span class="input-group-addon text-orange"><img src="img/icon_phone.png" class="img-input"/>手机号码 |</span>
-            <input type="number" class="form-control" aria-label="" placeholder="必 填 项">
+            <input type="number" class="form-control" aria-label="" placeholder="必 填 项" name="clientPhone" id="clientPhone">
             <span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </div>
+        <div id="clientPhone_error" class="text-danger text-center " style="display:none;"></div>
 
         <div class="input-group border-green">
             <span class="input-group-addon text-green"><img src="img/icon_city.png" class="img-input"/>意向城市 |</span>
-            <select class="form-control">
-                <option >必 填 项</option>
-                <option>北京</option>
-                <option>上海</option>
-                <option>广州</option>
+            <select class="form-control" name="recommendCity" id="recommendCity">
+                <option value="北京">北京</option>
+                <option value="上海">上海</option>
+                <option value="广州">广州</option>
             </select>
             <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
@@ -52,23 +54,24 @@
                 <option>宝山区</option>
                 <option>嘉定区</option>                                    
             </select>
-            <select class="form-control wh">
-                <option>新城金郡</option>
-                <option>新城金郡</option>
-                <option>新城金郡</option>
+            <select class="form-control wh" name="recommendedBuilding" id="recommendedBuilding">
+                <option value="1">新城金郡</option>
+                <option value="2">新城金郡</option>
+                <option value="3">新城金郡</option>
             </select>
             <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
+        <div id="recommendedBuilding_error" class="text-danger text-center " style="display:none;"></div>
 
         <div class="input-group border-green">
             <span class="input-group-addon text-green"><img src="img/icon_date.png" class="img-input"/>看房日期 |</span>
-            <input type="date" class="form-control date-input" aria-label="" placeholder="必 填 项">
+            <input type="date" class="form-control date-input" aria-label="" placeholder="必 填 项" name="recommendDate" id="recommendDate">
             <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
 
-        <textarea  class="form-control border" rows="5" placeholder="备注"></textarea>
+        <textarea  class="form-control mt15 border" rows="5" placeholder="备注" name="recommendMark" id="recommendMark"></textarea>
 
-        <button class="btn btn-green w100 mt20">立即推荐</button>
+        <button class="btn btn-green w100 mt20" type="button" id="submit">立即推荐</button>
 
     </form>
 
@@ -78,3 +81,123 @@
 </div>
 </body>
 </html>
+<script src="js/jquery.js"></script>
+<script src="js/script.js"></script>
+<script >
+$(document).ready(function(){
+
+
+//验证姓名
+function clientNameBlur(){
+    var clientName = $("#clientName").val();
+    if(clientName==""){
+        hasError = true;
+        $("#clientName_error").html('客户姓名为必填项').show();
+    }else if(clientName.length<2 || clientName.length>20){
+        hasError = true;
+        $("#clientName_error").html('客户姓名2-20个字符').show();
+    }else{
+        hasError = false;
+        $("#clientName_error").html('').hide();
+    }
+    return hasError;
+}
+
+//验证手机号码
+function clientPhoneBlur(){
+    var clientPhone = $("#clientPhone").val();
+    if(clientPhone==''){
+        hasError = true;
+        $("#clientPhone_error").html('手机号码为必填项').show();
+    }else if( !(/^1[3|5|6|8|9][0-9]\d{4,8}$/.test(clientPhone)) ){
+        hasError = true;
+        $("#clientPhone_error").html('请输入有效的手机号码').show();
+    }else{
+        hasError = false;
+        $("#clientPhone_error").html('').hide();
+    }
+    return hasError;
+}
+
+//验证意向楼盘
+function recommendedBuildingBlur(){
+    var rb = $("#recommendedBuilding").val();
+    if(rb==''){
+        hasError = true;
+        $("#recommendedBuilding_error").html('意向楼盘为必选项').show();
+    }else{
+        hasError = false;
+        $("#recommendedBuilding_error").html('').hide();
+    }
+    return hasError;
+}
+
+//提交表单
+function submitForm(){
+    _this = BrokerWeb;
+
+    if( clientNameBlur() || clientPhoneBlur() || recommendedBuildingBlur() || hasError){
+        return;
+    }
+    var data = {
+        clientName: $("#clientName").val(),
+        clientPhone: $("#clientPhone").val(),
+        recommendedBuilding: $("#recommendedBuilding").val(),
+        brokerid: _this.brokerid,
+        recommendMark: $("#recommendMark").val(),
+        recommendCity: $("#recommendCity").val(),
+        recommendDate: $("#recommendDate").val()
+    };
+    console.log('data',data);
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/brokerRecommendClient',
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(){
+            //提交成功 
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+
+}
+
+//从通讯录设置姓名和手机
+function setFromContact(name, phone){
+    $("#clientName").val(name),
+    $("#clientPhone").val(phone);
+}
+
+function recommendMain(brokerid){
+    _this = BrokerWeb;
+    _this.brokerid = typeof(brokerid) === 'undefined' ? 0 : brokerid;
+
+    $("#clientName").on('input blur', _this.clientNameBlur);
+    $("#clientPhone").on('input blur', _this.clientPhoneBlur);
+    $("#recommendedBuilding").on('input blur', _this.recommendedBuildingBlur);
+
+    $("#submit").click(_this.submitForm);
+
+}
+
+$.extend(BrokerWeb, {
+    hasError: false,
+    clientNameBlur: clientNameBlur,
+    clientPhoneBlur: clientPhoneBlur,
+    recommendedBuildingBlur: recommendedBuildingBlur,
+    submitForm: submitForm,
+    //从通讯录设置姓名和手机
+    //调用方法：Brokerweb.setfromcontact(name, phone);
+    setFromContact: setFromContact,
+    init: recommendMain
+});
+
+//主函数入口
+//参数为brokerid
+BrokerWeb.init(3);
+
+});
+</script>

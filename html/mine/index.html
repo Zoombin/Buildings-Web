@@ -8,7 +8,6 @@
     <meta charset="utf-8">
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/theme.css" rel="stylesheet">
-    <script src="../js/jquery.js"></script>
 </head>
 <body>
 
@@ -56,7 +55,7 @@
         </div>
         <div class="col-xs-3 text-center">
             <div class="thumbnail ">
-                <img src="../img/fourbtn_point.png" alt="">
+                <a href="myscore.html"><img src="../img/fourbtn_point.png" alt=""></a>
                 <div class="caption">
                     <span class="text-gray2">积分</span>
                 </div>
@@ -72,7 +71,7 @@
         </div>
         <div class="col-xs-3 text-center">
             <div class="thumbnail ">
-                <img src="../img/fourbtn_account.png" alt="">
+                <a href="customers.html"><img src="../img/fourbtn_account.png" alt=""></a>
                 <div class="caption">
                     <span class="text-gray2">客户</span>
                 </div>
@@ -135,11 +134,72 @@
     <!-- //内容部分 -->
 
 
-
 </div>
 <!-- //container -->
 
 
 </body>
 </html>
+<script src="../js/jquery.js"></script>
+<script src="../js/script.js"></script>
+<script >
+$(document).ready(function(){
 
+//未读消息数
+function getMyUnreadMsgNum(){
+    _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/dayMark/' + _this.brokerid,
+        type: 'GET',
+        dataType: 'json',
+        success: function(){
+            //提交成功 
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+}
+
+//获取经纪人信息
+function getBrokerInfo(){
+    _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerInfo?id=' + _this.brokerid,
+        type: 'GET',
+        dataType: 'json',
+        success: function(){
+            //提交成功 
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+}
+
+function mineIndexMain(brokerid){
+    _this = BrokerWeb;
+
+    _this.brokerid = typeof(brokerid) === 'undefined' ? 0 : brokerid;
+
+    //未读消息数
+    _this.getMyUnreadMsgNum();
+
+    //获取经纪人信息
+    _this.getBrokerInfo();
+}
+
+$.extend(BrokerWeb, {
+    getMyUnreadMsgNum: getMyUnreadMsgNum,
+    getBrokerInfo: getBrokerInfo,
+    init: mineIndexMain
+});
+
+//主函数入口
+//参数为brokerid
+BrokerWeb.init(3);
+
+});
+</script>

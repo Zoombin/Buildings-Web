@@ -8,7 +8,6 @@
     <meta charset="utf-8">
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/theme.css" rel="stylesheet">
-    <script src="../js/jquery.js"></script>
 </head>
 <body>
 
@@ -82,10 +81,15 @@
 </body>
 </html>
 
+<script src="../js/jquery.js"></script>
+<script src="../js/script.js"></script>
+
 <script>
 $(document).ready(function(){
 
-$(".goto").click(function(){
+//跳转链接
+function goto(){
+
     var id = $(this).attr('data-id');
 
     if(id=='aboutus'){
@@ -97,13 +101,95 @@ $(".goto").click(function(){
     }else{
         window.location.href = 'setting_edit.html?a=' + id;
     }
+}
+
+//获取经纪人信息
+function getBrokerInfo(){
+    _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerInfo?id=' + _this.brokerid,
+        type: 'GET',
+        dataType: 'json',
+        success: function(){
+            //提交成功 
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+}
+
+//退出登录
+function logout(){
+    if(confirm('确定退出登录吗？')){
+        _this = BrokerWeb;
+        var data = {
+            userId: _this.brokerid,
+            deviceType: 'ios',//ios/android
+            isOrg: 0
+        };
+
+        $.ajax({
+            url: _this.apiBaseUrl + '/broker/rest/broker/deleteDeviceNum' ,
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function(){
+                //提交成功 
+            },
+            error: function(){
+                //提交出错
+            }
+
+        });
+    }
+
+}
+
+//修改头像
+function updateImage(url){
+    _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerInfo?id=' + _this.brokerid,
+        type: 'GET',
+        dataType: 'json',
+        success: function(){
+            //提交成功 
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+}
+
+function settingMain(brokerid){
+    _this = BrokerWeb;
+    _this.brokerid = typeof(brokerid) === 'undefined' ? 0 : brokerid;
+
+    //跳转链接
+    $(".goto").click(_this.goto);
+
+    //退出登录
+    $("#logout").click(_this.logout);
+
+}
+
+$.extend(BrokerWeb, {
+    goto: goto,
+    getBrokerInfo: getBrokerInfo,
+    logout: logout,
+     //修改头像,参数不确定是url还是文件
+    //调用方法：Brokerweb.updateimage(url)
+    updateImage: updateImage,
+    init: settingMain
 });
 
-$("#logout").click(function(){
-    if(confirm('确定退出登录吗？')){
-        //window.location.href = 'login.html';
-    }
-});
+//主函数入口
+//参数为brokerid
+BrokerWeb.init(3);
+
 
 });
 
