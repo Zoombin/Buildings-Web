@@ -236,6 +236,7 @@ window.onerror = function(err) {
             log('ObjC called testJavascriptHandler with', data)
             var responseData = { 'Javascript Says':'Right back atcha!' }
             log('JS responding with', responseData)
+            setFromContact(data.name, data.phone)
             responseCallback(responseData)
         })
 
