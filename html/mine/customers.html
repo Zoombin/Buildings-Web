@@ -16,44 +16,21 @@
 <div class="container-fluid" id="container">
     <div class="row">
         <div class="col-xs-9 border-right" style="min-height:100vh;">
-            <div class="m10">共 <span class="text-green pl5 pr5">3</span> 个客户</div>
+            <div class="m10">共 <span class="text-green pl5 pr5" id="total"></span> 个客户</div>
 
-            <div class="bg-border">
-                <div class="row text-bg" id="done">
-                    <div class="col-xs-5  ">
-                        赵强<img src="../img/account_ico_male.png" class="img-line-sm ml5" />
-                    </div>
-                    <div class="col-xs-7 text-green"> 13411113333</div>
-                </div>
-                <hr/>
-                <div class="row " id="done">
-                    <div class="col-xs-12 "> 推荐购买：<span class="text-green">5</span> 个楼盘 </div>
-                </div>
-            </div>
+            <div id="customerList"></div>
 
-            <div class="bg-border">
-                <div class="row text-bg" id="done">
-                    <div class="col-xs-5  ">
-                        赵强<img src="../img/account_ico_female.png" class="img-line-sm ml5" />
-                    </div>
-                    <div class="col-xs-7 text-green"> 13411113333</div>
-                </div>
-                <hr/>
-                <div class="row " id="done">
-                    <div class="col-xs-12 "> 推荐购买：<span class="text-green">5</span> 个楼盘 </div>
-                </div>
-            </div>
 
         </div>
         <div class="col-xs-3 p5">
-            <ul class="nav nav-pills nav-stacked customer-menu">
-                <li class="active"><a href="#">重要客户</a></li>
-                <li class=""><a href="">已成交</a></li>
-                <li class=""><a href="">已看房</a></li>
-                <li class=""><a href="">已过期</a></li>
-                <li class=""><a href="">推荐成功</a></li>
-                <li class=""><a href="">推荐确认</a></li>
-                <li class=""><a href="">推荐失败</a></li>
+            <ul class="nav nav-pills nav-stacked customer-menu" id="listmenu">
+                <li class="active"><a href="#" data-tag="isVip">重要客户</a></li>
+                <li class=""><a href="#" data-tag="isSignup">已成交</a></li>
+                <li class=""><a href="#" data-tag="isVisited">已看房</a></li>
+                <li class=""><a href="#" data-tag="">已过期</a></li>
+                <li class=""><a href="#" data-tag="rSuccess">推荐成功</a></li>
+                <li class=""><a href="#" data-tag="rSure">推荐确认</a></li>
+                <li class=""><a href="#" data-tag="">推荐失败</a></li>
             </ul>
         </div>
     </div>
@@ -67,12 +44,118 @@
 
 </body>
 </html>
+<script src="../js/jquery.js"></script>
+<script src="../js/script.js"></script>
 
 <script>
 $(document).ready(function(){
-$(".bg-border").click(function(){
-    window.location.href = 'customer_info.html';
-})
+//切换tab
+function changeTab(){
+
+    $("#customerList").html('');
+
+    $("#listmenu").find('li').removeClass('active');
+    $(this).parent().addClass('active');
+
+    var tag = $(this).attr('data-tag');
+    
+    
+
+    BrokerWeb.getCustomerList(BrokerWeb.tags[tag]);
+}
+
+//设置用户列表信息
+function setCustomerList(list){
+
+    var arr = [];
+    $.each(list,function(i,item){
+
+        arr.push('<div class="bg-border" data-id="');
+        arr.push(item.id);
+        
+        arr.push('"><div class="text-bg">');
+        arr.push(item.name);
+        arr.push('<img src="../img/account_ico_');
+        arr.push(item.gender!='null' ? item.gender : 'female');
+        arr.push('.png" class="img-line-sm ml5" /><div class="pull-right text-green">');
+        arr.push(item.phone);
+        arr.push('</div></div><hr/><div class="row " id="done"><div class="col-xs-12 "> 推荐购买：<span class="text-green">');
+        arr.push(item.buildingNum);
+        arr.push('</span> 个楼盘 </div></div></div>');
+      
+    });
+
+    $("#customerList").append(arr.join(''));
+
+    $(".bg-border").click(function(){
+        console.log($(this));
+        var clientId = $(this).attr('data-id');
+        window.location.href = 'customer_info.html' + BrokerWeb.search + '&clientId=' + clientId;
+    });
+}
+
+//获取经纪人信息
+function getCustomerList(param){
+    var _this = BrokerWeb;
+
+    var data = $.extend({
+        id: _this.brokerid,
+        pageSize: 20
+    },param);
+
+
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/brokerClientList1/' + 1,
+        type: 'GET',
+        dataType: 'json',
+        data: data,
+        success: function(data){
+            console.log(data);
+            if(data.result){
+                $("#total").html(data.objValue.totalSize);
+                _this.setCustomerList(data.objValue.resultList);
+            }else{
+                alert('获取信息失败');
+            }
+
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+}
+
+function main(){
+    var _this = BrokerWeb;
+
+    _this.tags = {
+        isVip: { isVip: 0 },
+        isSignup: { isSignup: 0 },
+        isVisited: { isVisited: 0 },
+        rSuccess: { state: '20,40,50' },
+        rSure: { state: '10,30'}
+    };
+
+    _this.getCustomerList(_this.tags['isVip']);
+
+    
+
+    $("#listmenu").find('a').click(_this.changeTab);
+
+}
+
+$.extend(BrokerWeb, {
+    getCustomerList: getCustomerList,
+    setCustomerList: setCustomerList,
+    changeTab: changeTab
+});
+
+//主函数入口
+//参数为main函数
+BrokerWeb.init(main);
+
 });
 
 </script>
+

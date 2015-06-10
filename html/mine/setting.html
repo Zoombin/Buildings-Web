@@ -17,11 +17,11 @@
     <!-- 头像部分// -->
     <div class="row relative"  id="top">
         <div class="col-xs-3 pr0 ">
-            <img src="../img/user_img.jpg" class="img img-circle img-user" alt="暂无头像" />
+            <img src="" id="photosrc" class="img img-circle img-user" alt="暂无头像" />
         </div>
         <div class="col-xs-9 ">
             <div class="pt20 ">
-                    <div class="text-justify text-big">张晴予</div>
+                    <div class="text-justify text-big" id="name"></div>
                     <div class="text-gray">修改头像</div>
             </div>
         </div>
@@ -89,29 +89,40 @@ $(document).ready(function(){
 
 //跳转链接
 function goto(){
-
     var id = $(this).attr('data-id');
+    var _this = BrokerWeb;
 
     if(id=='aboutus'){
-        window.location.href = 'setting_aboutus.html';
+        window.location.href = 'setting_aboutus.html' + _this.search;
     }else if(id == 'weixin'){
-        window.location.href = 'setting_weixin.html';
+        window.location.href = 'setting_weixin.html' + _this.search;
     }else if(id == 'shiming'){
-        //do sth
+        //todo
     }else{
-        window.location.href = 'setting_edit.html?a=' + id;
+        window.location.href = 'setting_edit.html' + _this.search + '&a=' + id;
     }
 }
 
 //获取经纪人信息
 function getBrokerInfo(){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerInfo?id=' + _this.brokerid,
         type: 'GET',
         dataType: 'json',
-        success: function(){
-            //提交成功 
+        success: function(data){
+            console.log(data);
+            
+            if(data.result){
+                _this.broker = data.objValue;
+
+                $("#photosrc").attr('src', _this.broker.photosrc);
+                $("#name").html(_this.broker.screenName);
+
+            }else{
+                alert('获取信息失败');
+            }
+
         },
         error: function(){
             //提交出错
@@ -122,12 +133,12 @@ function getBrokerInfo(){
 
 //退出登录
 function logout(){
+    var _this = BrokerWeb;
     if(confirm('确定退出登录吗？')){
-        _this = BrokerWeb;
         var data = {
             userId: _this.brokerid,
-            deviceType: 'ios',//ios/android
-            isOrg: 0
+            deviceType: _this.params.dtype,//ios/android
+            isOrg: (_this.params.type==2 ? 1 : 0)
         };
 
         $.ajax({
@@ -136,10 +147,10 @@ function logout(){
             data: data,
             dataType: 'json',
             success: function(){
-                //提交成功 
+                alert('成功登出');
             },
             error: function(){
-                //提交出错
+                alert('请求错误');
             }
 
         });
@@ -149,7 +160,7 @@ function logout(){
 
 //修改头像
 function updateImage(url){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerInfo?id=' + _this.brokerid,
         type: 'GET',
@@ -164,9 +175,11 @@ function updateImage(url){
     });
 }
 
-function settingMain(brokerid){
-    _this = BrokerWeb;
-    _this.brokerid = typeof(brokerid) === 'undefined' ? 0 : brokerid;
+function main(brokerid){
+    var _this = BrokerWeb;
+
+    //获取信息
+    _this.getBrokerInfo();
 
     //跳转链接
     $(".goto").click(_this.goto);
@@ -182,14 +195,12 @@ $.extend(BrokerWeb, {
     logout: logout,
      //修改头像,参数不确定是url还是文件
     //调用方法：Brokerweb.updateimage(url)
-    updateImage: updateImage,
-    init: settingMain
+    updateImage: updateImage
 });
 
 //主函数入口
-//参数为brokerid
-BrokerWeb.init(3);
-
+//参数为main函数
+BrokerWeb.init(main);
 
 });
 

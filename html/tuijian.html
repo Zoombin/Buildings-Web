@@ -171,9 +171,9 @@ function setFromContact(name, phone){
     $("#clientPhone").val(phone);
 }
 
-function recommendMain(brokerid){
+//主函数入口
+function main(){
     _this = BrokerWeb;
-    _this.brokerid = typeof(brokerid) === 'undefined' ? 0 : brokerid;
 
     $("#clientName").on('input blur', _this.clientNameBlur);
     $("#clientPhone").on('input blur', _this.clientPhoneBlur);
@@ -190,14 +190,14 @@ $.extend(BrokerWeb, {
     recommendedBuildingBlur: recommendedBuildingBlur,
     submitForm: submitForm,
     //从通讯录设置姓名和手机
-    //调用方法：Brokerweb.setfromcontact(name, phone);
-    setFromContact: setFromContact,
-    init: recommendMain
+    //调用方法：BrokerWeb.setFromContact(name, phone);
+    setFromContact: setFromContact
 });
 
 //主函数入口
-//参数为brokerid
-BrokerWeb.init(3);
+//参数为main函数
+BrokerWeb.init(main);
+
 
 });
 </script>

@@ -15,27 +15,27 @@
 <div class="container-fluid" id="container">
 
     <!-- 头像部分// -->
-    <div class="row text-center bg-user"  id="top">
+    <div class="row text-center bg-user pb10"  id="top">
         <div class="col-xs-4 pr0">
-            <img src="../img/user_img.jpg" class="img img-circle img-user" alt="暂无头像" />
+            <img id="photosrc" src="" class="img img-circle img-user" alt="暂无头像" />
         </div>
         <div class="col-xs-8 text-left">
             <div class="row">
                 <div class="col-xs-11 relative">
-                    <span class="text-justify text-huge">张晴予</span>
-                    <span class="label label-success pos-name">已认证</span>
+                    <span class="text-justify text-huge" id="name"></span>
+                    <span class="label label-success pos-name" id="approveState">已认证</span>
                 </div>
                 <div class="col-xs-1">
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-7 ">
-                    <div> <strong>金牌</strong>经纪人 </div>
-                    <div>当前排名：673</div>
+                    <div> <strong id="level"></strong>经纪人 </div>
+                    <div>当前排名：<span id="rank"></span></div>
                 </div>
                 <div class="col-xs-5 ">
                     <img src="../img/btn_news.png" class="img img-news">
-                    <span class="bg-danger badge pos-news">1</span>
+                    <span class="bg-danger badge pos-news" id="msg_num" style="display:none;"></span>
                 </div>
             </div>
         </div>
@@ -95,11 +95,11 @@
     <!-- 内容部分// -->
     <div class="row bg-total clearfix">
         <div>总佣金(元)：<span class="pull-right glyphicon glyphicon-list"></span></div>
-        <div class="text-green text-huge pt10">16,888.33</div>
+        <div class="text-green text-huge pt10" id="total"></div>
     </div>
 
     <div class="row bg-money">
-        <div class="col-xs-4 border-right">
+        <div class="col-xs-4 border-right p0">
             <div class="thumbnail ">
                 <img src="../img/ico_money_1.png" alt="">
                 <div class="caption text-center">
@@ -108,7 +108,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-4 border-right">
+        <div class="col-xs-4 border-right p0">
             <div class="thumbnail ">
                 <img src="../img/ico_money_2.png" alt="">
                 <div class="caption text-center">
@@ -117,7 +117,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4 p0">
             <div class="thumbnail ">
                 <img src="../img/ico_money_3.png" alt="">
                 <div class="caption text-center">
@@ -147,13 +147,25 @@ $(document).ready(function(){
 
 //未读消息数
 function getMyUnreadMsgNum(){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/broker/dayMark/' + _this.brokerid,
+        url: _this.apiBaseUrl + '/broker/rest/msg/getMyUnreadMsgNum',
         type: 'GET',
         dataType: 'json',
-        success: function(){
-            //提交成功 
+        data: {
+            receiverId: _this.brokerid,
+            receiverType: 1
+        },
+        success: function(data){
+            if(data.result){
+                if(data.objValue==0){
+                    $("#msg_num").hide();
+                }else{
+                    $("#msg_num").html(data.objValue).show();
+                }
+            }else{
+                alert('获取数据失败');
+            }
         },
         error: function(){
             //提交出错
@@ -164,13 +176,20 @@ function getMyUnreadMsgNum(){
 
 //获取经纪人信息
 function getBrokerInfo(){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerInfo?id=' + _this.brokerid,
         type: 'GET',
         dataType: 'json',
-        success: function(){
-            //提交成功 
+        success: function(data){
+            console.log(data);
+            
+            if(data.result){
+                _this.broker = data.objValue;
+                _this.setBrokerInfo();
+            }else{
+                alert('获取信息失败');
+            }
         },
         error: function(){
             //提交出错
@@ -179,10 +198,32 @@ function getBrokerInfo(){
     });
 }
 
-function mineIndexMain(brokerid){
-    _this = BrokerWeb;
+//设置经纪人信息
+function setBrokerInfo(){
+    var _this = BrokerWeb;
 
-    _this.brokerid = typeof(brokerid) === 'undefined' ? 0 : brokerid;
+    var broker = _this.broker;
+
+    $("#photosrc").attr('src', broker.photosrc);
+    $("#name").html(broker.screenName);
+
+    var approveStates = {
+        0: { name: '未认证', class: 'label-default' },
+        2: { name: '认证中', class: 'label-warning' },
+        1: { name: '已认证', class: 'label-success' }
+    };
+    $("#approvestate").addClass(approveStates[broker.approvestate])
+        .html(approveStates[broker.approvestate]);
+
+    $("#level").html( broker.level=='暂无等级' ? '普通' : broker.level )
+
+    $("#rank").html( broker.ranking );
+
+    $("#total").html( _this.commafy(broker.integral) );
+}
+
+function main(){
+    var _this = BrokerWeb;
 
     //未读消息数
     _this.getMyUnreadMsgNum();
@@ -194,12 +235,12 @@ function mineIndexMain(brokerid){
 $.extend(BrokerWeb, {
     getMyUnreadMsgNum: getMyUnreadMsgNum,
     getBrokerInfo: getBrokerInfo,
-    init: mineIndexMain
+    setBrokerInfo: setBrokerInfo
 });
 
 //主函数入口
-//参数为brokerid
-BrokerWeb.init(3);
+//参数为main函数
+BrokerWeb.init(main);
 
 });
 </script>

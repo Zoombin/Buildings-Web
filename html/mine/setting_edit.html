@@ -137,7 +137,11 @@ function updatePassword(){
         },
         dataType: 'json',
         success: function(){
-            //提交成功 
+            console.log(data);
+            if(data.result){
+                alert(data.result.value);
+            }
+
         },
         error: function(){
             //提交出错
@@ -180,8 +184,11 @@ function updateNickname(){
         type: 'POST',
         data: data,
         dataType: 'json',
-        success: function(){
-            //提交成功 
+        success: function(data){
+            console.log(data);
+            if(data.result){
+                alert(data.result.value);
+            }
         },
         error: function(){
             //提交出错
@@ -192,11 +199,8 @@ function updateNickname(){
 }
 
 //主函数入口
-function settingEditMain(brokerid, phone){
+function main(brokerid, phone){
     _this = BrokerWeb;
-    _this.brokerid = typeof(brokerid) === 'undefined' ? 0 : brokerid;
-    _this.phone = typeof(phone) === 'undefined' ? 0 : phone;
-
     var params = _this.getParams();
 
     $("#"+params.a+'_div').show();
@@ -221,13 +225,12 @@ $.extend(BrokerWeb, {
     checkDupPassword: checkDupPassword,
     checkNewPassword: checkNewPassword,
     checkOldPassword: checkOldPassword,
-    updatePassword: updatePassword,
-    init: settingEditMain
+    updatePassword: updatePassword
 });
 
 //主函数入口
-//参数为brokerid,phone
-BrokerWeb.init(3,13511112222);
+//参数为main函数
+BrokerWeb.init(main);
 
 
 });

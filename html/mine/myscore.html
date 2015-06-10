@@ -86,4 +86,53 @@
 
 </body>
 </html>
+<script src="../js/jquery.js"></script>
+<script src="../js/script.js"></script>
 
+<script>
+$(document).ready(function(){
+
+
+
+//获取经纪人信息
+function getBrokerScore(){
+    var _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerIntegral/' + _this.brokerid,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            console.log(data);
+            if(data.result){
+
+
+            }else{
+                alert('获取信息失败');
+            }
+
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+}
+
+function myScoreMain(){
+    var _this = BrokerWeb;
+
+    //获取信息
+    _this.getBrokerScore();
+
+}
+
+$.extend(BrokerWeb, {
+    getBrokerScore: getBrokerScore
+});
+
+//主函数入口
+BrokerWeb.init(myScoreMain);
+
+});
+
+</script>
