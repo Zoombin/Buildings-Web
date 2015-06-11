@@ -29,15 +29,10 @@
         <div id="clientPhone_error" class="text-danger text-center " style="display:none;"></div>
 
         <div class="input-group border-green">
-            <span class="input-group-addon text-green">
-                <img src="img/icon_city.png" class="img-input"/>意向城市 |
-            </span>
-            <input type="text" class="form-control" aria-label="" placeholder="必 填 项" name="recommendCity" id="recommendCity" max-length="20">
-            <span class="input-group-addon">
-                <a href="XCFCCity:900950.com">
-                    <img src="img/icon_arrow.png" class="img-input2"/>
-                </a>
-            </span>
+            <span class="input-group-addon text-green"><img src="img/icon_city.png" class="img-input"/>意向城市 |</span>
+            <a href="XCFCCity:900950.com"><input type="text" class="form-control" aria-label="" placeholder="必 填 项" name="recommendCity" id="recommendCity" max-length="20"></a>
+            <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
+
         </div>
 
         <div class="input-group border-green">
@@ -167,6 +162,28 @@ function submitForm(){
 
     });
 
+}
+
+//设置城市名称和城市id，通过id请求楼盘信息
+function setCity(city, id) {
+    $("#recommendCity").val(city);
+    var data = {
+        receiverId: ,'9d79a67e96d643789612d267495a7ab8',
+        receiverType: '1'
+    };
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/msg/getMyUnreadMsgNum',
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(){
+            console.log('成功');//提交成功 
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
 }
 
 //从通讯录设置姓名和手机
