@@ -20,9 +20,9 @@
         <div class="col-xs-8 text-left pr0">
             <div class="pt20 pb20">
                 <div class="">
-                    <span class="text-mid text-333">李晓静</span>
-                    <img src="../img/account_ico_female.png" class="img-line-mid">
-                    <span class="text-green">13814568965</span>
+                    <span class="text-mid text-333" id="name"></span>
+                    <img src="" class="img-line-mid" id="photosrc" />
+                    <span class="text-green" id="phone"></span>
                 </div> 
                 <div class="text-666 lh-mid mt5" >
                     <div>推荐购买：新城金隽</div>
@@ -140,4 +140,82 @@
 
 </body>
 </html>
+
+<script src="../js/jquery.js"></script>
+<script src="../js/script.js"></script>
+
+<script>
+$(document).ready(function(){
+
+//设置信息
+function setCustomerInfo(){
+    var _this = BrokerWeb;
+    console.log('customer',_this.customer);
+
+    var client = _this.customer.client;
+
+    //客户姓名
+    $("#name").html(client.name);
+
+    //客户性别
+    $("#photosrc").attr('src', '../img/account_ico_' + (client.gender!='null' && client.gender ? 'male' : 'female') + '.png');
+   
+    //客户电话
+    $("#phone").html(client.phone);
+
+
+}
+
+//获取经纪人信息
+function getCustomerInfo(){
+    var _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerClientinfo',
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            brokerId: _this.brokerid,
+            clientId: _this.params.clientId,
+            state: _this.params.state
+        },
+        success: function(data){
+            console.log(data);
+            if(data.result){
+                _this.customer = data.objValue;
+                
+                _this.setCustomerInfo();
+
+
+            }else{
+                alert('获取信息失败');
+            }
+
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+}
+
+function main(){
+    var _this = BrokerWeb;
+
+    //获取信息
+    _this.getCustomerInfo();
+
+}
+
+$.extend(BrokerWeb, {
+    getCustomerInfo: getCustomerInfo,
+    setCustomerInfo: setCustomerInfo
+});
+
+//主函数入口
+//参数为main函数
+BrokerWeb.init(main);
+
+});
+
+</script>
 
