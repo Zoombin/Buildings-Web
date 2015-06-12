@@ -82,7 +82,6 @@
 <script src="js/script.js"></script>
 <script >
 $(document).ready(function(){
-
 //验证姓名
 function clientNameBlur(){
     var clientName = $("#clientName").val();
@@ -165,19 +164,15 @@ function submitForm(){
 }
 
 //设置城市名称和城市id，通过id请求楼盘信息
-function setCity(city, id) {
-    $("#recommendCity").val(city);
-    var data = {
-        receiverId: ,'9d79a67e96d643789612d267495a7ab8',
-        receiverType: '1'
-    };
+function setCity(cityName, cityID) {
+    _this = BrokerWeb;
+    $("#recommendCity").val(cityName);
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/msg/getMyUnreadMsgNum',
+        url: _this.apiBaseUrl + '/broker/sys/getAreaBuildingTree/' + cityID,
         type: 'POST',
-        data: data,
         dataType: 'json',
-        success: function(){
-            console.log('成功');//提交成功 
+        success: function(data){
+            console.log('成功', data);//提交成功 
         },
         error: function(){
             //提交出错
