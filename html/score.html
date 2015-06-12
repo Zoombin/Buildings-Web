@@ -18,16 +18,16 @@
     <div class="row bg-user p15"  id="top">
         <div class="col-xs-6">
             <div class="text-gray2">总积分：</div>
-            <div class="text-huge text-green">1988</div> 
+            <div class="text-huge text-green" id="total"></div> 
         </div>
         <div class="col-xs-6">
-            <div class="text-gray2">今日累计积分：</div>
-            <div class="text-huge text-green">1988</div> 
+            <div class="text-gray2" >今日累计积分：</div>
+            <div class="text-huge text-green" id="today"></div> 
         </div>
     </div>
     <!-- //头像部分 -->
     <!-- 内容部分// -->
-    <div class="row earn-score score-login active">
+    <div class="row earn-score score-login active" id="login">
         <div class="col-xs-9 border-right">
             <div class="fs18 lh18 ctit">
                 每日签到
@@ -35,7 +35,7 @@
             <span class=" cgreen">+2</span> <span class="text-gray">积分</span>
         </div>
         <div class="col-xs-3 score-over">
-            已完成
+            <span class="over">已完成</span>
         </div>
     </div>
 
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div class="row earn-score score-ziyuan active">
+    <div class="row earn-score score-ziyuan ">
         <div class="col-xs-9 border-right">
             <div class="fs18 lh18 ctit">
                 定向资源介绍
@@ -97,8 +97,9 @@ function getDayMark(){
         url: _this.apiBaseUrl + '/broker/rest/broker/dayMark/' + _this.brokerid,
         type: 'GET',
         dataType: 'json',
-        success: function(){
+        success: function(data){
             //提交成功 
+            console.log('getDayMark',data);
         },
         error: function(){
             //提交出错
@@ -115,8 +116,19 @@ function getBrokerScore(){
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerIntegral/' + _this.brokerid,
         type: 'GET',
         dataType: 'json',
-        success: function(){
-            //提交成功 
+        success: function(data){
+            console.log(data);
+            if(data.result){
+                $("#total").html(data.objValue.integrals);
+                $("#today").html(data.objValue.integral);
+                if(!parseInt(data.objValue.isMark)){
+                    $("#login").addClass('active');
+                    $("#login").find('.over').show();
+                }else{
+                    $("#login").removeClass('active');
+                    $("#login").find('.over').hide();
+                }
+            }
         },
         error: function(){
             //提交出错
@@ -126,28 +138,25 @@ function getBrokerScore(){
 
 }
 
-
-function scoreMain(brokerid){
+//主函数入口
+function main(brokerid){
     _this = BrokerWeb;
-
-    _this.brokerid = typeof(brokerid) === 'undefined' ? 0 : brokerid;
 
     //经纪人积分信息
     _this.getBrokerScore();
 
     //经纪人每日签到/是否
-    _this.getDayMark();
+    //_this.getDayMark();
 }
 
 $.extend(BrokerWeb, {
     getBrokerScore: getBrokerScore,
-    getDayMark: getDayMark,
-    init: scoreMain
+    getDayMark: getDayMark
 });
 
 //主函数入口
-//参数为brokerid
-BrokerWeb.init(3);
+//参数为main函数
+BrokerWeb.init(main);
 
 });
 </script>

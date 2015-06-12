@@ -92,8 +92,6 @@
 <script>
 $(document).ready(function(){
 
-
-
 //获取经纪人信息
 function getBrokerScore(){
     var _this = BrokerWeb;
@@ -118,7 +116,7 @@ function getBrokerScore(){
     });
 }
 
-function myScoreMain(){
+function main(){
     var _this = BrokerWeb;
 
     //获取信息
@@ -131,7 +129,8 @@ $.extend(BrokerWeb, {
 });
 
 //主函数入口
-BrokerWeb.init(myScoreMain);
+//参数为main函数
+BrokerWeb.init(main);
 
 });
 

@@ -76,7 +76,7 @@ function setCustomerList(list){
         arr.push('"><div class="text-bg">');
         arr.push(item.name);
         arr.push('<img src="../img/account_ico_');
-        arr.push(item.gender!='null' ? item.gender : 'female');
+        arr.push(item.gender!='null' && item.gender ? 'male' : 'female');
         arr.push('.png" class="img-line-sm ml5" /><div class="pull-right text-green">');
         arr.push(item.phone);
         arr.push('</div></div><hr/><div class="row " id="done"><div class="col-xs-12 "> 推荐购买：<span class="text-green">');

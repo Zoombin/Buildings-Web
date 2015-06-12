@@ -17,13 +17,13 @@
     <!-- 头像部分// -->
     <div class="row text-center bg-user pb10"  id="top">
         <div class="col-xs-4 pr0">
-            <img id="photosrc" src="" class="img img-circle img-user" alt="暂无头像" />
+            <img id="photosrc" src="" class="img img-circle img-user" alt="" />
         </div>
         <div class="col-xs-8 text-left">
             <div class="row">
                 <div class="col-xs-11 relative">
                     <span class="text-justify text-huge" id="name"></span>
-                    <span class="label label-success pos-name" id="approveState">已认证</span>
+                    <span class="label pos-name" id="approveState"></span>
                 </div>
                 <div class="col-xs-1">
                 </div>
@@ -55,7 +55,7 @@
         </div>
         <div class="col-xs-3 text-center">
             <div class="thumbnail ">
-                <a href="myscore.html"><img src="../img/fourbtn_point.png" alt=""></a>
+                <a href="myscore.html" class="go"><img src="../img/fourbtn_point.png" alt=""></a>
                 <div class="caption">
                     <span class="text-gray2">积分</span>
                 </div>
@@ -63,7 +63,7 @@
         </div>
         <div class="col-xs-3 text-center">
             <div class="thumbnail ">
-                <img src="../img/fourbtn_fav.png" alt="">
+                <a href="MyCollect:900950.com"><img src="../img/fourbtn_fav.png" alt=""></a>
                 <div class="caption">
                     <span class="text-gray2">收藏</span>
                 </div>
@@ -71,7 +71,7 @@
         </div>
         <div class="col-xs-3 text-center">
             <div class="thumbnail ">
-                <a href="customers.html"><img src="../img/fourbtn_account.png" alt=""></a>
+                <a href="customers.html" class="go"><img src="../img/fourbtn_account.png" alt=""></a>
                 <div class="caption">
                     <span class="text-gray2">客户</span>
                 </div>
@@ -104,7 +104,7 @@
                 <img src="../img/ico_money_1.png" alt="">
                 <div class="caption text-center">
                     <div>待提佣(元)</div>
-                    <div class="text-red">13,342.11</div>
+                    <div class="text-red" id="money_notgot"></div>
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
                 <img src="../img/ico_money_2.png" alt="">
                 <div class="caption text-center">
                     <div>发放中(元)</div>
-                    <div class="text-yellow">13,342.11</div>
+                    <div class="text-yellow" id="money_getting"></div>
                 </div>
             </div>
         </div>
@@ -122,7 +122,7 @@
                 <img src="../img/ico_money_3.png" alt="">
                 <div class="caption text-center">
                     <div>已提佣(元)</div>
-                    <div class="text-green">13,342.11</div>
+                    <div class="text-green" id="money_got"></div>
                 </div>
             </div>
         </div>
@@ -204,22 +204,33 @@ function setBrokerInfo(){
 
     var broker = _this.broker;
 
+
     $("#photosrc").attr('src', broker.photosrc);
-    $("#name").html(broker.screenName);
+    $("#name").html(broker.name ? broker.name : broker.screenName);
 
     var approveStates = {
+        '-1': { name: '审核未通过', class: 'label-danger' },
         0: { name: '未认证', class: 'label-default' },
-        2: { name: '认证中', class: 'label-warning' },
-        1: { name: '已认证', class: 'label-success' }
+        1: { name: '待审核', class: 'label-warning' },
+        2: { name: '已认证', class: 'label-success' }
     };
-    $("#approvestate").addClass(approveStates[broker.approvestate])
-        .html(approveStates[broker.approvestate]);
+ 
+    //认证状态
+    $("#approveState").addClass(approveStates[broker.approveState]['class'])
+        .html(approveStates[broker.approveState]['name']);
 
+    //级别
     $("#level").html( broker.level=='暂无等级' ? '普通' : broker.level )
 
+    //排名
     $("#rank").html( broker.ranking );
 
+    //总佣金
     $("#total").html( _this.commafy(broker.integral) );
+
+    $("#money_notgot").html( _this.commafy(broker.brokerageNum[0]));
+    $("#money_getting").html( _this.commafy(broker.brokerageNum[1]));
+    $("#money_got").html( _this.commafy(broker.brokerageNum[2]));
 }
 
 function main(){
@@ -230,6 +241,13 @@ function main(){
 
     //获取经纪人信息
     _this.getBrokerInfo();
+
+    //跳转加参数
+    $("a.go").click(function(e){
+        e.preventDefault();
+        var href = $(e.currentTarget).attr('href');
+        window.location.href = href + _this.search;
+    });
 }
 
 $.extend(BrokerWeb, {
