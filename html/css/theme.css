@@ -279,6 +279,7 @@ body{background-color:#f5f5f5;}
 .pos-name{position:absolute; top:20px; margin-left:5px;}
 .pos-news{position:absolute; top:5px; margin-left:2px;}
 .text-gray2{color:#607078;}
+.text-gray-news{color:#646464;}
 
 .bg-danger{background-color:#f1351c;}
 .inline-line{max-width:40px;}

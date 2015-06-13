@@ -9,31 +9,30 @@
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/theme.css" rel="stylesheet">
     <script src="../js/jquery.js"></script>
+    <script src="../js/script.js"></script>
 </head>
 <body style="background-color:#fff;">
 
 <!--container -->
 <div class="container-fluid" id="news">
     <div class="row">
-        <img src="../img/default/big.jpg" class="img-responsive img-fullscreen">
+        <img src="" id="img" class="img-responsive img-fullscreen">
     </div> 
 
-    <h4>活精彩喝精彩，龙城为达人喝彩</h4>
-    <p class="mb5 text-gray2">“让人生闪耀”搜房网首届地产达人秀 惹火龙城</p>
+    <h4 id="title"></h4>
+    <p class="mb5 text-gray-news" id="subTitle"></p>
 
     <div class="hr"></div>
 
     <div class="mb15">
-        <span class="date">2014-12-22</span> 
-        <span class="fav-num pull-right">8888</span> 
-        <span class="source pull-right">【品牌新闻】</span> 
+        <span class="date" id="time">2014-12-22</span> 
+        <span class="fav-num pull-right" id="fav_num">8888</span> 
+        <span class="source pull-right" >【<span id="type"></span>】</span> 
     </div> 
 
-    <p class="text-indent text-gray2">当鼠标悬停在缩写和缩写词上时就会显示完整内容，Bootstrap 实现了对 HTML 的 <abbr> 元素的增强样式。缩略语元素带有 title 属性，外观表现为带有较浅的虚线框，鼠标移至上面时会变成带有“问号”的指针。如想看完整的内容可把鼠标悬停在缩略语上（对使用辅助技术的用户也可见）, 但需要包含 title 属性。</p>
+    <div id="news_list"></div>
 
-    <h5>搜房+新城，“大头”大有来头</h5>
-
-    <p class="text-indent text-gray2">当鼠标悬停在缩写和缩写词上时就会显示完整内容，Bootstrap 实现了对 HTML 的 <abbr> 元素的增强样式。缩略语元素带有 title 属性，外观表现为带有较浅的虚线框，鼠标移至上面时会变成带有“问号”的指针。如想看完整的内容可把鼠标悬停在缩略语上（对使用辅助技术的用户也可见）, 但需要包含 title 属性。</p>
+    <p class="text-indent text-gray-news" id="summary"></p>
 
 </div>
 <!-- //container -->
@@ -42,35 +41,107 @@
 </body>
 </html>
 
+
 <script>
 $(document).ready(function(){
 
-function getParams() {
-    var params = {};
+//设置信息
+function setNewsInfo(){
+    var _this = BrokerWeb;
+    console.log('news',_this.news);
 
-    var href = window.location.href;
+    var news = _this.news;
 
-    if (href.indexOf('?') == -1) {
-        return [];
-    }
+    //新闻大图片
+    $('#img').attr('src',news.thumbnailPic);
 
-    var param_str = href.substr(href.indexOf('?') + 1);
-    var arr = param_str.split('&');
-    if ($.isArray(arr) && arr.length > 0) {
-        $.each(arr, function (i, paramobj) {
-            var obj_arr = paramobj.split('=');
-            var tmp = {};
-            params[obj_arr[0]] = obj_arr[1];
+    //新闻标题
+    $("#title").html(news.title);
 
-        });
-    }
+    //新闻子标题
+    $("#subTitle").html(news.subTitle);
 
-    return params;
+    //新闻时间
+    $("#time").html(news.createTime);
+
+    //此新闻收藏数
+    $("#fav_num").html(news.collectNum);
+
+    //新闻类别
+    $("#type").html(news.catagoryName);
+
+    //总结
+    $("#summary").html(news.summary);
+
+    news.items.sort(_this.sortItems);
+
+    $.each(news.items, function(i, item){
+        //1是文字，2是图片
+        if(item.attachType==1){
+            $("#news_list").append(
+                $('<h5>').html(item.title)
+            ).append(
+                $('<p class="text-indent text-gray-news">').html(item.content)
+            );
+        }
+        if(item.attachType==2){
+            $("#news_list").append(
+                $('<img class="img-responsive img-fullscreen mb10 mt10">').attr('src', item.content)
+            );
+        }
+    });
+
+
 }
 
-var params = getParams();
+function sortItems(a,b){
+    return  a.orderIndex - b.orderIndex;
+}
 
-$("#"+params.a+'_div').show();
+//获取资讯信息
+function getNewsInfo(){
+    var _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/news/queryNewsInfoMorePic/' + _this.params.nid,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            console.log(data);
+            if(data.result){
+                _this.news = data.objValue;
+                
+                _this.setNewsInfo();
+
+
+            }else{
+                alert('获取信息失败');
+            }
+
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+}
+
+function main(){
+    var _this = BrokerWeb;
+
+    //获取信息
+    _this.getNewsInfo();
+
+}
+
+$.extend(BrokerWeb, {
+    getNewsInfo: getNewsInfo,
+    setNewsInfo: setNewsInfo,
+    sortItems: sortItems
+});
+
+//主函数入口
+//参数为main函数
+BrokerWeb.init(main);
 
 });
 
