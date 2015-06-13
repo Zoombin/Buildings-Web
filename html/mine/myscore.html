@@ -13,70 +13,16 @@
 <body>
 
 <!--container -->
-<div class="container-fluid" id="container">
+<div class="container-fluid mb20" id="container">
 
     <!-- 头像部分// -->
     <div class="row bg-user p15"  id="top">
         <div class="text-gray2">总积分：</div>
-        <div class="text-huge text-green">1988</div> 
+        <div class="text-huge text-green" id="total"></div> 
 
     </div>
     <!-- //头像部分 -->
-    <!-- 内容部分// -->
-    <div class="row mt15 myscore">
-        <div class="point"></div> 
-        <div class="col-xs-4 z2" >
-            <div class="bg-circle"><span class="text-green fs16">05/24</span><br/>(2015)</div>
-        </div>
-        <div class="col-xs-8 ">
-            <div class="text-mid bg-white p20">
-                预约客户<span class="pull-right text-green">+300</span> 
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt15 myscore" >
-        <div class="point"></div> 
-        <div class="col-xs-4 z2">
-            <div class="bg-circle"><span class="text-green fs16">05/24</span><br/>(2015)</div>
-        </div>
-        <div class="col-xs-8 ">
-            <div class="text-mid bg-white p20">
-                预约客户<span class="pull-right text-green">+300</span> 
-            </div>
-            <div class="text-mid bg-white p20 mt15">
-                预约客户<span class="pull-right text-green">+300</span> 
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt15 myscore">
-        <div class="point"></div> 
-        <div class="col-xs-4 z2">
-            <div class="bg-circle"><span class="text-green fs16">05/24</span><br/>(2015)</div>
-        </div>
-        <div class="col-xs-8 ">
-            <div class="text-mid bg-white p20">
-                预约客户<span class="pull-right text-green">+300</span> 
-            </div>
-            <div class="text-mid bg-white p20 mt15">
-                预约客户<span class="pull-right text-green">+300</span> 
-            </div>
-        </div>
-    </div>
-    <div class="row mt15 myscore">
-        <div class="point"></div> 
-        <div class="col-xs-4 z2" >
-            <div class="bg-circle"><span class="text-green fs16">05/24</span><br/>(2015)</div>
-        </div>
-        <div class="col-xs-8 ">
-            <div class="text-mid bg-white p20">
-                预约客户<span class="pull-right text-green">+300</span> 
-            </div>
-        </div>
-    </div>
-
-    <!-- //内容部分 -->
+    
 
 
 
@@ -92,18 +38,99 @@
 <script>
 $(document).ready(function(){
 
+
+function setScoreList(){
+    var _this = BrokerWeb;
+    var list = _this.scoreList;
+
+    //存放所有的日期
+    var keys = [];
+    for(var d in list){
+        keys.push(d);
+    }
+
+    //根据日期降序排序
+    keys.sort(function(a,b){
+        return Date.parse(b) - Date.parse(a);
+    });
+
+    $.each(keys, function(j, date){
+        console.log(date,_this.getDate(date),_this.getYear(date));
+
+        var item = list[date];
+
+        var its = $('<div class="col-xs-8 ">');
+
+        $.each(item, function(i, v){
+            
+            var score_num = $('<div class="score_num">')
+                .addClass(i==0?'':'mt15')
+                .html(v.sourceType);
+        
+
+            if(item.length > 1){
+
+                if(i==0){
+                   score_num.prepend($('<img src="../img/score_line_multi_top.png" class="img_line_multi first">')); 
+                }else if(i==item.length-1){
+                   score_num.prepend('<img src="../img/score_line_multi_bottom.png" class="img_line_multi last">'); 
+                }else{
+                    score_num.prepend('<img src="../img/score_line_multi_middle.png" class="img_line_multi">');
+                }
+
+            }else{
+                console.log('bbb');
+                score_num.prepend(
+                    $('<img>').addClass('img_line_one').attr('src','../img/score_line_1.png')
+                );
+            }
+
+            score_num.append(
+                $('<span class="pull-right text-green">')
+                    .html( '+' + v.integral)
+            );
+            its.append(score_num);
+            
+        });
+        
+        $('#container').append(
+            $('<div class="row mt15 myscore">').append(
+                $('<div class="line">')
+            ).append(
+                $('<div class="col-xs-4 z2">').append(
+                    $('<div class="bg-circle">').append(
+                        $('<span class="text-green fs16">').html(_this.getDate(date))
+                    ).append('<br/>').append(
+                        $('<span>').html('('+_this.getYear(date)+')')
+                    )
+                )
+            ).append(
+                its
+            )
+        );
+
+    });
+
+    
+        
+  
+}
+
 //获取经纪人信息
-function getBrokerScore(){
+function getBrokerScoreList(){
     var _this = BrokerWeb;
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerIntegral/' + _this.brokerid,
+        url: _this.apiBaseUrl + '/broker/rest/broker/getIntegral',
         type: 'GET',
+        data: {
+            id: _this.brokerid
+        },
         dataType: 'json',
         success: function(data){
             console.log(data);
             if(data.result){
-
-
+                _this.scoreList = data.objValue[0];
+                _this.setScoreList();
             }else{
                 alert('获取信息失败');
             }
@@ -116,16 +143,39 @@ function getBrokerScore(){
     });
 }
 
+//经纪人积分信息
+function getBrokerScore(){
+    _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerIntegral/' + _this.brokerid,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            if(data.result){
+                $("#total").html(data.objValue.integrals);
+            }
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+
+}
+
 function main(){
     var _this = BrokerWeb;
 
     //获取信息
     _this.getBrokerScore();
+    _this.getBrokerScoreList();
 
 }
 
 $.extend(BrokerWeb, {
-    getBrokerScore: getBrokerScore
+    getBrokerScore: getBrokerScore,
+    getBrokerScoreList: getBrokerScoreList,
+    setScoreList: setScoreList
 });
 
 //主函数入口

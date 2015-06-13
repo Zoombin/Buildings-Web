@@ -75,7 +75,20 @@ var BrokerWeb = BrokerWeb || {
             return"";
         }
         num = num.replace(/,/gi, '');
-        returnnum;
+        return num;
+    },
+
+    getYear: function(str){
+        var date = new Date(str);
+        return date.getFullYear();
+    },
+    getDate: function(str){
+        var date = new Date(str);
+        var m = date.getMonth()+1;
+        var d = date.getDate();
+        m = m < 10 ? '0' + m : m;
+        d = d < 10 ? '0' + d : d;
+        return m + '/' + d;
     }
 };
 
