@@ -6,11 +6,13 @@
 
     "jsFiles": [
         "bootstrap/dist/js/bootstrap.js",
-        "jquery/dist/jquery.js"
+        "jquery/dist/jquery.js",
+        "onepage-scroll/jquery.onepage-scroll.js"
     ],
 
     "cssFiles": [
-        "bootstrap/dist/css/bootstrap.css"
+        "bootstrap/dist/css/bootstrap.css",
+        "onepage-scroll/onepage-scroll.css"
     ],
 
     "fontsFiles": [

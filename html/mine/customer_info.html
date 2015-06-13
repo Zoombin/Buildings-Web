@@ -7,6 +7,7 @@
     <meta name="description" content=" "/>
     <meta charset="utf-8">
     <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/onepage-scroll.css" rel="stylesheet">
     <link href="../css/theme.css" rel="stylesheet">
 
 </head>
@@ -14,124 +15,6 @@
 
 <!--container -->
 <div class="container-fluid" id="container">
-
-    <!-- 头像部分// -->
-    <div class="row text-center bg-user"  id="top">
-        <div class="col-xs-8 text-left pr0">
-            <div class="pt20 pb20">
-                <div class="">
-                    <span class="text-mid text-333" id="name"></span>
-                    <img src="" class="img-line-mid" id="photosrc" />
-                    <span class="text-green" id="phone"></span>
-                </div> 
-                <div class="text-666 lh-mid mt5" >
-                    <div>推荐购买：新城金隽</div>
-                    <div>平均佣金：成交价1%</div>
-                    <div>剩余有效期：已过期<span class="label label-green ml5">重新推荐</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-4 pr0 pt20 pb20">
-            <div class="customer-right mb10 "><div class="right-ok">已成交</div></div>
-            <div class="customer-right "><div class="important-on">重要客户</div></div>
-        </div>
-
-    </div>
-    <!-- //头像部分 -->
-    <!-- 内容部分// -->
-    <ul class="cust-stat list-unstyled">
-
-        <li class="bg-white mt15">
-        <div class="point"></div> 
-            <div class="row">
-                <div class="col-xs-2"></div>
-                <div class="col-xs-10">
-                    <div class="stat-wraper">
-                        <span class="text-mid">已成交</span>
-                        <span class="date pull-right">2014-12-22</span>
-                    </div>
-                    <div class="text-gray2 p5">备注：无</div>
-                </div>
-            </div>
-        </li>
-
-        <li class="bg-white mt15">
-        <div class="point"></div> 
-            <div class="row">
-                <div class="col-xs-2"></div>
-                <div class="col-xs-10">
-                    <div class="stat-wraper">
-                        <span class="text-mid">已成交</span>
-                        <span class="date pull-right">2014-12-22</span>
-                    </div>
-                    <div class="text-gray2 p5">备注：无</div>
-                </div>
-            </div>
-        </li>
-
-        <li class="bg-white mt15">
-        <div class="point"></div> 
-            <div class="row">
-                <div class="col-xs-2"></div>
-                <div class="col-xs-10">
-                    <div class="stat-wraper">
-                        <span class="text-mid">已成交</span>
-                        <span class="date pull-right">2014-12-22</span>
-                    </div>
-                    <div class="text-gray2 p5">备注：无</div>
-                </div>
-            </div>
-        </li>
-
-        <li class="bg-white mt15">
-        <div class="point"></div> 
-            <div class="row">
-                <div class="col-xs-2"></div>
-                <div class="col-xs-10">
-                    <div class="stat-wraper">
-                        <span class="text-mid">已成交</span>
-                        <span class="date pull-right">2014-12-22</span>
-                    </div>
-                    <div class="text-gray2 p5">备注：无</div>
-                </div>
-            </div>
-        </li>
-
-
-
-        <li class="bg-white mt15">
-        <div class="point"></div> 
-            <div class="row">
-                <div class="col-xs-2"></div>
-                <div class="col-xs-10">
-                    <div class="stat-wraper">
-                        <span class="text-mid">已成交</span>
-                        <span class="date pull-right">2014-12-22</span>
-                    </div>
-                    <div class="text-gray2 p5">备注：无</div>
-                </div>
-            </div>
-        </li>
-
-        <li class="bg-white mt15">
-        <div class="point"></div> 
-            <div class="row">
-                <div class="col-xs-2"></div>
-                <div class="col-xs-10">
-                    <div class="stat-wraper">
-                        <span class="text-mid">已成交</span>
-                        <span class="date pull-right">2014-12-22</span>
-                    </div>
-                    <div class="text-gray2 p5">备注：无</div>
-                </div>
-            </div>
-        </li>
-
-
-    </ul>
-
-    <!-- //内容部分 -->
-
 
 
 </div>
@@ -142,28 +25,129 @@
 </html>
 
 <script src="../js/jquery.js"></script>
+<script src="../js/jquery.onepage-scroll.js" =""></script>
 <script src="../js/script.js"></script>
 
 <script>
 $(document).ready(function(){
 
-//设置信息
-function setCustomerInfo(){
+function bindScroll(){
+    $("#container").onepage_scroll({
+        direction: 'horizontal'
+    });
+}
+
+function setCustomerInfoItem(item){
     var _this = BrokerWeb;
-    console.log('customer',_this.customer);
 
     var client = _this.customer.client;
 
-    //客户姓名
-    $("#name").html(client.name);
+    var top = $('<div class="row text-center bg-user"></div>').append(
+        $('<div class="col-xs-8 text-left pr0"></div>').append(
+            $('<div class="pt20 pb20"></div>').append(
+                $('<div></div>').append(
+                    $('<span class="text-mid text-333" id="name"></span>')//客户姓名
+                        .html(client.name)
+                ).append(
+                    $('<img src="" class="img-line-mid" id="photosrc" />') //客户性别
+                        .attr('src','../img/account_ico_' + (client.gender!='null' && client.gender ? 'male' : 'female') + '.png')
+                ).append(
+                    $('<span class="text-green" id="phone"></span>')//客户电话
+                        .html(client.phone)
+                )
+            ).append(
+                $('<div class="text-666 lh-mid mt5" ></div>').append(
+                    $('<div>推荐购买：</div>').append(
+                        $('<span></span>').html(item.buildingName)//客户楼盘
+                    )
+                ).append(
+                    $('<div>平均佣金：成交价的</div>').append(
+                        $('<span></span>').html( item.buildingRatio+'%')
+                    )
+                ).append(
+                    $('<div>剩余有效期：</div>').append(
+                        $('<span></span>').html(
+                            item.protectTime ? _this.getLeftTime(item.protectTime) : '已过期'
+                        )
+                    ).append(
+                        $('<span class="label label-green ml5 re-push">重新推荐</span>')
+                    )
+                )
+            )
+        )
+    ).append(
+        $('<div class="col-xs-4 pr0 pt20 pb20"></div>').append(
+            !item.isSigned ? '' : $('<div class="customer-right mb10 "></div>').append(
+                $('<div class="right-ok">已成交</div>')
+            )
+        ).append(
+            !item.isLocked ? '' : $('<div class="customer-right "></div>').append(
+                $('<div class="important-on">重要客户</div>')
+            )
+        )
+    );
 
-    //客户性别
-    $("#photosrc").attr('src', '../img/account_ico_' + (client.gender!='null' && client.gender ? 'male' : 'female') + '.png');
-   
-    //客户电话
-    $("#phone").html(client.phone);
+    var historys = item.historys;
+    historys[1] = historys[0];
+
+    var content = $('<ul class="cust-stat list-unstyled"></ul>');
+
+    $.each(historys, function(i, history){
+        content.append(
+            $('<li class="bg-white mt15"></li>')
+            
+            .append(
+                $('<div class="point"></div>').addClass( i==0 ? 'active' : '' )
+            ).append(
+                historys.length>1 ? $('<div class="line"></div>') : ''
+            ).append(
+                $('<div class="row"></div>').append(
+                    $('<div class="col-xs-2 "></div>')
+                ).append(
+                    $('<div class="col-xs-10"></div>').append(
+                        $('<div class="stat-wraper"></div>').append(
+                            $('<span class="text-mid" id="status">')
+                                .html(_this.statuses[history.clientStatus])
+                        ).append(
+                            $('<span class="date pull-right" id="time">')
+                                .html(history.createTime)
+                        )
+                    ).append(
+                        $('<div class="text-gray2 p5" id="remark">备注：</div>').append(
+                            $('<span></span>').html(history.remark?history.remark:'无')
+                        )
+                    )
+                )
+            )
+        );
+    });
 
 
+    return $("<section></section>").append(top).append(content);
+}
+
+//设置信息
+function setCustomerInfoList(){
+    var _this = BrokerWeb;
+
+    var client = _this.customer.client;
+
+    $.each(_this.customer.clientBuildingRelations, function(i, item){
+        console.log(i,'i');
+        
+
+        
+           $('#container').append(_this.setCustomerInfoItem(item)); 
+       
+    
+    });
+
+    _this.bindScroll();
+
+}
+
+function getLeftTime(date){
+    return date;
 }
 
 //获取经纪人信息
@@ -183,7 +167,7 @@ function getCustomerInfo(){
             if(data.result){
                 _this.customer = data.objValue;
                 
-                _this.setCustomerInfo();
+                _this.setCustomerInfoList();
 
 
             }else{
@@ -201,14 +185,29 @@ function getCustomerInfo(){
 function main(){
     var _this = BrokerWeb;
 
+    _this.statuses = {
+        10: '推荐确认',
+        30: '推荐确认',
+        20: '推荐成功',
+        40: '推荐成功',
+        50: '推荐成功',
+        60: '看房成功',
+        70: '看房成功',
+        100: '销售成功'
+    }
+
     //获取信息
     _this.getCustomerInfo();
+    
 
 }
 
 $.extend(BrokerWeb, {
     getCustomerInfo: getCustomerInfo,
-    setCustomerInfo: setCustomerInfo
+    setCustomerInfoList: setCustomerInfoList,
+    setCustomerInfoItem: setCustomerInfoItem,
+    bindScroll: bindScroll,
+    getLeftTime: getLeftTime
 });
 
 //主函数入口
