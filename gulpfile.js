@@ -141,6 +141,7 @@ gulp.task('html', function () {
       empty: true,
       spare: true
     })))
+    .pipe($.uglifyInline())
     // Output Files
     .pipe(gulp.dest(configFiles.destDir))
     .pipe($.size({title: 'html'}));
