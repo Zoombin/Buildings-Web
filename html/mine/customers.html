@@ -19,7 +19,7 @@
             <div class="m10">共 <span class="text-green pl5 pr5" id="total"></span> 个客户</div>
 
             <div id="customerList"></div>
-
+            <div class="bg-white text-center p10" id="next">点击加载更多</div>
 
         </div>
         <div class="col-xs-3 p5">
@@ -51,13 +51,16 @@
 $(document).ready(function(){
 //切换tab
 function changeTab(){
+    _this = BrokerWeb;
+
+    _this.current_page = 1;
 
     $("#customerList").html('');
 
     $("#listmenu").find('li').removeClass('active');
     $(this).parent().addClass('active');
 
-    var tag = $(this).attr('data-tag');
+    var tag = _this.tag = $(this).attr('data-tag');
     
     
 
@@ -98,22 +101,38 @@ function setCustomerList(list){
 function getCustomerList(param){
     var _this = BrokerWeb;
 
-    var data = $.extend({
+    var params = $.extend({
         id: _this.brokerid,
-        pageSize: 20
+        pageSize: 5
     },param);
 
 
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/broker/brokerClientList1/' + 1,
+        url: _this.apiBaseUrl + '/broker/rest/broker/brokerClientList1/' + _this.current_page,
         type: 'GET',
         dataType: 'json',
-        data: data,
+        data: params,
         success: function(data){
             console.log(data);
             if(data.result){
+                var total = data.objValue.totalSize;
+                
+
                 $("#total").html(data.objValue.totalSize);
                 _this.setCustomerList(data.objValue.resultList);
+
+                var has_more_pages = total/params.pageSize > 1;
+                var is_last_page = (Math.ceil(total/params.pageSize) <= _this.current_page); 
+                console.log('has_more_pages',total,params.pageSize,has_more_pages,is_last_page);
+              
+                if(has_more_pages && !is_last_page){
+                    $('#next').show();
+                }else{
+                    $('#next').hide();
+                }
+                
+                
+
             }else{
                 alert('获取信息失败');
             }
@@ -137,11 +156,20 @@ function main(){
         rSure: { state: '10,30'}
     };
 
+    _this.current_page = 1;
+    _this.tag = 'isVip';
+
     _this.getCustomerList(_this.tags['isVip']);
 
     
-
+    //添加切换tab事件
     $("#listmenu").find('a').click(_this.changeTab);
+
+    //添加下一页事件
+    $("#next").click(function(){
+        ++_this.current_page;
+        _this.getCustomerList(_this.tags[_this.tag] );
+    });
 
 }
 

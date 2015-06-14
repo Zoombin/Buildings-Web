@@ -42,7 +42,7 @@ function setCustomerInfoItem(item){
 
     var client = _this.customer.client;
 
-    var top = $('<div class="row text-center bg-user"></div>').append(
+    var top = $('<div class="row text-center bg-user m0"></div>').append(
         $('<div class="col-xs-8 text-left pr0"></div>').append(
             $('<div class="pt20 pb20"></div>').append(
                 $('<div></div>').append(
@@ -70,7 +70,9 @@ function setCustomerInfoItem(item){
                             item.protectTime ? _this.getLeftTime(item.protectTime) : '已过期'
                         )
                     ).append(
-                        $('<span class="label label-green ml5 re-push">重新推荐</span>')
+                        $('<span class="label label-green ml5 re-push">重新推荐</span>').click(function(){
+                            window.location.href = '../tuijian.html' + _this.search
+                        })
                     )
                 )
             )
