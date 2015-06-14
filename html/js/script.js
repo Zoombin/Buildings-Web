@@ -1,3 +1,9 @@
+//ajax错误提示
+$( document ).ajaxError(function() {
+  alert( "网络请求错误，请确认你的网络连接正常。" );
+});
+
+
 var BrokerWeb = BrokerWeb || {
     apiBaseUrl: 'http://218.4.117.11:8093',
     brokerid: 0,
