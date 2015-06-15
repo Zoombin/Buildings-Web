@@ -30,8 +30,8 @@
 
         <div class="input-group border-green">
             <span class="input-group-addon text-green"><img src="img/icon_city.png" class="img-input"/>意向城市 |</span>
-            <a href="XCFCCity:900950.com">
-            <input type="text" class="form-control" aria-label="" placeholder="必 填 项" name="recommendCity" id="recommendCity" max-length="20">
+            <a href="XCFCCity:900950.com" class="form-control want-city" id="recommendCity">
+            必 填 项
             </a>
             <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
 
@@ -39,24 +39,11 @@
 
         <div class="input-group border-green">
             <span class="input-group-addon text-green"><img src="img/icon_building.png" class="img-input"/>意向楼盘 |</span>
-            <select class="form-control wh">
-                <option>黄浦区</option>
-                <option>浦东新区</option>
-                <option>徐汇区</option>
-                <option>长宁区</option>
-                <option>静安区</option>
-                <option>普陀区</option>
-                <option>闸北区</option>
-                <option>虹口区</option>
-                <option>杨浦区</option>
-                <option>闵行区</option>
-                <option>宝山区</option>
-                <option>嘉定区</option>                                    
+            <select class="form-control wh" id="area_list">
+                                                   
             </select>
-            <select class="form-control wh" name="recommendedBuilding" id="recommendedBuilding">
-                <option value="1">新城金郡</option>
-                <option value="2">新城金郡</option>
-                <option value="3">新城金郡</option>
+            <select class="form-control wh" name="recommendedBuilding" id="recommendedBuilding" >
+                
             </select>
             <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
@@ -64,7 +51,7 @@
 
         <div class="input-group border-green">
             <span class="input-group-addon text-green"><img src="img/icon_date.png" class="img-input"/>看房日期 |</span>
-            <input type="date" class="form-control date-input" aria-label="" placeholder="必 填 项" name="recommendDate" id="recommendDate">
+            <input type="date" class="form-control date-input" aria-label="" name="recommendDate" id="recommendDate">
             <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
 
@@ -170,17 +157,47 @@ function submitForm(){
 
 //设置城市名称和城市id，通过id请求楼盘信息
 function setCity(cityName, cityID){
-    $("#recommendCity").val(cityName);
+    $("#recommendCity").removeClass('color-555').addClass('color-555').html(cityName);
     $.ajax({
         url: _this.apiBaseUrl + '/broker/sys/getAreaBuildingTree/' + cityID,
         type: 'POST',
         dataType: 'json',
         success: function(data){
             console.log('成功', data);//提交成功 
+
+            _this.areas = data.objValue;
+
+            _this.setArea();
         },
         error: function(){
             //提交出错
         }
+    });
+}
+
+function setArea(){
+    var _this = BrokerWeb;
+    var areas = _this.areas;
+
+    var area_buildings = {};
+
+    var area_str = '';
+
+    $("#area_list").html('');
+    $("#recommendedBuilding").html('');
+
+    $.each(areas, function(i, it){
+        area_buildings[it.id] = it.children;
+
+        area_str += '<option value="'+it.id+'">'+it.text+'</option>';
+
+    });
+
+    $('#area_list').append(area_str).change(function(){
+        var pid = $(this).val();
+        $.each(area_buildings[pid], function(i, bd){
+            $("#recommendedBuilding").append('<option value="'+bd.id+'">'+bd.text+'</option>');
+        });
     });
 }
 
@@ -200,6 +217,8 @@ function main(){
 
     $("#submit").click(_this.submitForm);
 
+    //_this.setCity('sth','a38c542ddaf94a32b20160e949792b4b');
+
 }
 
 $.extend(BrokerWeb, {
@@ -211,7 +230,8 @@ $.extend(BrokerWeb, {
     //从通讯录设置姓名和手机
     //调用方法：BrokerWeb.setFromContact(name, phone);
     setFromContact: setFromContact,
-    setCity: setCity
+    setCity: setCity,
+    setArea: setArea
 });
 
 //主函数入口
