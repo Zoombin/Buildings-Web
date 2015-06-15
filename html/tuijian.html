@@ -6,7 +6,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable">
 <meta name="viewport" content="width=device-width,inital-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <link href="css/bootstrap.css"  rel="stylesheet" type="text/css">
-<link href="css/tuijian.css"  rel="stylesheet" type="text/css">
+<link href="css/test.css"  rel="stylesheet" type="text/css">
 <link href="css/theme.css?_=111"  rel="stylesheet" type="text/css">
 
 </head>
@@ -37,14 +37,23 @@
 
         </div>
 
-        <div class="input-group border-green">
+        <div class="input-group border-green" >
             <span class="input-group-addon text-green text-left"><img src="img/icon_building.png" class="img-input"/>意向楼盘 |</span>
-            <select class="form-control wh" id="area_list" style="display:none;">
-                                                   
-            </select>
-            <select class="form-control wh" name="recommendedBuilding" id="recommendedBuilding" style="display:none;">
-                
-            </select>
+
+            <span id="recommendedBuilding" class="form-control color-999" style="line-height:24px;">
+            必 填 项
+            </span>
+            
+            <div id="citySelect" style="display:none;">
+                <div class="border-bottom border-top row p10">
+                    <div class="col-xs-6 text-left" id="cancelButton">取消</div> 
+                    <div class="col-xs-6 text-right" id="submitButton">确定</div>
+                </div>
+                <div id="area_list" class="leftSelectionDiv" ></div>
+                <div  id="building_list" class="rightSelectionDiv" ></div>
+            </div>
+            
+
             <span class="input-group-addon text-right"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
         <div id="recommendedBuilding_error" class="text-danger text-center " style="display:none;"></div>
@@ -70,9 +79,145 @@
 </body>
 </html>
 <script src="js/jquery.js"></script>
+
+<script src="js/iscroll.js"></script>
+
 <script src="js/script.js"></script>
 <script >
 $(document).ready(function(){
+
+var scrollSelection = {
+
+    loaded:function(){
+        $("#citySelect").show();
+        
+        myScroll = new iScroll('area_list', {
+            checkDOMChanges : true,
+            hScrollbar : false,
+            vScrollbar : false,
+            // y: -1*BrokerWeb.y_index*40,
+            onScrollEnd: function () {
+                
+                //40为单个li高度
+                var scrollIndex = parseInt(Math.abs(this.y)/40);
+              
+                var overflow = parseInt(Math.abs(this.y)%40);
+                console.log('this.y',this.y);
+                
+                BrokerWeb.scrollSelection.pullDownAction(scrollIndex, overflow);
+            } 
+        });
+        setTimeout(function () { document.getElementById('area_list').style.left = '0'; }, 800);
+        myScroll.scrollTo(0, -1*BrokerWeb.y_index*40, 1000);
+        
+        
+        
+    },
+    scrollDistrict: function(){
+        myScrollDistrict = new iScroll('building_list', {
+            checkDOMChanges : true,
+            hScrollbar : false,
+            vScrollbar : false,
+            onScrollEnd: function () {
+                //40为单个li高度
+                
+                var scrollIndex = parseInt(Math.abs(this.y)/40);
+                var overflow = parseInt(Math.abs(this.y)%40);
+
+                
+                BrokerWeb.scrollSelection.pullDownActionDistrict(scrollIndex, overflow);
+            }
+        });
+        setTimeout(function () { document.getElementById('building_list').style.left = '0'; }, 800);
+        myScrollDistrict.scrollTo(0, BrokerWeb.y_index_b*40*-1);
+    },
+    pullDownAction:function(scrollIndex, overflow){
+        if(overflow > 20){
+            scrollIndex = scrollIndex + 1;
+            $("#area_list ul").css("margin-top", "-" + (40 - overflow) + "px");
+        } else {
+            $("#area_list ul").css("margin-top", overflow + "px");
+        }
+    
+        $("#area_list ul li").removeClass("selected");
+        $("#area_list ul li").each(function(i){
+            if((scrollIndex + 3) == i){
+                $(this).addClass("selected");
+                var aid = $(this).attr('data-id');
+                BrokerWeb.scrollSelection.loadDistrict(aid);
+            }
+        });
+    },
+    pullDownActionDistrict:function(scrollIndex, overflow){
+        if(overflow > 20){
+            scrollIndex = scrollIndex + 1;
+            $("#building_list ul").css("margin-top", "-" + (40 - overflow) + "px");
+        } else {
+            $("#building_list ul").css("margin-top", overflow + "px");
+        }
+    
+        $("#building_list ul li").removeClass("selected");
+        $("#building_list ul li").each(function(i){
+            if((scrollIndex + 3) == i){
+                $(this).addClass("selected");
+                var district = $(this).html();
+            }
+        });
+    },
+    loadDistrict:function(aid){
+
+        var area_buildings = BrokerWeb.area_buildings;
+     
+        var str = '<li></li><li></li><li></li>';
+        BrokerWeb.y_index_b = 0;
+
+        if(area_buildings[aid].length > 0){
+            $.each(area_buildings[aid], function(i, bd){
+                var s = '';
+            if(typeof _this.params.bid !== 'undefined' && _this.params.bid == bd.id){
+                s = 'selected';
+                BrokerWeb.y_index_b = i;
+            }
+                str += '<li data-id="'+bd.id+'" class="'+s+'">'+bd.text+'</li>';
+            });
+        }
+        str += '<li></li><li></li><li></li>';
+        
+        $("#building_list").empty().append(
+            $("<ul>").append(str)
+        );
+        BrokerWeb.scrollSelection.scrollDistrict();
+    },
+    confirmSelect:function(){
+        // var area = $("#area_list ul .selected").html();
+        // var area_id = $("#area_list ul .selected").attr('data-id');
+        var building = $("#building_list ul .selected").html();
+        var building_id = $("#building_list ul .selected").attr('data-id');
+        console.log('bd,bdid==',building,building_id);
+        // $("#area_selected").html(area).attr('data-id', area_id);
+        if(typeof building_id == 'undefined'){
+            $("#recommendedBuilding")
+                .html('必 填 项')
+                .removeClass('color-555')
+                .removeClass('color-999')
+                .addClass('color-999')
+                .attr('data-id', '');
+        }else{
+            $("#recommendedBuilding")
+                .html(building)
+                .removeClass('color-999')
+                .removeClass('color-555')
+                .addClass('color-555')
+                .attr('data-id', building_id);
+        }
+        
+
+        $("#citySelect").hide();
+    },
+    cancelSelect: function(){
+        $("#citySelect").hide();
+    }
+}
 
 //验证姓名
 function clientNameBlur(){
@@ -108,7 +253,7 @@ function clientPhoneBlur(){
 
 //验证意向楼盘
 function recommendedBuildingBlur(){
-    var rb = $("#recommendedBuilding").val();
+    var rb = $("#recommendedBuilding").attr('data-id');
     if(rb==''){
         hasError = true;
         $("#recommendedBuilding_error").html('意向楼盘为必选项').show();
@@ -129,8 +274,8 @@ function submitForm(){
     var data = {
         clientName: $("#clientName").val(),
         clientPhone: $("#clientPhone").val(),
-        recommendedBuilding: $("#recommendedBuilding").val(),
-        brokerid: _this.brokerid,
+        recommendedBuilding: $("#recommendedBuilding").attr('data-id'),
+        brokerId: _this.brokerid,
         recommendMark: $("#recommendMark").val(),
         recommendCity: $("#recommendCity").html(),
         recommendDate: $("#recommendDate").val()
@@ -179,29 +324,36 @@ function setArea(){
     var _this = BrokerWeb;
     var areas = _this.areas;
 
-    var area_buildings = {};
+    _this.area_buildings = {};
 
-    var area_str = '';
+    var area_str = '<li></li><li></li><li></li>';
 
     $("#area_list").html('');
-    $("#recommendedBuilding").html('');
+    _this.y_index = 0;
+  
 
     $.each(areas, function(i, it){
-        area_buildings[it.id] = it.children;
+        _this.area_buildings[it.id] = it.children;
+        var s = '';
+        if(typeof _this.params.aname !== 'undefined' && decodeURIComponent(_this.params.aname) == it.text){
+            s = ' class="selected" ';
 
-        area_str += '<option value="'+it.id+'">'+it.text+'</option>';
-
-    });
-
-    $('#area_list').append(area_str).show().change(function(){
-        var pid = $(this).val();
-        if(area_buildings[pid].length > 0){
-            $.each(area_buildings[pid], function(i, bd){
-            $("#recommendedBuilding").show().append('<option value="'+bd.id+'">'+bd.text+'</option>');
-        });
+            _this.y_index = i;
+            console.log('i==',i,_this.y_index);
         }
-        
+
+        area_str += '<li data-id="'+it.id+'" '+s+'>'+it.text+'</li>';
+
     });
+    
+    area_str += '<li></li><li></li><li></li>';
+
+    $('#area_list').append(
+        $('<ul>').append(area_str) 
+    );
+
+    
+       
 }
 
 //从通讯录设置姓名和手机
@@ -216,11 +368,35 @@ function main(){
 
     $("#clientName").on('input blur', _this.clientNameBlur);
     $("#clientPhone").on('input blur', _this.clientPhoneBlur);
-    $("#recommendedBuilding").on('input blur', _this.recommendedBuildingBlur);
 
     $("#submit").click(_this.submitForm);
 
-    _this.setCity('sth','a38c542ddaf94a32b20160e949792b4b');
+    //楼盘确定按钮事件
+    $("#submitButton").click(function(){
+        _this.scrollSelection.confirmSelect();
+    });
+    $("#cancelButton").click(function(){
+        _this.scrollSelection.cancelSelect();
+    });
+
+    //选择楼盘事件
+    $("#recommendedBuilding").click(function(){
+        _this.scrollSelection.loaded();
+    });
+
+    //参数取到城市信息
+    if(typeof _this.params.cid !== 'undefined' && typeof _this.params.cname !== 'undefined'){
+        _this.setCity(decodeURIComponent(_this.params.cname),_this.params.cid);
+    }
+
+    //参数取到楼盘信息
+    if(typeof _this.params.bid !== 'undefined' && typeof _this.params.bname !== 'undefined'){
+        $("#recommendedBuilding")
+            .removeClass('color-999')
+            .addClass('color-555')
+            .html(decodeURIComponent(_this.params.bname))
+            .attr('data-id', _this.params.bid);
+    }
 
 }
 
@@ -234,7 +410,8 @@ $.extend(BrokerWeb, {
     //调用方法：BrokerWeb.setFromContact(name, phone);
     setFromContact: setFromContact,
     setCity: setCity,
-    setArea: setArea
+    setArea: setArea,
+    scrollSelection: scrollSelection
 });
 
 //主函数入口
