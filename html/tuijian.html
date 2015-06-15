@@ -30,7 +30,9 @@
 
         <div class="input-group border-green">
             <span class="input-group-addon text-green"><img src="img/icon_city.png" class="img-input"/>意向城市 |</span>
-            <a href="XCFCCity:900950.com"><input type="text" class="form-control" aria-label="" placeholder="必 填 项" name="recommendCity" id="recommendCity" max-length="20"></a>
+            <a href="XCFCCity:900950.com">
+            <input type="text" class="form-control" aria-label="" placeholder="必 填 项" name="recommendCity" id="recommendCity" max-length="20">
+            </a>
             <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
 
         </div>
@@ -84,6 +86,7 @@
 <script src="js/script.js"></script>
 <script >
 $(document).ready(function(){
+
 //验证姓名
 function clientNameBlur(){
     var clientName = $("#clientName").val();
@@ -162,12 +165,11 @@ function submitForm(){
         }
 
     });
-
 }
 
+
 //设置城市名称和城市id，通过id请求楼盘信息
-function setCity(cityName, cityID) {
-    _this = BrokerWeb;
+function setCity(cityName, cityID){
     $("#recommendCity").val(cityName);
     $.ajax({
         url: _this.apiBaseUrl + '/broker/sys/getAreaBuildingTree/' + cityID,
@@ -179,7 +181,6 @@ function setCity(cityName, cityID) {
         error: function(){
             //提交出错
         }
-
     });
 }
 
@@ -209,15 +210,13 @@ $.extend(BrokerWeb, {
     submitForm: submitForm,
     //从通讯录设置姓名和手机
     //调用方法：BrokerWeb.setFromContact(name, phone);
-    setFromContact: setFromContact
+    setFromContact: setFromContact,
+    setCity: setCity
 });
 
 //主函数入口
 //参数为main函数
 BrokerWeb.init(main);
-
-
 });
-
 
 </script>
