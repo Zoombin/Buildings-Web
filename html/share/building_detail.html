@@ -184,7 +184,7 @@
     <div class="nav-bottom-fixed">
         <div class="row">
             <div class="col-xs-6">
-                <button class="btn btn-green">案场电话</button>
+                <a href="" id="tel" class="btn btn-green">案场电话</a>
             </div>
             <div class="col-xs-6">
                 <button class="btn btn-green">立即推荐</button>
@@ -209,7 +209,7 @@ $(document).ready(function(){
 //设置信息
 function setBuildingInfo(){
     var _this = BrokerWeb;
-    console.log('building',_this.building);
+    
 
     var building = _this.building;
 
@@ -277,6 +277,8 @@ function setBuildingInfo(){
 
     //交通情况
     $("#trafficCfg").html(building.trafficCfg);
+
+    $("#tel").attr('href', 'tel:'+building.hotline);
 }
 
 //顶部图片轮播
@@ -312,7 +314,7 @@ function setLayout(){
 
     var str = '';
     $.each(layout, function(n, it){
-        console.log('n it',n,it);
+        
         str = '<div class="col-xs-6">'
                     +'<div class="thumbnail">'
                         +'<div class="relative">'

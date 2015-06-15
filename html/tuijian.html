@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width,inital-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <link href="css/bootstrap.css"  rel="stylesheet" type="text/css">
 <link href="css/tuijian.css"  rel="stylesheet" type="text/css">
-<link href="css/theme.css?_=1"  rel="stylesheet" type="text/css">
+<link href="css/theme.css?_=111"  rel="stylesheet" type="text/css">
 
 </head>
 
@@ -38,14 +38,14 @@
         </div>
 
         <div class="input-group border-green">
-            <span class="input-group-addon text-green"><img src="img/icon_building.png" class="img-input"/>意向楼盘 |</span>
-            <select class="form-control wh" id="area_list">
+            <span class="input-group-addon text-green text-left"><img src="img/icon_building.png" class="img-input"/>意向楼盘 |</span>
+            <select class="form-control wh" id="area_list" style="display:none;">
                                                    
             </select>
-            <select class="form-control wh" name="recommendedBuilding" id="recommendedBuilding" >
+            <select class="form-control wh" name="recommendedBuilding" id="recommendedBuilding" style="display:none;">
                 
             </select>
-            <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
+            <span class="input-group-addon text-right"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
         <div id="recommendedBuilding_error" class="text-danger text-center " style="display:none;"></div>
 
@@ -193,11 +193,14 @@ function setArea(){
 
     });
 
-    $('#area_list').append(area_str).change(function(){
+    $('#area_list').append(area_str).show().change(function(){
         var pid = $(this).val();
-        $.each(area_buildings[pid], function(i, bd){
-            $("#recommendedBuilding").append('<option value="'+bd.id+'">'+bd.text+'</option>');
+        if(area_buildings[pid].length > 0){
+            $.each(area_buildings[pid], function(i, bd){
+            $("#recommendedBuilding").show().append('<option value="'+bd.id+'">'+bd.text+'</option>');
         });
+        }
+        
     });
 }
 
@@ -217,7 +220,7 @@ function main(){
 
     $("#submit").click(_this.submitForm);
 
-    //_this.setCity('sth','a38c542ddaf94a32b20160e949792b4b');
+    _this.setCity('sth','a38c542ddaf94a32b20160e949792b4b');
 
 }
 

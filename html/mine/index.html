@@ -168,7 +168,7 @@ function getMyUnreadMsgNum(){
                     $("#msg_num").html(data.objValue).show();
                 }
             }else{
-                alert('获取数据失败');
+                
             }
         },
         error: function(){
@@ -192,7 +192,7 @@ function getBrokerInfo(){
                 _this.broker = data.objValue;
                 _this.setBrokerInfo();
             }else{
-                alert('获取信息失败');
+                
             }
         },
         error: function(){

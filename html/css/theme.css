@@ -279,10 +279,15 @@ body{background-color:#f5f5f5;}
 .tuijian .wh{width:50%;max-width:130px;}
 .date-input{-webkit-appearance: none; -moz-appearance: none;}
 .w100{width:100%;}
+#recommendDate{
+    line-height:24px;
+}
 
 .want-city{
     color: #999;
 }
+.input-group-addon.text-left{text-align: left;}
+.input-group-addon.text-right{text-align: right;}
 .color-555{
     color: #555;
 }
