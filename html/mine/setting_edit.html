@@ -187,7 +187,8 @@ function updateNickname(){
         success: function(data){
             console.log(data);
             if(data.result){
-                alert(data.result.value);
+                alert(data.value);
+                window.history.back(-1);
             }
         },
         error: function(){

@@ -101,7 +101,7 @@
     </div>
 
     <div class="row bg-money">
-        <div class="col-xs-4 border-right p0">
+        <div class="col-xs-4 border-right p0 mymoney" data-id="notgot">
             <div class="thumbnail ">
                 <a href="Commission_waitFor:900950.com"><img src="../img/ico_money_1.png" alt=""></a>
                 <div class="caption text-center">
@@ -110,7 +110,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-4 border-right p0">
+        <div class="col-xs-4 border-right p0 mymoney" data-id="getting">
             <div class="thumbnail ">
                 <a href="Commission_ing:900950.com"><img src="../img/ico_money_2.png" alt=""></a>
                 <div class="caption text-center">
@@ -119,7 +119,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-4 p0">
+        <div class="col-xs-4 p0 mymoney" data-id="got">
             <div class="thumbnail ">
                 <a href="Commission_already:900950.com"><img src="../img/ico_money_3.png" alt=""></a>
                 <div class="caption text-center">
@@ -252,11 +252,11 @@ function main(){
     _this.getBrokerInfo();
 
     //跳转加参数
-    $("a.go").click(function(e){
-        e.preventDefault();
-        var href = $(e.currentTarget).attr('href');
-        window.location.href = href + _this.search;
-    });
+    // $("a.go").click(function(e){
+    //     e.preventDefault();
+    //     var href = $(e.currentTarget).attr('href');
+    //     window.location.href = href + _this.search;
+    // });
 
 
 }

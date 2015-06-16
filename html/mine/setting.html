@@ -17,7 +17,7 @@
     <!-- 头像部分// -->
     <div class="row relative"  id="top">
         <div class="col-xs-3 pr0 ">
-            <img src="" id="photosrc" class="img img-circle img-user" alt="暂无头像" />
+            <img src="" id="photosrc" class="img img-circle img-user" alt="" />
         </div>
         <div class="col-xs-9 ">
             <div class="pt20 ">
@@ -97,8 +97,8 @@ function goto(){
     }else if(id == 'weixin'){
         window.location.href = 'setting_weixin.html' + _this.search;
     }else if(id == 'shiming'){
-        //todo
-    }else{
+        window.location.href = 'RealName:900950.com';
+    }else {
         window.location.href = 'setting_edit.html' + _this.search + '&a=' + id;
     }
 }
@@ -191,6 +191,10 @@ function main(brokerid){
 
     //退出登录
     $("#logout").click(_this.logout);
+
+    $("#top").click(function(){
+        window.location.href = 'UpdateImage:900950.com';
+    });
 
 }
 
