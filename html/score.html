@@ -142,8 +142,14 @@ function getBrokerScore(){
 function main(brokerid){
     _this = BrokerWeb;
 
+    //判断是否登录
+    if(typeof _this.params.login=='undefined' || _this.params.login=='0'){
+        window.location.href = 'ShouldLogin:900950.com';
+    }
+
     //经纪人积分信息
     _this.getBrokerScore();
+
 
     //经纪人每日签到/是否
     //_this.getDayMark();

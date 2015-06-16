@@ -240,6 +240,11 @@ function setBrokerInfo(){
 function main(){
     var _this = BrokerWeb;
 
+    //判断是否登录
+    if(typeof _this.params.login=='undefined' || _this.params.login=='0'){
+        window.location.href = 'ShouldLogin:900950.com';
+    }
+
     //未读消息数
     _this.getMyUnreadMsgNum();
 
@@ -252,6 +257,8 @@ function main(){
         var href = $(e.currentTarget).attr('href');
         window.location.href = href + _this.search;
     });
+
+
 }
 
 $.extend(BrokerWeb, {

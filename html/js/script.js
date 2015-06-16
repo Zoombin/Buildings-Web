@@ -18,6 +18,12 @@ var BrokerWeb = BrokerWeb || {
         callback();
     },
 
+    setLogin: function(id){
+        console.info('setLogin',id);
+        this.brokerid = id;
+        this.params.login = 1;
+    },
+
     getParams: function () {
         var params = {};
 

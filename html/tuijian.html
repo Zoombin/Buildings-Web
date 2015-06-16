@@ -268,6 +268,11 @@ function recommendedBuildingBlur(){
 function submitForm(){
     _this = BrokerWeb;
 
+    //判断是否登录
+    if(typeof _this.params.login=='undefined' || _this.params.login=='0'){
+        window.location.href = 'ShouldLogin:900950.com';
+    }
+
     if( clientNameBlur() || clientPhoneBlur() || recommendedBuildingBlur() || hasError){
         return;
     }
@@ -278,18 +283,33 @@ function submitForm(){
         brokerId: _this.brokerid,
         recommendMark: $("#recommendMark").val(),
         recommendCity: $("#recommendCity").html(),
-        recommendDate: $("#recommendDate").val()
+        bespeakTime: $("#recommendDate").val()
     };
+
+    var api = '';
+    if( data.recommendDate ){
+        api = '/broker/rest/broker/beSpeakedClientByBroker';
+        data.bespeakMark = data.recommendMark;
+        delete data.recommendMark;
+    }else{
+        api = '/broker/rest/broker/brokerRecommendClient';
+    }
     console.log('data',data);
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/broker/brokerRecommendClient',
+        url: _this.apiBaseUrl + api,
         type: 'POST',
         data: data,
         dataType: 'json',
         success: function(data){
             if(data.result){
                 alert('提交成功');
-                window.location.reload();
+                //清空数据
+                $("#clientName").val('');
+                $("#clientPhone").val('');
+                $("#recommendedBuilding").html('').attr('data-id', '');
+                $("#recommendMark").val('');
+                // $("#recommendCity").html('');
+                $("#recommendDate").val('');
             }
         },
         error: function(){

@@ -166,6 +166,11 @@ function getBrokerScore(){
 function main(){
     var _this = BrokerWeb;
 
+    //判断是否登录
+    if(typeof _this.params.login=='undefined' || _this.params.login=='0'){
+        window.location.href = 'ShouldLogin:900950.com';
+    }
+
     //获取信息
     _this.getBrokerScore();
     _this.getBrokerScoreList();
