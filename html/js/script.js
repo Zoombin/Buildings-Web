@@ -2,7 +2,8 @@
 $( document ).ajaxError(function() {
   alert( "网络请求错误，请确认你的网络连接正常。" );
 });
-
+// 去掉左右空格
+String.prototype.trim = function() { return this.replace(/\s+/g,""); }   
 
 var BrokerWeb = BrokerWeb || {
     apiBaseUrl: 'http://218.4.117.11:8093',
@@ -51,7 +52,10 @@ var BrokerWeb = BrokerWeb || {
      * 数字格式转换成千分位
      *@param{Object}num
      */
-    commafy: function(num) {
+    commafy: function(num, n) {
+        if( typeof n === 'undefined'){
+            n = 2;
+        }
         if ((num + "").trim() == "") {
             return"";
         }
@@ -60,9 +64,10 @@ var BrokerWeb = BrokerWeb || {
         }
         num = num + "";
         if (/^.*\..*$/.test(num)) {
-            varpointIndex = num.lastIndexOf(".");
-            varintPart = num.substring(0, pointIndex);
-            varpointPart = num.substring(pointIndex + 1, num.length);
+            var pointIndex = num.lastIndexOf(".");
+            var intPart = num.substring(0, pointIndex);
+
+            var pointPart = num.substring(pointIndex + 1, pointIndex + 1 + n);
             intPart = intPart + "";
             var re = /(-?\d+)(\d{3})/
             while (re.test(intPart)) {

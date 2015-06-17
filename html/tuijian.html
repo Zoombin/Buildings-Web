@@ -45,9 +45,9 @@
             </span>
             
             <div id="citySelect" style="display:none;">
-                <div class="border-bottom border-top row p10">
-                    <div class="col-xs-6 text-left" id="cancelButton">取消</div> 
-                    <div class="col-xs-6 text-right" id="submitButton">确定</div>
+                <div class="border-bottom border-top row p10 ">
+                    <div class="col-xs-6 text-left" id="cancelButton"><div class="pl10">取消</div></div> 
+                    <div class="col-xs-6 text-right" id="submitButton"><div class="pr10 text-green">确定</div></div>
                 </div>
                 <div id="area_list" class="leftSelectionDiv" ></div>
                 <div  id="building_list" class="rightSelectionDiv" ></div>
@@ -102,7 +102,6 @@ var scrollSelection = {
                 var scrollIndex = parseInt(Math.abs(this.y)/40);
               
                 var overflow = parseInt(Math.abs(this.y)%40);
-                console.log('this.y',this.y);
                 
                 BrokerWeb.scrollSelection.pullDownAction(scrollIndex, overflow);
             } 
@@ -165,13 +164,14 @@ var scrollSelection = {
         });
     },
     loadDistrict:function(aid){
+        
 
         var area_buildings = BrokerWeb.area_buildings;
      
-        var str = '<li></li><li></li><li></li>';
+        var str = '<li></li><li></li><li></li><li data-id="">不限</li>';
         BrokerWeb.y_index_b = 0;
 
-        if(area_buildings[aid].length > 0){
+        if( typeof area_buildings[aid] !== 'undefined' && area_buildings[aid].length > 0){
             $.each(area_buildings[aid], function(i, bd){
                 var s = '';
             if(typeof _this.params.bid !== 'undefined' && _this.params.bid == bd.id){
@@ -193,7 +193,6 @@ var scrollSelection = {
         // var area_id = $("#area_list ul .selected").attr('data-id');
         var building = $("#building_list ul .selected").html();
         var building_id = $("#building_list ul .selected").attr('data-id');
-        console.log('bd,bdid==',building,building_id);
         // $("#area_selected").html(area).attr('data-id', area_id);
         if(typeof building_id == 'undefined'){
             $("#recommendedBuilding")
@@ -221,7 +220,7 @@ var scrollSelection = {
 
 //验证姓名
 function clientNameBlur(){
-    var clientName = $("#clientName").val();
+    var clientName = $("#clientName").val().trim();
     if(clientName==""){
         hasError = true;
         $("#clientName_error").html('客户姓名为必填项').show();
@@ -237,7 +236,7 @@ function clientNameBlur(){
 
 //验证手机号码
 function clientPhoneBlur(){
-    var clientPhone = $("#clientPhone").val();
+    var clientPhone = $("#clientPhone").val().trim();
     if(clientPhone==''){
         hasError = true;
         $("#clientPhone_error").html('手机号码为必填项').show();
@@ -277,13 +276,13 @@ function submitForm(){
         return;
     }
     var data = {
-        clientName: $("#clientName").val(),
-        clientPhone: $("#clientPhone").val(),
-        recommendedBuilding: $("#recommendedBuilding").attr('data-id'),
-        brokerId: _this.brokerid,
-        recommendMark: $("#recommendMark").val(),
-        recommendCity: $("#recommendCity").html(),
-        bespeakTime: $("#recommendDate").val()
+        clientName: $("#clientName").val().trim(),
+        clientPhone: $("#clientPhone").val().trim(),
+        recommendedBuilding: $("#recommendedBuilding").attr('data-id').trim(),
+        brokerId: _this.brokerid.trim(),
+        recommendMark: $("#recommendMark").val().trim(),
+        recommendCity: $("#recommendCity").html().trim(),
+        bespeakTime: $("#recommendDate").val().trim()
     };
 
     var api = '';
@@ -294,7 +293,6 @@ function submitForm(){
     }else{
         api = '/broker/rest/broker/brokerRecommendClient';
     }
-    console.log('data',data);
     $.ajax({
         url: _this.apiBaseUrl + api,
         type: 'POST',
@@ -328,7 +326,6 @@ function setCity(cityName, cityID){
         type: 'POST',
         dataType: 'json',
         success: function(data){
-            console.log('成功', data);//提交成功 
 
             _this.areas = data.objValue;
 
@@ -346,7 +343,7 @@ function setArea(){
 
     _this.area_buildings = {};
 
-    var area_str = '<li></li><li></li><li></li>';
+    var area_str = '<li></li><li></li><li></li><li data-id="">不限</li>';
 
     $("#area_list").html('');
     _this.y_index = 0;
@@ -359,7 +356,6 @@ function setArea(){
             s = ' class="selected" ';
 
             _this.y_index = i;
-            console.log('i==',i,_this.y_index);
         }
 
         area_str += '<li data-id="'+it.id+'" '+s+'>'+it.text+'</li>';

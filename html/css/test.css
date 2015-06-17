@@ -60,7 +60,11 @@ div {
 }
 
 #citySelect  ul li.selected {
-	color: red;
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #333;
+	border-top:1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 }
 
 #citySelect .leftSelectionDiv {

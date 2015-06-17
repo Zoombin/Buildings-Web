@@ -9,15 +9,15 @@
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/theme.css" rel="stylesheet">
 </head>
-<body>
+<body style="background-color:#fff;">
 
 <!--container -->
 <div class="container-fluid" id="container">
 
     <!-- 头像部分// -->
-    <div class="row text-center bg-user pb10"  id="top">
+    <div class="row text-center bg-user pb20"  id="top">
         <div class="col-xs-4 pr0">
-            <img id="photosrc" src="" class="img img-circle img-user" alt="" />
+            <img id="photosrc" src="../img/fourbtn_account.png" class="img img-circle img-user" alt="" />
         </div>
         <div class="col-xs-8 text-left">
             <div class="row">
@@ -33,7 +33,7 @@
                     <div> <strong id="level"></strong>经纪人 </div>
                     <div>当前排名：<span id="rank"></span></div>
                 </div>
-                <div class="col-xs-5 ">
+                <div class="col-xs-5 pl0">
                     <img src="../img/btn_news.png" class="img img-news">
                     <a href="MyMessage:900950.com">
                     <span class="bg-danger badge pos-news" id="msg_num" style="display:none;"></span>
@@ -162,10 +162,16 @@ function getMyUnreadMsgNum(){
         },
         success: function(data){
             if(data.result){
+                // data.objValue=1;
                 if(data.objValue==0){
                     $("#msg_num").hide();
                 }else{
-                    $("#msg_num").html(data.objValue).show();
+                    if(data.objValue>99){
+                        $("#msg_num").html('99+').show();
+                    }else{
+                        $("#msg_num").html(data.objValue).show();
+                    }
+                    
                 }
             }else{
                 
@@ -209,7 +215,7 @@ function setBrokerInfo(){
     var broker = _this.broker;
 
 
-    $("#photosrc").attr('src', broker.photosrc);
+    broker.photosrc ? $("#photosrc").attr('src', broker.photosrc) : '';
     $("#name").html(broker.name ? broker.name : broker.screenName);
 
     var approveStates = {
@@ -224,17 +230,17 @@ function setBrokerInfo(){
         .html(approveStates[broker.approveState]['name']);
 
     //级别
-    $("#level").html( broker.level=='暂无等级' ? '普通' : broker.level )
+    $("#level").html( (!broker.level || broker.level=='' || broker.level=='暂无等级') ? '普通' : broker.level )
 
     //排名
-    $("#rank").html( broker.ranking );
+    $("#rank").html( (!broker.ranking || broker.ranking == '') ? 300 : broker.ranking );
 
     //总佣金
-    $("#total").html( _this.commafy(broker.integral) );
+    $("#total").html( _this.commafy( (broker.brokerageNum[0]+broker.brokerageNum[1]+broker.brokerageNum[2]).toFixed(2) ) );
 
-    $("#money_notgot").html( _this.commafy(broker.brokerageNum[0]));
-    $("#money_getting").html( _this.commafy(broker.brokerageNum[1]));
-    $("#money_got").html( _this.commafy(broker.brokerageNum[2]));
+    $("#money_notgot").html( _this.commafy(broker.brokerageNum[0].toFixed(2)));
+    $("#money_getting").html( _this.commafy(broker.brokerageNum[1].toFixed(2)));
+    $("#money_got").html( _this.commafy(broker.brokerageNum[2].toFixed(2)));
 }
 
 function main(){

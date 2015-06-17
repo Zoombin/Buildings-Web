@@ -27,7 +27,7 @@
     </div>
     <!-- //头像部分 -->
     <!-- 内容部分// -->
-    <div class="row earn-score score-login active" id="login">
+    <div class="row earn-score score-login " id="login">
         <div class="col-xs-9 border-right">
             <div class="fs18 lh18 ctit">
                 每日签到
@@ -121,7 +121,7 @@ function getBrokerScore(){
             if(data.result){
                 $("#total").html(data.objValue.integrals);
                 $("#today").html(data.objValue.integral);
-                if(!parseInt(data.objValue.isMark)){
+                if(parseInt(data.objValue.isMark)){
                     $("#login").addClass('active');
                     $("#login").find('.over').show();
                 }else{

@@ -31,6 +31,37 @@
 <script>
 $(document).ready(function(){
 
+function rePush(item){
+    var _this = BrokerWeb;
+
+    var data = {
+        clientName: _this.customer.client.name,
+        clientPhone: _this.customer.client.phone,
+        recommendedBuilding: item.buildingId,
+        brokerId: item.brokerId
+    };
+
+    var api = '/broker/rest/broker/brokerRecommendClient';
+    
+    $.ajax({
+        url: _this.apiBaseUrl + api,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(data){
+            if(data.result){
+                alert(data.value);
+            }else{
+                alert(data.value);
+            }
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+}
+
 function bindScroll(){
     $("#container").onepage_scroll({
         direction: 'horizontal'
@@ -67,11 +98,12 @@ function setCustomerInfoItem(item){
                 ).append(
                     $('<div>剩余有效期：</div>').append(
                         $('<span></span>').html(
-                            item.protectTime ? _this.getLeftTime(item.protectTime) : '已过期'
+                            item.protectTime ? _this.getLeftTime(item.protectTime) : ''
                         )
                     ).append(
+                        // !item.protectTime ? '' :
                         $('<span class="label label-green ml5 re-push">重新推荐</span>').click(function(){
-                            window.location.href = '../tuijian.html' + _this.search
+                            BrokerWeb.rePush(item);
                         })
                     )
                 )
@@ -90,7 +122,7 @@ function setCustomerInfoItem(item){
     );
 
     var historys = item.historys;
-    historys[1] = historys[0];
+    
 
     var content = $('<ul class="cust-stat list-unstyled"></ul>');
 
@@ -214,7 +246,8 @@ $.extend(BrokerWeb, {
     setCustomerInfoList: setCustomerInfoList,
     setCustomerInfoItem: setCustomerInfoItem,
     bindScroll: bindScroll,
-    getLeftTime: getLeftTime
+    getLeftTime: getLeftTime,
+    rePush: rePush
 });
 
 //主函数入口

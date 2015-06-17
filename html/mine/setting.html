@@ -15,17 +15,24 @@
 <div class="container-fluid" id="container">
 
     <!-- 头像部分// -->
-    <div class="row relative"  id="top">
-        <div class="col-xs-3 pr0 ">
-            <img src="" id="photosrc" class="img img-circle img-user" alt="" />
-        </div>
-        <div class="col-xs-9 ">
-            <div class="pt20 ">
+    <div class=" setting-top"  id="top">
+        <div class="media">
+            <div class="media-left">
+                <a href="#">
+                    <img src="" id="photosrc" class="img img-circle img-user m0" alt="" />
+                </a>
+            </div>
+            <div class="media-body">
+                <div class="">
                     <div class="text-justify text-big" id="name"></div>
-                    <div class="text-gray">修改头像</div>
+                    <div class="color-b3">修改头像</div>
+
+                </div>
+                <span class="glyphicon glyphicon-menu-right pos-right-middle text-gray"> </span>
             </div>
         </div>
-        <span class="glyphicon glyphicon-menu-right pos-right-middle text-gray"> </span>
+        
+        
     </div>
     <!-- //头像部分 -->
 
@@ -33,21 +40,21 @@
 
     <div class="row bg-line goto" data-id="nickname">
         <div class="col-xs-12">
-            <img src="../img/my_ico_nickname.png" class="img-line">昵称
+            <img src="../img/my_ico_nickname.png" class="img-setting">昵称
         </div>
         <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
     </div>
 
     <div class="row bg-line goto" data-id="password">
         <div class="col-xs-12">
-            <img src="../img/my_ico_password.png" class="img-line">修改密码
+            <img src="../img/my_ico_password.png" class="img-setting">修改密码
         </div>
         <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
     </div>
 
     <div class="row bg-line noborder goto" data-id="shiming">
         <div class="col-xs-12">
-            <img src="../img/my_ico_sm.png" class="img-line">实名认证
+            <img src="../img/my_ico_sm.png" class="img-setting">实名认证
         </div>
         <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
     </div>
@@ -56,14 +63,14 @@
 
     <div class="row bg-line goto" data-id="weixin">
         <div class="col-xs-12">
-            <img src="../img/my_ico_weixin.png" class="img-line">微信公众号
+            <img src="../img/my_ico_weixin.png" class="img-setting">微信公众号
         </div>
         <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
     </div>
 
     <div class="row bg-line noborder goto" data-id="aboutus">
         <div class="col-xs-12">
-            <img src="../img/my_ico_aboutus.png" class="img-line">关于我们
+            <img src="../img/my_ico_aboutus.png" class="img-setting">关于我们
         </div>
         <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
     </div>
@@ -99,7 +106,7 @@ function goto(){
     }else if(id == 'shiming'){
         window.location.href = 'RealName:900950.com';
     }else {
-        window.location.href = 'setting_edit.html' + _this.search + '&a=' + id;
+        window.location.href = 'setting_edit.html' + _this.search + '&a=' + id + '&tel=' + BrokerWeb.broker.mphone;
     }
 }
 

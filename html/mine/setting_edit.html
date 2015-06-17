@@ -18,7 +18,7 @@
 
     <div class="row bg-line goto" id="nickname_div" style="display:none;">
         <div class="col-xs-12">
-            <img src="../img/my_ico_nickname.png" class="img-line">
+            <img src="../img/my_ico_nickname.png" class="img-pwd">
             <input type="text" name="nickname"  id="nickname" placeholder="昵称"/>
             <div id="nickname_error" style="display:none;" class="text-danger text-center"></div>
         </div>
@@ -26,22 +26,22 @@
     <div id="password_div" style="display:none;">
         <div class="row bg-line goto">
             <div class="col-xs-12">
-                <img src="../img/my_ico_password.png" class="img-line">
-                <input type="text" name="oldpwd"  id="oldpwd" placeholder="请输入原密码"/>
+                <img src="../img/setting_pwd.png" class="img-pwd">
+                <input type="password" name="oldpwd"  id="oldpwd" placeholder="请输入原密码"/>
                 <div id="oldpwd_error" style="display:none;" class="text-danger text-center"></div>
             </div>
         </div>
         <div class="row bg-line goto">
             <div class="col-xs-12">
-                <img src="../img/my_ico_password.png" class="img-line">
-                <input type="text" name="newpwd"  id="newpwd" placeholder="请输入新密码"/>
+                <img src="../img/setting_pwd.png" class="img-pwd">
+                <input type="password" name="newpwd"  id="newpwd" placeholder="请输入新密码"/>
                 <div id="newpwd_error" style="display:none;" class="text-danger text-center"></div>
             </div>
         </div>
         <div class="row bg-line goto">
             <div class="col-xs-12">
-                <img src="../img/my_ico_password.png" class="img-line">
-                <input type="text" name="newpwd2"  id="newpwd2" placeholder="请重复输入新密码"/>
+                <img src="../img/setting_pwd_re.png" class="img-pwd">
+                <input type="password" name="newpwd2"  id="newpwd2" placeholder="请重复输入新密码"/>
                 <div id="newpwd2_error" style="display:none;" class="text-danger text-center"></div>
             </div>
         </div>
@@ -68,13 +68,13 @@
 $(document).ready(function(){
 //验证旧密码
 function checkOldPassword(){
-    var oldpwd = $("#oldpwd").val();
+    var oldpwd = $("#oldpwd").val().trim();
     if(oldpwd==''){
         $("#oldpwd_error").html('旧密码不能为空').show();
         return false;
-    }else if(oldpwd.length<6 || oldpwd.length>20){
-        $("#oldpwd_error").html('旧密码长度为6-20个字符').show();
-        return false;
+    // }else if(oldpwd.length<1 || oldpwd.length>20){
+    //     $("#oldpwd_error").html('旧密码长度为1-20个字符').show();
+    //     return false;
     }else{
         $("#oldpwd_error").html('').hide();
         return true;
@@ -83,13 +83,13 @@ function checkOldPassword(){
 
 //验证新密码
 function checkNewPassword(){
-    var newpwd = $("#newpwd").val();
+    var newpwd = $("#newpwd").val().trim();
     if(newpwd==''){
         $("#newpwd_error").html('新密码不能为空').show();
         return false;
-    }else if(newpwd.length<6 || newpwd.length>20){
-        $("#newpwd_error").html('新密码长度为6-20个字符').show();
-        return false;
+    // }else if(newpwd.length<6 || newpwd.length>20){
+    //     $("#newpwd_error").html('新密码长度为6-20个字符').show();
+    //     return false;
     }else{
         $("#newpwd_error").html('').hide();
         return true;
@@ -99,15 +99,15 @@ function checkNewPassword(){
 
 //验证密码是否一致
 function checkDupPassword(){
-    var newpwd = $("#newpwd").val();
-    var newpwd2 = $("#newpwd2").val();
+    var newpwd = $("#newpwd").val().trim();
+    var newpwd2 = $("#newpwd2").val().trim();
     console.log(newpwd,newpwd2);
     if(newpwd2==''){
         $("#newpwd2_error").html('重复密码不能为空').show();
         return false;
-    }else if(newpwd2.length<6 || newpwd2.length>20){
-        $("#newpwd2_error").html('重复密码长度为6-20个字符').show();
-        return false;
+    // }else if(newpwd2.length<6 || newpwd2.length>20){
+    //     $("#newpwd2_error").html('重复密码长度为6-20个字符').show();
+    //     return false;
     }else if(newpwd !== newpwd2){
     console.log(1111);
         $("#newpwd2_error").html('两次密码不一致').show();
@@ -131,15 +131,17 @@ function updatePassword(){
         url: _this.apiBaseUrl + '/broker/rest/broker/updatePassword',
         type: 'POST',
         data: {
-            username: _this.phone,//手机号码
+            username: _this.params.tel,//手机号码
             oldpassword: $("#oldpwd").val(),
             newpassword: $("#newpwd").val()
         },
         dataType: 'json',
-        success: function(){
-            console.log(data);
+        success: function(data){
+            
             if(data.result){
-                alert(data.result.value);
+                alert(data.value);
+            }else{
+                alert(data.value)
             }
 
         },
