@@ -31,16 +31,16 @@
 
     <div class="row bg-space "></div>
 
-    <div class="row bg-line goto" data-id="nickname">
+    <div class="row bg-line" data-id="nickname">
         <div class="col-xs-12">
-            <img src="../img/my_ico_nickname.png" class="img-line">昵称
+            <a href="UpdateNickName:900950.com" style="text-decoration: none"><img src="../img/my_ico_nickname.png" class="img-line">昵称</a>
         </div>
         <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
     </div>
 
-    <div class="row bg-line goto" data-id="password">
+    <div class="row bg-line" data-id="password">
         <div class="col-xs-12">
-            <img src="../img/my_ico_password.png" class="img-line">修改密码
+            <a href="UpdatePsw:900950.com" style="text-decoration: none"><img src="../img/my_ico_password.png" class="img-line">修改密码</a>
         </div>
         <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
     </div>
@@ -71,7 +71,7 @@
     <div class="row bg-space-big"></div>
 
     <div class="row bg-line" id="logout">
-       <div class="text-green text-center text-big">退出登录</div> 
+       <a href="Logout:900950.com" style="text-decoration: none"><div class="text-green text-center text-big">退出登录</div></a>
     </div>
 
 </div>
@@ -190,7 +190,7 @@ function main(brokerid){
     $(".goto").click(_this.goto);
 
     //退出登录
-    $("#logout").click(_this.logout);
+    //$("#logout").click(_this.logout);
 
     $("#top").click(function(){
         window.location.href = 'UpdateImage:900950.com';
