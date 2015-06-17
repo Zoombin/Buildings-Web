@@ -14,6 +14,9 @@
 <!--container -->
 <div class="container-fluid" id="container">
 
+    <div class="col-xs-12">
+        <a href="MySetting:900950.com"><img id="settings" src="../img/btn_setting.png" style="height:30px"></a>
+    </div>
     <!-- 头像部分// -->
     <div class="row text-center bg-user pb20"  id="top">
         <div class="col-xs-4 pr0">
@@ -33,10 +36,11 @@
                     <div> <strong id="level"></strong>经纪人 </div>
                     <div>当前排名：<span id="rank"></span></div>
                 </div>
+
                 <div class="col-xs-5 pl0">
-                    <img src="../img/btn_news.png" class="img img-news">
                     <a href="MyMessage:900950.com">
-                    <span class="bg-danger badge pos-news" id="msg_num" style="display:none;"></span>
+                        <img src="../img/btn_news.png" class="img img-news">
+                        <span class="bg-danger badge pos-news" id="msg_num" style="display:none;"></span>
                     </a>
                 </div>
             </div>
@@ -236,11 +240,13 @@ function setBrokerInfo(){
     $("#rank").html( (!broker.ranking || broker.ranking == '') ? 300 : broker.ranking );
 
     //总佣金
+
     $("#total").html( _this.commafy( (broker.brokerageNum[0]+broker.brokerageNum[1]+broker.brokerageNum[2]).toFixed(2) ) );
 
     $("#money_notgot").html( _this.commafy(broker.brokerageNum[0].toFixed(2)));
     $("#money_getting").html( _this.commafy(broker.brokerageNum[1].toFixed(2)));
     $("#money_got").html( _this.commafy(broker.brokerageNum[2].toFixed(2)));
+
 }
 
 function main(){
