@@ -233,11 +233,16 @@ function setBrokerInfo(){
     $("#rank").html( broker.ranking );
 
     //总佣金
-    $("#total").html( _this.commafy(broker.integral) );
 
-    $("#money_notgot").html( _this.commafy(broker.brokerageNum[0]));
-    $("#money_getting").html( _this.commafy(broker.brokerageNum[1]));
-    $("#money_got").html( _this.commafy(broker.brokerageNum[2]));
+    var firstValue = Number( broker.brokerageNum[0].toFixed(2) );
+    var secondValue = Number( broker.brokerageNum[1].toFixed(2) );
+    var thirdValue = Number( broker.brokerageNum[2].toFixed(2) );
+
+    $("#total").html( firstValue + secondValue + thirdValue );
+
+    $("#money_notgot").html(firstValue);
+    $("#money_getting").html(secondValue);
+    $("#money_got").html(thirdValue);
 }
 
 function main(){
