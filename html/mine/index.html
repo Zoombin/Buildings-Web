@@ -33,7 +33,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-7 ">
-                    <div> <strong id="level"></strong>经纪人 </div>
+                    <!-- <div> <strong id="level"></strong>经纪人 </div> -->
                     <div>当前排名：<span id="rank"></span></div>
                 </div>
 
@@ -234,7 +234,7 @@ function setBrokerInfo(){
         .html(approveStates[broker.approveState]['name']);
 
     //级别
-    $("#level").html( (!broker.level || broker.level=='' || broker.level=='暂无等级') ? '普通' : broker.level )
+    //$("#level").html( (!broker.level || broker.level=='' || broker.level=='暂无等级') ? '普通' : broker.level )
 
     //排名
     $("#rank").html( (!broker.ranking || broker.ranking == '') ? 300 : broker.ranking );
