@@ -87,9 +87,9 @@ function checkNewPassword(){
     if(newpwd==''){
         $("#newpwd_error").html('新密码不能为空').show();
         return false;
-    // }else if(newpwd.length<6 || newpwd.length>20){
-    //     $("#newpwd_error").html('新密码长度为6-20个字符').show();
-    //     return false;
+    }else if(newpwd.length<6 || newpwd.length>20){
+        $("#newpwd_error").html('新密码长度为6-20个字符').show();
+        return false;
     }else{
         $("#newpwd_error").html('').hide();
         return true;
