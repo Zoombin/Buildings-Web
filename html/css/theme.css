@@ -198,12 +198,14 @@ body{background-color:#f5f5f5;}
     background-position: 5px center;
     background-repeat: no-repeat;
     background-size:auto 100%;
+    line-height: 21px;
  }
  .customer-right .right-ok{
     background-image: url(../img/account_ico_ok.png);
     background-position: 5px center;
     background-repeat: no-repeat;
     background-size:auto 100%;
+    line-height: 21px;
  }
  .bg-white{background-color:#fff;}
  .date{margin-top:3px;padding:0 15px 0 20px;;color:#808080;
@@ -414,7 +416,7 @@ body{background-color:#f5f5f5;}
 .m25{margin:25px;}.mr25{margin-right:25px;}.ml25{margin-left:25px;}.mt25{margin-top:25px;}.mb25{margin-bottom:25px;}
 
 .relative{position: relative;}
-.fs24{font-size:24px;} .fs20{font-size:20px;}.fs18{font-size:18px;}.fs16{font-size:16px;}.fs12{font-size:12px;}.fs14{font-size:14px;}
+.fs24{font-size:24px;} .fs20{font-size:20px;}.fs18{font-size:18px;}.fs16{font-size:16px;}.fs12{font-size:12px;}.fs14{font-size:14px;}.fs11{font-size:11px}
 .lh24{line-height:24px;} .lh28{line-height:28px;}.lh18{line-height:18px;}.lh16{line-height:16px;}.lh12{line-height:12px;}.lh14{line-height:14px;}
 
 .noborder{border:0 none;}

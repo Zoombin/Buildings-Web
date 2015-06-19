@@ -111,14 +111,14 @@ function setCustomerInfoItem(item){
         )
     ).append(
         $('<div class="col-xs-4 pr0 pt20 pb20"></div>').append(
-            !item.isSigned ? '' : $('<div class="customer-right mb10 "></div>').append(
-                $('<div class="right-ok"></div>').html(
+            !item.isSigned ? '' : $('<div class="customer-right mb10"></div>').append(
+                $('<div class="right-ok fs11"></div>').html(
                     _this.clientStatus[item.clientStatus]
                 )
             )
         ).append(
-            !item.isLocked ? '' : $('<div class="customer-right "></div>').append(
-                $('<div class="important-on">重要客户</div>')
+            !item.isLocked ? '' : $('<div class="customer-right"></div>').append(
+                $('<div class="important-on fs11">重要客户</div>')
             )
         )
     );
@@ -195,7 +195,7 @@ function getCustomerInfo(){
         dataType: 'json',
         data: {
             brokerId: _this.brokerid,
-            //clientId: 'd8697b36d83846bb9116128dcbe009eb',//TODO: TOTEST
+            // clientId: 'd8697b36d83846bb9116128dcbe009eb',//TODO: TOTEST
             clientId: _this.params.clientId,
             state: _this.params.state
         },
