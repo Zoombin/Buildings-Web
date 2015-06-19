@@ -153,6 +153,10 @@ function updatePassword(){
 
 }
 
+function setNickname(nickname){
+    $("#nickname").val(nickname);
+}
+
 //验证昵称
 function checkNickname(){
     var nickname = $("#nickname").val();
@@ -217,6 +221,9 @@ function main(brokerid, phone){
     if(params.a == 'nickname'){
         $("#nickname").on('input blur',_this.checkNickname);
         $("#submit").click(_this.updateNickname);
+        if (params.nickname) {
+            setNickname(params.nickname);
+        }
     }else if(params.a == 'password'){
         $("#oldpwd").on('input blur',_this.checkOldPassword);
         $("#newpwd").on('input blur',_this.checkNewPassword);
@@ -229,6 +236,7 @@ function main(brokerid, phone){
 }
 
 $.extend(BrokerWeb, {
+    setNickname: setNickname,
     checkNickname: checkNickname,
     updateNickname: updateNickname,
     checkDupPassword: checkDupPassword,
