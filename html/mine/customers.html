@@ -81,7 +81,9 @@ function setCustomerList(list){
         arr.push('<img src="../img/account_ico_');
         arr.push(item.gender!='null' && item.gender ? 'male' : 'female');
         arr.push('.png" class="img-line-sm ml5" /><div class="pull-right text-green">');
-        arr.push(item.phone);
+        var reversePhone = item.phone.split("").reverse().join("");//翻转
+        var reversePhoneWithSpace = reversePhone.replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,'');//每4个字符加一空格
+        arr.push(reversePhoneWithSpace.split("").reverse().join(""));//转回来
         arr.push('</div></div><hr/><div class="row " id="done"><div class="col-xs-12 "> 推荐购买：<span class="text-green">');
         arr.push(item.buildingNum);
         arr.push('</span> 个楼盘 </div></div></div>');
