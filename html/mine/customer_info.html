@@ -112,7 +112,9 @@ function setCustomerInfoItem(item){
     ).append(
         $('<div class="col-xs-4 pr0 pt20 pb20"></div>').append(
             !item.isSigned ? '' : $('<div class="customer-right mb10 "></div>').append(
-                $('<div class="right-ok">已成交</div>')
+                $('<div class="right-ok"></div>').html(
+                    _this.clientStatus[item.clientStatus]
+                )
             )
         ).append(
             !item.isLocked ? '' : $('<div class="customer-right "></div>').append(
@@ -193,6 +195,7 @@ function getCustomerInfo(){
         dataType: 'json',
         data: {
             brokerId: _this.brokerid,
+            //clientId: 'd8697b36d83846bb9116128dcbe009eb',//TODO: TOTEST
             clientId: _this.params.clientId,
             state: _this.params.state
         },
@@ -222,6 +225,16 @@ function main(){
     //判断是否登录
     if(typeof _this.params.login=='undefined' || _this.params.login=='0'){
         window.location.href = 'ShouldLogin:900950.com';
+    }
+
+    _this.clientStatus = {
+        20: '可预约',
+        30: '已预约未验证',
+        40: '已预约',
+        50: '已看房',
+        60: '看房已复核',
+        70: '已成交',
+        100: '成交复核'
     }
 
     _this.statuses = {
