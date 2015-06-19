@@ -268,25 +268,26 @@ function submitForm(){
     _this = BrokerWeb;
 
     //判断是否登录
-    if(typeof _this.params.login=='undefined' || _this.params.login=='0'){
-        window.location.href = 'ShouldLogin:900950.com';
-    }
+    // if(typeof _this.params.login=='undefined' || _this.params.login=='0'){
+    //     window.location.href = 'ShouldLogin:900950.com';
+    // }
 
-    if( clientNameBlur() || clientPhoneBlur() || recommendedBuildingBlur() || hasError){
-        return;
-    }
+    // if( clientNameBlur() || clientPhoneBlur() || recommendedBuildingBlur() || hasError){
+    //     return;
+    // }
     var data = {
         clientName: $("#clientName").val().trim(),
         clientPhone: $("#clientPhone").val().trim(),
-        recommendedBuilding: $("#recommendedBuilding").attr('data-id').trim(),
+        recommendedBuilding: $("#recommendedBuilding").attr('data-id'),
         brokerId: _this.brokerid.trim(),
         recommendMark: $("#recommendMark").val().trim(),
         recommendCity: $("#recommendCity").html().trim(),
         bespeakTime: $("#recommendDate").val().trim()
     };
 
+    var recommendDate = $("#recommendDate").val().trim();
     var api = '';
-    if( data.recommendDate ){
+    if( recommendDate){
         api = '/broker/rest/broker/beSpeakedClientByBroker';
         data.bespeakMark = data.recommendMark;
         delete data.recommendMark;
