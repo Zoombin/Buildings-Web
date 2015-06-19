@@ -197,7 +197,6 @@ function getBrokerInfo(){
         dataType: 'json',
         success: function(data){
             console.log(data);
-            
             if(data.result){
                 _this.broker = data.objValue;
                 _this.setBrokerInfo();
@@ -208,7 +207,6 @@ function getBrokerInfo(){
         error: function(){
             //提交出错
         }
-
     });
 }
 
@@ -238,15 +236,42 @@ function setBrokerInfo(){
 
     //排名
     $("#rank").html( (!broker.ranking || broker.ranking == '') ? 300 : broker.ranking );
+}
 
+//获取3种佣金和总佣金
+function getBrokerageSummary(){
+    var _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerageSummary?brokerId=' + _this.brokerid,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            console.log(data);
+            if(data.result){
+                _this.broker = data.objValue;
+                _this.setBrokerageSummary();
+            }else{
+                
+            }
+        },
+        error: function(){
+        }
+    });
+}
+
+function setBrokerageSummary(){
+    var _this = BrokerWeb;
+    var broker = _this.broker;
     //总佣金
-
-    $("#total").html( _this.commafy( (broker.brokerageNum[0]+broker.brokerageNum[1]+broker.brokerageNum[2]).toFixed(2) ) );
-
-    $("#money_notgot").html( _this.commafy(broker.brokerageNum[0].toFixed(2)));
-    $("#money_getting").html( _this.commafy(broker.brokerageNum[1].toFixed(2)));
-    $("#money_got").html( _this.commafy(broker.brokerageNum[2].toFixed(2)));
-
+    var decimal = 2;
+    var totalize = Number(broker.totalize).toFixed(decimal);
+    var waiting = Number(broker.waiting).toFixed(decimal);
+    var handOut = Number(broker.handOut).toFixed(decimal);
+    var received = Number(broker.received).toFixed(decimal);
+    $("#total").html( _this.commafy(totalize) );
+    $("#money_notgot").html( _this.commafy(waiting) );
+    $("#money_getting").html( _this.commafy(handOut) );
+    $("#money_got").html( _this.commafy(received) );
 }
 
 function main(){
@@ -263,6 +288,9 @@ function main(){
     //获取经纪人信息
     _this.getBrokerInfo();
 
+    //佣金
+    _this.getBrokerageSummary();
+
     //跳转加参数
     // $("a.go").click(function(e){
     //     e.preventDefault();
@@ -276,7 +304,9 @@ function main(){
 $.extend(BrokerWeb, {
     getMyUnreadMsgNum: getMyUnreadMsgNum,
     getBrokerInfo: getBrokerInfo,
-    setBrokerInfo: setBrokerInfo
+    setBrokerInfo: setBrokerInfo,
+    getBrokerageSummary: getBrokerageSummary,
+    setBrokerageSummary: setBrokerageSummary
 });
 
 //主函数入口
