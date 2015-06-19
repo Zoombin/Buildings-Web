@@ -271,7 +271,7 @@ body{background-color:#f5f5f5;}
 .tuijian .img-input1{max-height:25px;margin:0 8px;display:inline-block;}
 .tuijian .img-input2{max-height:15px;margin:0 12px;display:inline-block;}
 .tuijian .input-group-addon{padding: 2px;background-color:#fff;border-radius:20px ;border:0 none;}
-.tuijian .form-control{border:0 none;}
+.tuijian .form-control{border:0 none; overflow: hidden}
 
 .tuijian .border{border:2px solid #607078; border-radius:15px;}
 
