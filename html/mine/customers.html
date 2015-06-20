@@ -108,13 +108,13 @@ function getCustomerList(param){
     var _this = BrokerWeb;
 
     var params = $.extend({
-        id: _this.brokerid,
+        brokerId: _this.brokerid,
         pageSize: 10
     },param);
 
 
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/broker/brokerClientList1/' + _this.current_page,
+        url: _this.apiBaseUrl + '/broker/rest/broker/brokerClientList/' + _this.current_page,
         type: 'GET',
         dataType: 'json',
         data: params,
