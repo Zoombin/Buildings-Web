@@ -169,7 +169,7 @@ var scrollSelection = {
 
         var area_buildings = BrokerWeb.area_buildings;
      
-        var str = '<li></li><li></li><li></li><li data-id="">不限</li>';
+        var str = '<li></li><li></li><li></li>';
         BrokerWeb.y_index_b = 0;
 
         if( typeof area_buildings[aid] !== 'undefined' && area_buildings[aid].length > 0){
@@ -347,7 +347,6 @@ function setArea(){
 
     var area_str = '<li></li><li></li><li></li><li data-id="">不限</li>';
 
-    $("#area_list").html('');
     _this.y_index = 0;
   
 
@@ -366,7 +365,7 @@ function setArea(){
     
     area_str += '<li></li><li></li><li></li>';
 
-    $('#area_list').append(
+    $('#area_list').empty().append(
         $('<ul>').append(area_str) 
     );
 
