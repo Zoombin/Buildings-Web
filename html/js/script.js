@@ -20,7 +20,6 @@ var BrokerWeb = BrokerWeb || {
     },
 
     setLogin: function(id){
-        console.info('setLogin',id);
         this.brokerid = id;
         this.params.login = 1;
     },
