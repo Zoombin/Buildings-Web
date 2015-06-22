@@ -309,10 +309,10 @@
       }
     });
 
-    el.swipeEvents().bind("swipeDown swipeRight ",  function(event){
+    el.swipeEvents().bind("swipeRight ",  function(event){
       if (!$("body").hasClass("disabled-onepage-scroll")) event.preventDefault();
       el.moveUp();
-    }).bind("swipeUp swipeLeft", function(event){
+    }).bind("swipeLeft", function(event){
       if (!$("body").hasClass("disabled-onepage-scroll")) event.preventDefault();
       el.moveDown();
     });

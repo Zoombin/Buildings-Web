@@ -47,6 +47,13 @@ var BrokerWeb = BrokerWeb || {
 
         return params;
     },
+
+    phoneAddSpace: function(phone){
+        var reversePhone = phone.split("").reverse().join("");//翻转
+        var reversePhoneWithSpace = reversePhone.replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,'');//每4个字符加一空格
+        return reversePhoneWithSpace.split("").reverse().join("");
+    },
+
     /**
      * 数字格式转换成千分位
      *@param{Object}num

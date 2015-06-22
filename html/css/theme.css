@@ -165,7 +165,7 @@ body{background-color:#f5f5f5;}
 .bg-border{background-color:#fff;padding:12px 10px 5px;border:1px solid #e5e5d5;color:#363636;position:relative;margin-bottom:12px;}
 .bg-border hr{margin:10px -10px 5px;}
 .customer-menu{}
-.customer-menu.nav > li > a{padding:0 0 0 8px;}
+.customer-menu.nav > li > a{padding:0 0 0 15%;}
 .customer-menu li{ border:0 none;margin:15px 0;;background-color:transparent;}
 
  .customer-menu.nav-pills > li.active > a, .customer-menu.nav-pills > li.active > a:hover, .customer-menu.nav-pills > li.active > a:focus{

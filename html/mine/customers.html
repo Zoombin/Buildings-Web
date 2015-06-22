@@ -26,11 +26,11 @@
             <ul class="nav nav-pills nav-stacked customer-menu" id="listmenu">
                 <li class="active"><a href="#" data-tag="isVip">重要客户</a></li>
                 <li class=""><a href="#" data-tag="isSignup">已成交</a></li>
-                <li class=""><a href="#" data-tag="isVisited">已看房</a></li>
+                <li class=""><a href="#" data-tag="isVisited">看房成功</a></li>
                 <li class=""><a href="#" data-tag="rSuccess">推荐成功</a></li>
                 <li class=""><a href="#" data-tag="rSure">推荐确认</a></li>
-                <li class=""><a href="#" data-tag="">已过期</a></li>
-                <li class=""><a href="#" data-tag="">推荐失败</a></li>
+                <li class=""><a href="#" data-tag="expired">已过期</a></li>
+                <li class=""><a href="#" data-tag="failed">推荐失败</a></li>
             </ul>
         </div>
     </div>
@@ -54,6 +54,7 @@ function changeTab(){
     _this = BrokerWeb;
 
     _this.current_page = 1;
+    $("#total").html('0');
 
     $("#customerList").html('');
 
@@ -62,9 +63,112 @@ function changeTab(){
 
     var tag = _this.tag = $(this).attr('data-tag');
     
-    
+    if( tag == 'expired' || tag == 'failed' ){
+        BrokerWeb.getExpiredList(tag);
+    }else{
+        BrokerWeb.getCustomerList(BrokerWeb.tags[tag]);
+    }
 
-    BrokerWeb.getCustomerList(BrokerWeb.tags[tag]);
+}
+
+//设置用户列表信息
+function setExpiredList(list){
+
+    var arr = [];
+    $.each(list,function(i,item){
+
+        arr.push('<div class="bg-border" data-id="');
+        arr.push(item.clientId);
+        
+        arr.push('" data-building-id="');
+        arr.push(item.buildingId);
+        arr.push('"><div class="text-bg">');
+        arr.push(item.clientName);
+        
+        arr.push('<img src="../img/account_ico_');
+        arr.push(item.gender!=null && item.gender ? 'male' : 'female');
+        arr.push('.png" class="img-line-sm ml5" /><div class="pull-right text-green">');
+            
+        arr.push( item.clientPhone ? BrokerWeb.phoneAddSpace(item.clientPhone) : '' );
+
+        arr.push('</div></div><hr/><div class="row " id="done"><div class="col-xs-12 "> 推荐购买：<span class="text-green">');
+        arr.push(item.buildingNum);
+        arr.push('</span> 个楼盘 </div></div></div>');
+      
+    });
+
+    $("#customerList").append(arr.join(''));
+
+    $(".bg-border").click(function(){
+        console.log($(this));
+        var clientId = $(this).attr('data-id');
+        var bid = $(this).attr('data-building-id');
+        window.location.href = 'CustomerDetail:900950.com' 
+            + BrokerWeb.search + '&clientId=' + clientId;
+ 
+    });
+}
+
+
+//过期列表
+function getExpiredList(tag){
+    var _this = BrokerWeb;
+
+    var params = {
+        brokerId: _this.brokerid,
+        pageSize: _this.pageSize,
+        pageNo: _this.current_page
+    };
+
+    var url = '';
+    if(tag == 'expired'){
+        url = _this.apiBaseUrl + '/broker/rest/broker/getExpiredClientByBrokerId';
+    }else if(tag == 'failed'){
+        url = _this.apiBaseUrl + '/broker/rest/broker/getRecommendedFailureClientByBrokerId';
+    }
+
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        data: params,
+        success: function(data){
+            console.log(data);
+            if(data.result){
+                if(data.paramMap==null){
+                    data.paramMap = {};
+                    data.paramMap.totalSize = data.objValue.length;
+                }
+                
+                var total = data.paramMap.totalSize;
+                
+
+                $("#total").html(total);
+                _this.setExpiredList(data.objValue);
+
+                var has_more_pages = total/params.pageSize > 1;
+                var is_last_page = (Math.ceil(total/params.pageSize) <= _this.current_page); 
+                console.log('has_more_pages',total,params.pageSize,has_more_pages,is_last_page);
+              
+                if(has_more_pages && !is_last_page){
+                    $('#next').show();
+                }else{
+                    $('#next').hide();
+                }
+                
+                
+
+            }else{
+                alert('获取信息失败');
+            }
+
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
 }
 
 //设置用户列表信息
@@ -82,12 +186,9 @@ function setCustomerList(list){
         arr.push('<img src="../img/account_ico_');
         arr.push(item.gender!='null' && item.gender ? 'male' : 'female');
         arr.push('.png" class="img-line-sm ml5" /><div class="pull-right text-green">');
-        if (item.phone) {
-            var reversePhone = item.phone.split("").reverse().join("");//翻转
-            var reversePhoneWithSpace = reversePhone.replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,'');//每4个字符加一空格
-            arr.push(reversePhoneWithSpace.split("").reverse().join(""));//转回来
-        }
-
+            
+        arr.push( item.phone ? BrokerWeb.phoneAddSpace(item.phone) : '' );
+        
         arr.push('</div></div><hr/><div class="row " id="done"><div class="col-xs-12 "> 推荐购买：<span class="text-green">');
         arr.push(item.buildingNum);
         arr.push('</span> 个楼盘 </div></div></div>');
@@ -99,7 +200,7 @@ function setCustomerList(list){
     $(".bg-border").click(function(){
         console.log($(this));
         var clientId = $(this).attr('data-id');
-        window.location.href = 'CustomerDetail:900950.com?customer_info.html' + BrokerWeb.search + '&clientId=' + clientId;
+        window.location.href = 'CustomerDetail:900950.com' + BrokerWeb.search + '&cid=' + clientId;
     });
 }
 
@@ -109,7 +210,7 @@ function getCustomerList(param){
 
     var params = $.extend({
         brokerId: _this.brokerid,
-        pageSize: 10
+        pageSize: _this.pageSize
     },param);
 
 
@@ -121,11 +222,11 @@ function getCustomerList(param){
         success: function(data){
             console.log(data);
             if(data.result){
-                var total = data.objValue.totalSize;
+                var total = data.paramMap.totalSize;
                 
 
-                $("#total").html(data.objValue.totalSize);
-                _this.setCustomerList(data.objValue.resultList);
+                $("#total").html(total);
+                _this.setCustomerList(data.objValue);
 
                 var has_more_pages = total/params.pageSize > 1;
                 var is_last_page = (Math.ceil(total/params.pageSize) <= _this.current_page); 
@@ -159,10 +260,13 @@ function main(){
         window.location.href = 'ShouldLogin:900950.com';
     }
 
+    //每页个数
+    _this.pageSize = 10;
+
     _this.tags = {
         isVip: { isVip: 0 },
-        isSignup: { isSignup: 0 },
-        isVisited: { isVisited: 0 },
+        isSignup: { state: '100' },
+        isVisited: { state: '60,70' },
         rSuccess: { state: '20,40,50' },
         rSure: { state: '10,30'}
     };
@@ -186,6 +290,8 @@ function main(){
 
 $.extend(BrokerWeb, {
     getCustomerList: getCustomerList,
+    getExpiredList: getExpiredList,
+    setExpiredList: setExpiredList,
     setCustomerList: setCustomerList,
     changeTab: changeTab
 });
