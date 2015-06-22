@@ -66,6 +66,60 @@ function bindScroll(){
     $("#container").onepage_scroll({
         direction: 'horizontal'
     });
+
+    // var arr = [];
+    // $("#container .section").each(function(){
+    //     arr.push( $(this).height() );
+    // });
+    // console.log('arr', arr, Math.max.apply(Math, arr));
+
+    // $("#container").height( Math.max.apply(Math, arr) );
+}
+
+function toggleCollect(){
+    var _this = BrokerWeb;
+    var data = {
+        brokerId: _this.brokerid,
+        relationId: _this.params.clientId
+    };
+    
+    if($(this).hasClass('on')){
+        console.log('class on');
+        $.ajax({
+            url: _this.apiBaseUrl + '/broker/rest/collect/delCollect',
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function(data){
+                if(data.result){
+                    $(".important").removeClass('on');
+                }
+                alert(data.value);
+            },
+            error: function(){
+                //提交出错
+            }
+
+        });
+    }else{
+        console.log('class no on');
+        $.ajax({
+            url: _this.apiBaseUrl + '/broker/rest/collect/collect/1',
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function(data){
+                if(data.result){
+                    $(".important").addClass('on');
+                }
+                alert(data.value);
+            },
+            error: function(){
+                //提交出错
+            }
+
+        });
+    }
 }
 
 function setCustomerInfoItem(item){
@@ -84,7 +138,7 @@ function setCustomerInfoItem(item){
                         .attr('src','../img/account_ico_' + (client.gender!='null' && client.gender ? 'male' : 'female') + '.png')
                 ).append(
                     $('<span class="text-green" id="phone"></span>')//客户电话
-                        .html(client.phone)
+                        .html(_this.phoneAddSpace(client.phone) )
                 )
             ).append(
                 $('<div class="text-666 lh-mid mt5" ></div>').append(
@@ -101,7 +155,7 @@ function setCustomerInfoItem(item){
                             item.protectTime ? _this.getLeftTime(item.protectTime) : ''
                         )
                     ).append(
-                        // !item.protectTime ? '' :
+                        parseInt(item.clientStatus)>0 ? '' :
                         $('<span class="label label-green ml5 re-push">重新推荐</span>').click(function(){
                             BrokerWeb.rePush(item);
                         })
@@ -117,8 +171,9 @@ function setCustomerInfoItem(item){
                 )
             )
         ).append(
-            !item.isLocked ? '' : $('<div class="customer-right"></div>').append(
-                $('<div class="important-on fs11">重要客户</div>')
+            $('<div class="customer-right"></div>').append(
+                $('<div class="important">重要客户</div>')
+                    .addClass(BrokerWeb.isCollect ? 'on' : '')
             )
         )
     );
@@ -138,9 +193,9 @@ function setCustomerInfoItem(item){
                 historys.length>1 ? $('<div class="line"></div>') : ''
             ).append(
                 $('<div class="row"></div>').append(
-                    $('<div class="col-xs-2 "></div>')
+                    $('<div class="col-xs-2 pr0"></div>')
                 ).append(
-                    $('<div class="col-xs-10"></div>').append(
+                    $('<div class="col-xs-10 pl0"></div>').append(
                         $('<div class="stat-wraper"></div>').append(
                             $('<span class="text-mid" id="status">')
                                 .html(_this.clientStatus[history.clientStatus])
@@ -158,6 +213,7 @@ function setCustomerInfoItem(item){
         );
     });
 
+    top.find('.important').click(BrokerWeb.toggleCollect)
 
     return $("<section></section>").append(top).append(content);
 }
@@ -171,11 +227,8 @@ function setCustomerInfoList(){
     $.each(_this.customer.clientBuildingRelations, function(i, item){
         console.log(i,'i');
         
-
-        
            $('#container').append(_this.setCustomerInfoItem(item)); 
        
-    
     });
 
     _this.bindScroll();
@@ -183,7 +236,41 @@ function setCustomerInfoList(){
 }
 
 function getLeftTime(date){
-    return date;
+    var return_str = '';
+
+    var old_date = new Date(date).getTime();
+    var now = new Date().getTime();
+
+    var time_cut = old_date - now;
+    
+
+    if( time_cut > 0 ){
+        time_cut = Math.floor( time_cut/1000 );
+        if(time_cut > 60*60*24*365){
+            return_str += Math.floor( time_cut/(60*60*24*365) ) + '年';
+            time_cut = time_cut % (60*60*24*365);
+        }
+        if(time_cut > 60*60*24*30){
+            return_str += Math.floor( time_cut/(60*60*24*30) ) + '月';
+            time_cut = time_cut % (60*60*24*30);
+        }
+        if(time_cut > 60*60*24){
+            return_str += Math.floor( time_cut/(60*60*24) ) + '天';
+            time_cut = time_cut % (60*60*24);
+        }
+        if(time_cut > 60*60){
+            return_str += Math.floor( time_cut/(60*60) ) + '小时';
+            time_cut = time_cut % (60*60);
+        }
+        if(time_cut > 60){
+            return_str += Math.floor( time_cut/60 ) + '分';
+            time_cut = time_cut % 60;
+        }
+    }else{
+        return_str = '已过期';
+    }
+
+    return return_str;
 }
 
 //获取经纪人信息
@@ -196,7 +283,7 @@ function getCustomerInfo(){
         data: {
             brokerId: _this.brokerid,
             // clientId: 'd8697b36d83846bb9116128dcbe009eb',//TODO: TOTEST
-            clientId: _this.params.cid,
+            clientId: _this.params.clientId,
             state: _this.params.state
         },
         success: function(data){
@@ -208,8 +295,33 @@ function getCustomerInfo(){
 
 
             }else{
-                alert('获取信息失败');
+                alert(data.value);
             }
+
+        },
+        error: function(){
+            //提交出错
+        }
+
+    });
+}
+
+//获取是否收藏
+function getCollectionInfo(){
+    var _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/collect/isCollect',
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            brokerId: _this.brokerid,
+            relationId: _this.params.clientId
+        },
+        success: function(data){
+            _this.isCollect = data.result;
+
+            //获取信息
+            _this.getCustomerInfo();
 
         },
         error: function(){
@@ -241,10 +353,9 @@ function main(){
     }
 
 
-    //获取信息
-    _this.getCustomerInfo();
     
-
+    
+    _this.getCollectionInfo();
 }
 
 $.extend(BrokerWeb, {
@@ -253,6 +364,8 @@ $.extend(BrokerWeb, {
     setCustomerInfoItem: setCustomerInfoItem,
     bindScroll: bindScroll,
     getLeftTime: getLeftTime,
+    getCollectionInfo: getCollectionInfo,
+    toggleCollect: toggleCollect,
     rePush: rePush
 });
 

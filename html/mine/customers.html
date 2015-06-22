@@ -200,7 +200,9 @@ function setCustomerList(list){
     $(".bg-border").click(function(){
         console.log($(this));
         var clientId = $(this).attr('data-id');
-        window.location.href = 'CustomerDetail:900950.com' + BrokerWeb.search + '&cid=' + clientId;
+        window.location.href = 'CustomerDetail:900950.com' + BrokerWeb.search + '&clientId=' + clientId;
+        // window.location.href = 'customer_info.html' + BrokerWeb.search + '&clientId=' + clientId;
+
     });
 }
 

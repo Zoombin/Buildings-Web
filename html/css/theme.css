@@ -193,13 +193,17 @@ body{background-color:#f5f5f5;}
      background-repeat: no-repeat;
      background-size:100% 100%;
  }
- .customer-right .important-on{
-    background-image: url(../img/account_ico_important_on.png);
+ .customer-right .important{
+    background-image: url(../img/account_ico_important.png);
     background-position: 5px center;
     background-repeat: no-repeat;
     background-size:auto 100%;
     line-height: 21px;
+    font-size: 11px;
  }
+  .customer-right .important.on{
+    background-image: url(../img/account_ico_important_on.png);
+}
  .customer-right .right-ok{
     background-image: url(../img/account_ico_ok.png);
     background-position: 5px center;
@@ -208,7 +212,7 @@ body{background-color:#f5f5f5;}
     line-height: 21px;
  }
  .bg-white{background-color:#fff;}
- .date{margin-top:3px;padding:0 15px 0 20px;;color:#808080;
+ .date{margin-top:3px;padding:0 5px 0 20px;;color:#808080;
      background-image: url(../img/account_list_date.png);
      background-position: 0 center;
      background-repeat: no-repeat;
@@ -265,6 +269,9 @@ body{background-color:#f5f5f5;}
     background-position: 1px 2px;
     background-size:auto 80%;
 }
+
+.onepage-wrapper{height: auto; min-height: 100%;}
+.onepage-wrapper .section{height: auto;}
 
 /* tuijian.html **/
 .tuijian{margin-top:15px;}

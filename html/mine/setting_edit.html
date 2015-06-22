@@ -194,7 +194,8 @@ function updateNickname(){
             console.log(data);
             if(data.result){
                 alert(data.value);
-                window.history.back(-1);
+                window.location.href = 'setting.html?id=' + _this.brokerid
+                    + '&login=' + _this.params.login;
             }
         },
         error: function(){
