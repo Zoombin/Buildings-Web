@@ -39,11 +39,11 @@
     <div class="row bg-space "></div>
 
     <div class="row bg-line" data-id="nickname">
-        <a href="UpdateNickName:900950.com" style="text-decoration: none">
-            <div class="col-xs-12">
+        <!-- <a href="UpdateNickName:900950.com" style="text-decoration: none" id="updateNickname"> -->
+            <div class="col-xs-12" id="updateNickname">
                 <img src="../img/my_ico_nickname.png" class="img-setting">昵称
             </div>
-        </a>
+        <!-- </a> -->
         <span class="glyphicon glyphicon-menu-right pos-right-middle2 text-gray"> </span>
     </div>
 
@@ -186,6 +186,11 @@ function updateImage(url){
     });
 }
 
+function updateNickname(){
+    console.log('UpdateNickName:900950.com' + BrokerWeb.search + '&nickname=' + $("#name").html());
+    window.location.href = 'UpdateNickName:900950.com' + BrokerWeb.search + '&nickname=' + $("#name").html();
+}
+
 function main(brokerid){
     var _this = BrokerWeb;
 
@@ -196,6 +201,8 @@ function main(brokerid){
 
     //获取信息
     _this.getBrokerInfo();
+
+    $("#updateNickname").click(_this.updateNickname);
 
     //跳转链接
     $(".goto").click(_this.goto);
@@ -213,6 +220,7 @@ $.extend(BrokerWeb, {
     goto: goto,
     getBrokerInfo: getBrokerInfo,
     logout: logout,
+    updateNickname: updateNickname,
      //修改头像,参数不确定是url还是文件
     //调用方法：Brokerweb.updateimage(url)
     updateImage: updateImage
