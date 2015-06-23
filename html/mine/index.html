@@ -218,7 +218,7 @@ function setBrokerInfo(){
 
 
     broker.photosrc ? $("#photosrc").attr('src', broker.photosrc) : '';
-    $("#name").html(broker.name ? broker.name : broker.screenName);
+    $("#name").html(broker.approveState == 2 ? broker.name : broker.screenName);
 
     var approveStates = {
         '-1': { name: '审核未通过', class: 'label-danger' },
