@@ -32,7 +32,7 @@
             <div class="fs18 lh18 ctit">
                 每日签到
             </div>
-            <span class=" cgreen">+2</span> <span class="text-gray">积分</span>
+            <span id="markScore" class="cgreen"></span> <span class="text-gray">积分</span>
         </div>
         <div class="col-xs-3 score-over" id="dayMark">
             <span class="over" id="dayMarkStatus"></span>
@@ -117,7 +117,7 @@ function getBrokerScore(){
                 console.log(data);
                 $("#total").html(data.objValue.integrals);
                 $("#today").html(data.objValue.integral);
-                //data.objValue.isMark = 0;
+                // data.objValue.isMark = 0;
                 if(parseInt(data.objValue.isMark)){
                     $("#login").addClass('active');
                     $("#dayMarkStatus").html('已完成');
@@ -131,7 +131,40 @@ function getBrokerScore(){
             //提交出错
         }
     });
+}
 
+function getIntegralCfg(){
+    _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/cubp/getIntegralCfg/',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            console.log(data);
+            if(data.result){
+                for(var score in data.objValue){
+                    if (data.objValue[score].keys == 6) {//每日签到
+                        $("#markScore").html('+' + data.objValue[score].value);
+                        break;
+                    }
+                }
+                //$("#markScore").html('+' + data.objValue[]);
+                //$("#total").html(data.objValue.integrals);
+                //$("#today").html(data.objValue.integral);
+                // data.objValue.isMark = 0;
+                //if(parseInt(data.objValue.isMark)){
+                //    $("#login").addClass('active');
+                //    $("#dayMarkStatus").html('已完成');
+                //}else{
+                //    $("#login").removeClass('active');
+                //    $("#dayMarkStatus").html('签到');
+                //}
+            }
+        },
+        error: function(){
+            //提交出错
+        }
+    });   
 }
 
 //主函数入口
@@ -147,10 +180,14 @@ function main(brokerid){
 
     //经纪人积分信息
     _this.getBrokerScore();
+
+    //签到加多少分是动态的
+    _this.getIntegralCfg();
 }
 
 $.extend(BrokerWeb, {
     getBrokerScore: getBrokerScore,
+    getIntegralCfg: getIntegralCfg,
     dayMark: dayMark
 });
 
