@@ -242,10 +242,12 @@ function clientPhoneBlur(){
     if(clientPhone==''){
         hasError = true;
         $("#clientPhone_error").html('手机号码为必填项').show();
-    }else if( !(/^1[3|5|6|8|9][0-9]\d{4,8}$/.test(clientPhone)) ){
-        hasError = true;
-        $("#clientPhone_error").html('请输入有效的手机号码').show();
-    }else{
+    }
+    // else if( !(/^1[3|5|6|8|9][0-9]\d{4,8}$/.test(clientPhone)) ){
+    //     hasError = true;
+    //     $("#clientPhone_error").html('请输入有效的手机号码').show();
+    // }
+    else{
         hasError = false;
         $("#clientPhone_error").html('').hide();
     }
