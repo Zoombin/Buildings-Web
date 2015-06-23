@@ -167,22 +167,27 @@ function setCustomerInfoItem(item){
             )
         )
     ).append(
-        $('<div class="col-xs-4 pr0 pt20 pb20"></div>').append(
+        $('<div class="col-xs-4 pr0 pl0 pt20 pb20"></div>').append(
             !item.isSigned ? '' : $('<div class="customer-right mb10"></div>').append(
-                $('<div class="right-ok fs11"></div>').html(
-                    _this.clientStatus[item.clientStatus]
+                $('<div class="right-ok fs11"></div>').append(
+                    $('<div>').html(
+                        _this.clientStatus[item.clientStatus]
+                    )
                 )
             )
         ).append(
             $('<div class="customer-right"></div>').append(
-                $('<div class="important">重要客户</div>')
+                $('<div class="important"><div>重要客户</div></div>')
                     .addClass(BrokerWeb.isCollect ? 'on' : '')
             )
         )
     );
 
     var historys = item.historys;
-    
+    historys = historys.concat(item.historys);
+    historys = historys.concat(item.historys);
+    historys = historys.concat(item.historys);
+    historys = historys.concat(item.historys);
 
     var content = $('<ul class="cust-stat list-unstyled"></ul>');
 
@@ -196,15 +201,15 @@ function setCustomerInfoItem(item){
                 historys.length>1 ? $('<div class="line"></div>') : ''
             ).append(
                 $('<div class="row"></div>').append(
-                    $('<div class="col-xs-1 pr0"></div>')
+                    $('<div class="col-xs-2"></div>')
                 ).append(
-                    $('<div class="col-xs-11 "></div>').append(
+                    $('<div class="col-xs-10 pl0"></div>').append(
                         $('<div class="stat-wraper"></div>').append(
-                            $('<span class="text-mid" id="status">')
+                            $('<span class="fs16 bold lh24" id="status">')
                                 .html(_this.clientStatus[history.clientStatus])
                         ).append(
                             $('<span class="date pull-right" id="time">')
-                                .html(history.createTime)
+                                .html(history.createTime.split(' ')[0])
                         )
                     ).append(
                         $('<div class="text-gray2 p5" id="remark">备注：</div>').append(

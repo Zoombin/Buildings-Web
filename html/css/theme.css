@@ -107,7 +107,7 @@ body{background-color:#f5f5f5;}
 }
 
 .score_num{
-    font-size: 20px;
+    font-size: 18px;
     line-height: 24px;
     padding: 20px;
     background-color: #fff;
@@ -187,33 +187,36 @@ body{background-color:#f5f5f5;}
  .lh-mid{line-height:16px;}
  .customer-right{
      padding:5px;
-     text-align:right;
+     text-align:center;
      color:#fff;
      background-image: url(../img/account_right_bg.png);
      background-repeat: no-repeat;
-     background-size:100% 100%;
+     background-size:auto 100%;
  }
  .customer-right .important{
     background-image: url(../img/account_ico_important.png);
-    background-position: 5px center;
+    background-position: 2px center;
     background-repeat: no-repeat;
     background-size:auto 100%;
     line-height: 21px;
     font-size: 11px;
+    padding-left: 26px;
  }
   .customer-right .important.on{
     background-image: url(../img/account_ico_important_on.png);
 }
  .customer-right .right-ok{
     background-image: url(../img/account_ico_ok.png);
-    background-position: 5px center;
+    background-position: 2px center;
     background-repeat: no-repeat;
     background-size:auto 100%;
     line-height: 21px;
+    padding-left: 25px;
+    white-space: nowrap;
  }
  .bg-white{background-color:#fff;}
 .date{margin-top:3px;
-    padding:0 5px 0 15px;
+    padding:0 15px 0 20px;
     color:#808080;
     background-image: url(../img/account_list_date.png);
     background-position: 0 center;
@@ -222,7 +225,7 @@ body{background-color:#f5f5f5;}
 }
 
 .stat-wraper{
-    padding:10px 0;
+    padding:15px 0;
     border-bottom:1px solid #ececec;
 }
 .cust-stat{
@@ -243,7 +246,7 @@ body{background-color:#f5f5f5;}
 .cust-stat .line{
     z-index:1;
     position:absolute;
-    left:25px;
+    left:20px;
     width:1px;
     background-color:#ddd;
     height:120%;
@@ -255,7 +258,7 @@ body{background-color:#f5f5f5;}
 .cust-stat .point{
     z-index:2;
     position:absolute;
-    left:6px;
+    left:10px;
     width:20px;height: 20px;
     top:20%;
     padding: 0;
@@ -268,13 +271,14 @@ body{background-color:#f5f5f5;}
 .cust-stat .point.active{
     background-image: url(../img/account_timeline_greenpoint.png);
     padding: 2px 0;
-    margin: -2px 0 0;
+    margin: 0px 0 0;
     background-position: 1px 2px;
     background-size:auto 80%;
+    left: 11px;
 }
 
 .onepage-wrapper{height: auto; min-height: 100%;}
-.onepage-wrapper .section{height: auto;}
+.onepage-wrapper .section{height: auto;min-height: 100%;}
 
 /* tuijian.html **/
 .tuijian{margin-top:15px;}
@@ -428,6 +432,7 @@ body{background-color:#f5f5f5;}
 .relative{position: relative;}
 .fs24{font-size:24px;} .fs20{font-size:20px;}.fs18{font-size:18px;}.fs16{font-size:16px;}.fs12{font-size:12px;}.fs14{font-size:14px;}.fs11{font-size:11px}
 .lh24{line-height:24px;} .lh28{line-height:28px;}.lh18{line-height:18px;}.lh16{line-height:16px;}.lh12{line-height:12px;}.lh14{line-height:14px;}
+.bold{font-weight: bold;}
 
 .noborder{border:0 none;}
 .border-left{border-left: 1px solid #ccc;}
