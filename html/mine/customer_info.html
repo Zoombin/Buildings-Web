@@ -93,7 +93,9 @@ function toggleCollect(){
                 if(data.result){
                     $(".important").removeClass('on');
                 }
-                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
+                // alert('取消重要客户');
+                //window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
+                window.location.href = 'ShowDialog:900950.com?msg=取消重要客户';
             },
             error: function(){
                 //提交出错
@@ -110,7 +112,9 @@ function toggleCollect(){
                 if(data.result){
                     $(".important").addClass('on');
                 }
-                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
+                //alert('已标为重要客户');
+                //window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
+                window.location.href = 'ShowDialog:900950.com?msg=已标为重要客户';
             },
             error: function(){
                 //提交出错
@@ -149,7 +153,8 @@ function setCustomerInfoItem(item){
                 ).append(
                     $('<div>有效期：</div>').append(
                         $('<span></span>').html(
-                            item.protectTime ? _this.getLeftTime(item.protectTime) : ''
+                            item.protectTime
+                            //item.protectTime ? _this.getLeftTime(item.protectTime) : ''
                         )
                     ).append(
                         parseInt(item.clientStatus)>0 ? '' :
