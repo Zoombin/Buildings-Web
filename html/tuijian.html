@@ -303,6 +303,7 @@ function submitForm(){
         data: data,
         dataType: 'json',
         success: function(data){
+            console.log(data);
             if(data.result){
                 //清空数据
                 $("#clientName").val('');
@@ -312,6 +313,8 @@ function submitForm(){
                 // $("#recommendCity").html('');
                 $("#recommendDate").val('');
                 window.location.href = 'ShowDialog:900950.com?msg=提交成功';
+            } else {
+                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             }
         },
         error: function(){
