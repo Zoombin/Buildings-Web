@@ -123,22 +123,17 @@ function getBrokerInfo(){
         dataType: 'json',
         success: function(data){
             console.log(data);
-            
             if(data.result){
                 _this.broker = data.objValue;
-
                 $("#photosrc").attr('src', _this.broker.photosrc);
                 $("#name").html(_this.broker.screenName);
-
             }else{
-                alert('获取信息失败');
+                window.location.href = 'ShowDialog:900950.com?msg=获取信息失败';
             }
-
         },
         error: function(){
             //提交出错
         }
-
     });
 }
 
@@ -158,12 +153,11 @@ function logout(){
             data: data,
             dataType: 'json',
             success: function(){
-                alert('成功登出');
+                window.location.href = 'ShowDialog:900950.com?msg=成功登出';
             },
             error: function(){
-                alert('请求错误');
+                window.location.href = 'ShowDialog:900950.com?msg=请求错误';  
             }
-
         });
     }
 

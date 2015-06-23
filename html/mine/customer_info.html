@@ -50,15 +50,14 @@ function rePush(item){
         dataType: 'json',
         success: function(data){
             if(data.result){
-                alert(data.value);
+                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             }else{
-                alert(data.value);
+                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             }
         },
         error: function(){
-            //提交出错
+            //window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
         }
-
     });
 }
 
@@ -94,12 +93,11 @@ function toggleCollect(){
                 if(data.result){
                     $(".important").removeClass('on');
                 }
-                alert(data.value);
+                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             },
             error: function(){
                 //提交出错
             }
-
         });
     }else{
         console.log('class no on');
@@ -112,12 +110,11 @@ function toggleCollect(){
                 if(data.result){
                     $(".important").addClass('on');
                 }
-                alert(data.value);
+                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             },
             error: function(){
                 //提交出错
             }
-
         });
     }
 }
@@ -290,14 +287,10 @@ function getCustomerInfo(){
             console.log(data);
             if(data.result){
                 _this.customer = data.objValue;
-                
                 _this.setCustomerInfoList();
-
-
             }else{
-                alert(data.value);
+                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             }
-
         },
         error: function(){
             //提交出错

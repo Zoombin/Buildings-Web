@@ -137,20 +137,16 @@ function updatePassword(){
         },
         dataType: 'json',
         success: function(data){
-            
             if(data.result){
-                alert(data.value);
+                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             }else{
-                alert(data.value)
+                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             }
-
         },
         error: function(){
             //提交出错
         }
-
     });
-
 }
 
 function setNickname(nickname){

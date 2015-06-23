@@ -132,14 +132,12 @@ function getBrokerScoreList(){
                 _this.scoreList = data.objValue[0];
                 _this.setScoreList();
             }else{
-                alert('获取信息失败');
+                window.location.href = 'ShowDialog:900950.com?msg=获取信息失败';
             }
-
         },
         error: function(){
             //提交出错
         }
-
     });
 }
 

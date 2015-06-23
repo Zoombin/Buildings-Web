@@ -33,9 +33,9 @@
             <a href="XCFCCity:900950.com" class="form-control want-city" id="recommendCity">
             必 填 项
             </a>
-            <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
-
+            <a href="XCFCCity:900950.com" class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></a>
         </div>
+        
 
         <div class="input-group border-green" >
             <span class="input-group-addon text-green text-left"><img src="img/icon_building.png" class="img-input"/>意向楼盘 |</span>
@@ -51,11 +51,11 @@
                     <div class="col-xs-6 text-right" id="submitButton"><div class="pr10 text-green">确定</div></div>
                 </div>
                 <div id="area_list" class="leftSelectionDiv" ></div>
-                <div  id="building_list" class="rightSelectionDiv" ></div>
+                <div id="building_list" class="rightSelectionDiv" ></div>
             </div>
             
 
-            <span class="input-group-addon text-right"><img src="img/icon_arrow.png" class="img-input2"/></span>
+            <span id="recommendedBuildingArrow" class="input-group-addon text-right"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
         <div id="recommendedBuilding_error" class="text-danger text-center " style="display:none;"></div>
 
@@ -304,7 +304,6 @@ function submitForm(){
         dataType: 'json',
         success: function(data){
             if(data.result){
-                alert('提交成功');
                 //清空数据
                 $("#clientName").val('');
                 $("#clientPhone").val('');
@@ -312,12 +311,12 @@ function submitForm(){
                 $("#recommendMark").val('');
                 // $("#recommendCity").html('');
                 $("#recommendDate").val('');
+                window.location.href = 'ShowDialog:900950.com?msg=提交成功';
             }
         },
         error: function(){
-            //提交出错
+            // window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
         }
-
     });
 }
 
@@ -400,6 +399,10 @@ function main(){
 
     //选择楼盘事件
     $("#recommendedBuilding").click(function(){
+        _this.scrollSelection.loaded();
+    });
+
+    $("#recommendedBuildingArrow").click(function(){
         _this.scrollSelection.loaded();
     });
 
