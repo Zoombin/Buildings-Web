@@ -150,7 +150,7 @@ function updatePassword(){
 }
 
 function setNickname(nickname){
-    $("#nickname").val(nickname);
+    $("#nickname").val( decodeURIComponent(nickname) );
 }
 
 //验证昵称
