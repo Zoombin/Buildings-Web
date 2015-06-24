@@ -35,7 +35,7 @@
             <span id="markScore" class="cgreen"></span> <span class="text-gray">积分</span>
         </div>
         <div class="col-xs-3 score-over" id="dayMark">
-            <span class="over" id="dayMarkStatus"></span>
+            <span class="over themecolor" id="dayMarkStatus"></span>
         </div>
     </div>
 
@@ -118,10 +118,11 @@ function getBrokerScore(){
                 console.log(data);
                 $("#total").html(data.objValue.integrals);
                 $("#today").html(data.objValue.integral);
-                // data.objValue.isMark = 0;
+                //data.objValue.isMark = 0;
                 if(parseInt(data.objValue.isMark)){
                     $("#login").addClass('active');
                     $("#dayMarkStatus").html('已完成');
+                    $("#dayMarkStatus").removeClass('themecolor');
                 }else{
                     $("#login").removeClass('active');
                     $("#dayMarkStatus").html('签到');
