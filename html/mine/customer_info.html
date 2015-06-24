@@ -25,7 +25,7 @@
 </html>
 
 <script src="../js/jquery.js"></script>
-<script src="../js/jquery.mobile-1.3.0.min.js"></script>
+<!-- <script src="../js/jquery.mobile-1.3.0.min.js"></script> -->
 <script src="../js/jquery.onepage-scroll.js"></script>
 <script src="../js/script.js"></script>
 
@@ -281,7 +281,7 @@ function getLeftTime(date){
 //获取经纪人信息
 function getCustomerInfo(){
     var _this = BrokerWeb;
-    _this.showMask('loading', '加载中...');
+    // _this.showMask('loading', '加载中...');
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerClientinfo',
         type: 'GET',
@@ -293,7 +293,7 @@ function getCustomerInfo(){
             state: _this.params.state
         },
         success: function(data){
-            _this.hideMask('', '');
+            // _this.hideMask('', '');
             console.log(data);
             if(data.result){
                 _this.customer = data.objValue;
@@ -303,7 +303,7 @@ function getCustomerInfo(){
             }
         },
         error: function(){
-            _this.hideMask('', '');
+            // _this.hideMask('', '');
             //提交出错
         }
 
