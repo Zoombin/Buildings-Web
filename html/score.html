@@ -98,6 +98,7 @@ function dayMark() {
         dataType: 'json',
         success: function(data){
             _this.getBrokerScore();
+            window.location.href = 'ShowDialog:900950.com?msg=签到成功';
         },
         error: function(){
             //提交出错
