@@ -177,7 +177,7 @@ var scrollSelection = {
         var str = '<li></li><li></li><li></li>';
         BrokerWeb.y_index_b = 0;
 
-        if( typeof area_buildings[aid] !== 'undefined' && area_buildings[aid]con){
+        if( typeof area_buildings[aid] !== 'undefined' && area_buildings[aid].length > 0){
             $.each(area_buildings[aid], function(i, bd){
                 var s = '';
             if(typeof _this.params.bid !== 'undefined' && _this.params.bid == bd.id){
@@ -329,6 +329,24 @@ function submitForm(){
 }
 
 
+function getCitys(){
+    _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/sys/getCitys',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            if (data.result) {
+                _this.citys = data.objValue;
+                console.log(_this.citys);
+            }
+        },
+        error: function(){
+            //提交出错
+        }
+    });
+}
+
 //设置城市名称和城市id，通过id请求楼盘信息
 function setCity(cityName, cityID){
     $("#recommendCity").removeClass('color-555').addClass('color-555').html(cityName);
@@ -420,11 +438,12 @@ function main(){
         }
     });
 
-
     //参数取到城市信息
     //cid,cname
     if(typeof _this.params.cid !== 'undefined' && typeof _this.params.cname !== 'undefined'){
         _this.setCity(decodeURIComponent(_this.params.cname),_this.params.cid);
+    } else {
+        _this.getCitys();
     }
 
     //参数取到楼盘信息
@@ -457,7 +476,8 @@ $.extend(BrokerWeb, {
     setFromContact: setFromContact,
     setCity: setCity,
     setArea: setArea,
-    scrollSelection: scrollSelection
+    scrollSelection: scrollSelection,
+    getCitys: getCitys
 });
 
 //主函数入口
