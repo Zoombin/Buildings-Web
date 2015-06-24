@@ -228,7 +228,7 @@ function setBrokerInfo(){
     };
 
     if (broker.approveState != 1 && broker.approveState != 2) {//如果认证失败和未认证则加入跳转链接
-        $("#approveState").addClass(approveStates[broker.approveState]['class']).html('<a href="RealName:900950.com">' + approveStates[broker.approveState]['name'] + '</a>');
+        $("#approveState").addClass(approveStates[broker.approveState]['class']).html('<a style="color:white" href="RealName:900950.com">' + approveStates[broker.approveState]['name'] + '</a>');
     } else {
         $("#approveState").addClass(approveStates[broker.approveState]['class']).html(approveStates[broker.approveState]['name']);
     }
