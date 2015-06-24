@@ -226,10 +226,12 @@ function setBrokerInfo(){
         1: { name: '待审核', class: 'label-warning' },
         2: { name: '已认证', class: 'label-success' }
     };
- 
-    //认证状态
-    $("#approveState").addClass(approveStates[broker.approveState]['class'])
-        .html(approveStates[broker.approveState]['name']);
+
+    if (broker.approveState != 1 && broker.approveState != 2) {//如果认证失败和未认证则加入跳转链接
+        $("#approveState").addClass(approveStates[broker.approveState]['class']).html('<a href="RealName:900950.com">' + approveStates[broker.approveState]['name'] + '</a>');
+    } else {
+        $("#approveState").addClass(approveStates[broker.approveState]['class']).html(approveStates[broker.approveState]['name']);
+    }
 
     //级别
     //$("#level").html( (!broker.level || broker.level=='' || broker.level=='暂无等级') ? '普通' : broker.level )
