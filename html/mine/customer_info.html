@@ -323,7 +323,6 @@ function getCollectionInfo(){
         },
         success: function(data){
             _this.isCollect = data.result;
-            _this.getCustomerInfo();
         },
         error: function(){
             //提交出错
@@ -357,6 +356,7 @@ function main(){
     }
     
     _this.getCollectionInfo();
+    _this.getCustomerInfo();
 }
 
 $.extend(BrokerWeb, {
