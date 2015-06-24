@@ -107,27 +107,27 @@
     <div class="row bg-money">
         <div class="col-xs-4 border-right p0 mymoney" data-id="notgot">
             <div class="thumbnail ">
-                <a href="Commission_waitFor:900950.com"><img src="../img/ico_money_1.png" alt=""></a>
+                <a href="Commission_waitFor:900950.com"><img src="../img/ico_money_1.png" alt="" style="height:25px"></a>
                 <div class="caption text-center">
-                    <div>待提佣(元)</div>
+                    <div class="fs12">待提佣(元)</div>
                     <div class="text-red" id="money_notgot"></div>
                 </div>
             </div>
         </div>
         <div class="col-xs-4 border-right p0 mymoney" data-id="getting">
             <div class="thumbnail ">
-                <a href="Commission_ing:900950.com"><img src="../img/ico_money_2.png" alt=""></a>
+                <a href="Commission_ing:900950.com"><img src="../img/ico_money_2.png" alt="" style="height:25px"></a>
                 <div class="caption text-center">
-                    <div>发放中(元)</div>
+                    <div class="fs12">发放中(元)</div>
                     <div class="text-yellow" id="money_getting"></div>
                 </div>
             </div>
         </div>
         <div class="col-xs-4 p0 mymoney" data-id="got">
             <div class="thumbnail ">
-                <a href="Commission_already:900950.com"><img src="../img/ico_money_3.png" alt=""></a>
+                <a href="Commission_already:900950.com"><img src="../img/ico_money_3.png" alt="" style="height:25px"></a>
                 <div class="caption text-center">
-                    <div>已提佣(元)</div>
+                    <div class="fs12">已提佣(元)</div>
                     <div class="text-green" id="money_got"></div>
                 </div>
             </div>
@@ -135,7 +135,7 @@
     </div>
 
     <div class="text-center text-gray pt20 pb20 text-nowrap">
-        <div class="center-line bg-body">
+        <div class="center-line">
             <span>友情提醒：只有通过实名认证才能提取佣金</span>
         </div>
     </div> 
@@ -216,7 +216,8 @@ function setBrokerInfo(){
 
     var broker = _this.broker;
 
-
+    // broker.name = '高圆圆吼吼吼哈';
+    // broker.screenName = broker.name;
     broker.photosrc ? $("#photosrc").attr('src', broker.photosrc) : '';
     $("#name").html(broker.approveState == 2 ? broker.name : broker.screenName);
 
