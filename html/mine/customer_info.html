@@ -9,6 +9,7 @@
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/onepage-scroll.css" rel="stylesheet">
     <link href="../css/theme.css" rel="stylesheet">
+    <link href="../css/jquery.mobile-1.3.0.min.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -27,9 +28,10 @@
 <script src="../js/jquery.js"></script>
 <script src="../js/jquery.onepage-scroll.js" =""></script>
 <script src="../js/script.js"></script>
+<script src="../js/jquery.mobile-1.3.0.min.js"></script>
 
 <script>
-$(document).ready(function(){
+$(document).ready(function(){    
 
 function rePush(item){
     var _this = BrokerWeb;
@@ -280,6 +282,7 @@ function getLeftTime(date){
 //获取经纪人信息
 function getCustomerInfo(){
     var _this = BrokerWeb;
+    _this.showMask('loading', '加载中...');
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerClientinfo',
         type: 'GET',
@@ -291,6 +294,7 @@ function getCustomerInfo(){
             state: _this.params.state
         },
         success: function(data){
+            _this.hideMask('', '');
             console.log(data);
             if(data.result){
                 _this.customer = data.objValue;
@@ -300,6 +304,7 @@ function getCustomerInfo(){
             }
         },
         error: function(){
+            _this.hideMask('', '');
             //提交出错
         }
 
@@ -319,10 +324,7 @@ function getCollectionInfo(){
         },
         success: function(data){
             _this.isCollect = data.result;
-
-            //获取信息
             _this.getCustomerInfo();
-
         },
         error: function(){
             //提交出错
@@ -353,7 +355,6 @@ function main(){
     }
     
     _this.getCollectionInfo();
-    window.location.href = 'Loading:900950.com';
 }
 
 $.extend(BrokerWeb, {
