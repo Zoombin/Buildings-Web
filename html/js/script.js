@@ -112,6 +112,16 @@ var BrokerWeb = BrokerWeb || {
         m = m < 10 ? '0' + m : m;
         d = d < 10 ? '0' + d : d;
         return m + '/' + d;
-    }
+    },
+
+    // showMask: function(theme, msg){
+    //     $.mobile.showPageLoadingMsg(theme,msg);
+    //     $(".mask_div").css("display", "block");
+    // },
+
+    // hideMask: function(theme, msg){
+    //     $.mobile.hidePageLoadingMsg(theme,msg);
+    //     $(".mask_div").css("display", "none");
+    // }
 };
 
