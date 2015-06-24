@@ -218,8 +218,6 @@ function setBrokerInfo(){
 
 
     broker.photosrc ? $("#photosrc").attr('src', broker.photosrc) : '';
-    broker.name = '账号够好够红啊红搞破坏';
-    broker.screenName = broker.name;
     $("#name").html(broker.approveState == 2 ? broker.name : broker.screenName);
 
     var approveStates = {
