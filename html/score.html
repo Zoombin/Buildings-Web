@@ -123,6 +123,7 @@ function getBrokerScore(){
                     $("#login").addClass('active');
                     $("#dayMarkStatus").html('已完成');
                     $("#dayMarkStatus").removeClass('themecolor');
+                    $("#dayMark").unbind('click');
                 }else{
                     $("#login").removeClass('active');
                     $("#dayMarkStatus").html('签到');
