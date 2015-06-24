@@ -138,7 +138,7 @@ function updatePassword(){
         dataType: 'json',
         success: function(data){
             if(data.result){
-                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
+                window.location.href = 'UpdateSuccess:900950.com';
             }else{
                 window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             }
@@ -189,9 +189,10 @@ function updateNickname(){
         success: function(data){
             console.log(data);
             if(data.result){
-                alert(data.value);
-                window.location.href = 'setting.html?id=' + _this.brokerid
-                    + '&login=' + _this.params.login;
+                window.location.href = 'UpdateSuccess:900950.com';
+                // window.location.href = 'setting.html?id=' + _this.brokerid + '&login=' + _this.params.login;
+            } else {
+                window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             }
         },
         error: function(){
