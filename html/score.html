@@ -29,10 +29,10 @@
     <!-- 内容部分// -->
     <div class="row earn-score score-login " id="login">
         <div class="col-xs-9 border-right">
-            <div class="fs18 lh18 ctit">
+            <div class="fs18 lh18" style="color:black">
                 每日签到
             </div>
-            <span id="markScore" class="cgreen"></span> <span class="text-gray">积分</span>
+            <span id="markScore" class="themecolor"></span> <span class="text-gray">积分</span>
         </div>
         <div class="col-xs-3 score-over" id="dayMark">
             <span class="over themecolor" id="dayMarkStatus"></span>
@@ -118,7 +118,7 @@ function getBrokerScore(){
                 console.log(data);
                 $("#total").html(data.objValue.integrals);
                 $("#today").html(data.objValue.integral);
-                //data.objValue.isMark = 0;
+                //data.objValue.isMark = 1;
                 if(parseInt(data.objValue.isMark)){
                     $("#login").addClass('active');
                     $("#dayMarkStatus").html('已完成');
