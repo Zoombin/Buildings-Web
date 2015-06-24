@@ -63,12 +63,12 @@ function changeTab(){
 
     var tag = _this.tag = $(this).attr('data-tag');
     
-    if( tag == 'expired' || tag == 'failed' ){
-        BrokerWeb.getExpiredList(tag);
-    }else{
-        BrokerWeb.getCustomerList(BrokerWeb.tags[tag]);
-    }
-
+    // if( tag == 'expired' || tag == 'failed' ){
+    //     BrokerWeb.getExpiredList(tag);
+    // }else{
+    //     BrokerWeb.getCustomerList(BrokerWeb.tags[tag]);
+    // }
+    BrokerWeb.getCustomerList(BrokerWeb.tags[tag]);
 }
 
 //设置用户列表信息
@@ -261,7 +261,9 @@ function main(){
         isSignup: { state: '100' },
         isVisited: { state: '60,70' },
         rSuccess: { state: '20,40,50' },
-        rSure: { state: '10,30'}
+        rSure: { state: '10,30'},
+        expired: {state: '-20,-40,-50,-60'},
+        failed: {state: '-10'}
     };
 
     _this.current_page = 1;
