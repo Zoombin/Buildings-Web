@@ -164,7 +164,7 @@
 
             <div class="mb20" id="location">
                 <img class="img-responsive" src="../img/default/location.jpg">
-                <div id="buildingName" class="location"></div>
+                <div id="address" class="location"></div>
             </div>
         </div>
 
@@ -241,7 +241,7 @@ function setBuildingInfo(){
     $("#discount").html(building.discount);
     $("#discountEndTime").html(building.discountEndTime);
 
-    $("#buildingName").html(building.name);
+    $("#address").html(building.address);
 
     //特征
     var arr = building.buildingType.split('、');
