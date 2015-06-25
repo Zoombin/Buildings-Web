@@ -65,7 +65,7 @@
             <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
 
-        <textarea  class="form-control mt15 border" rows="5" placeholder="备注" name="recommendMark" id="recommendMark"></textarea>
+        <textarea class="form-control mt15 border" rows="5" placeholder="备注" name="recommendMark" id="recommendMark"></textarea>
 
         <button class="btn btn-green w100 mt20" type="button" id="submit">立即推荐</button>
 
@@ -421,6 +421,10 @@ function main(){
     $("#recommendedBuilding").click(function(){
         _this.scrollSelection.loaded();
     });
+
+    $("#recommendMark").focus(function(){
+        location.hash = "recommendMark";
+    })
 
     $("#recommendedBuildingArrow").click(function(){
         _this.scrollSelection.loaded();
