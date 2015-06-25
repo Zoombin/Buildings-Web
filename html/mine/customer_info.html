@@ -9,7 +9,6 @@
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/onepage-scroll.css" rel="stylesheet">
     <link href="../css/theme.css" rel="stylesheet">
-    <link href="../css/jquery.mobile-1.3.0.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -25,7 +24,6 @@
 </html>
 
 <script src="../js/jquery.js"></script>
-<!-- <script src="../js/jquery.mobile-1.3.0.min.js"></script> -->
 <script src="../js/jquery.onepage-scroll.js"></script>
 <script src="../js/script.js"></script>
 
@@ -83,15 +81,18 @@ function toggleCollect(){
         brokerId: _this.brokerid,
         relationId: _this.params.clientId
     };
+
+    _this.screen.lock('处理中...');
     
     if($(this).hasClass('on')){
-        console.log('class on');
+        
         $.ajax({
             url: _this.apiBaseUrl + '/broker/rest/collect/delCollect',
             type: 'POST',
             data: data,
             dataType: 'json',
             success: function(data){
+                _this.screen.unlock();
                 if(data.result){
                     $(".important").removeClass('on');
                 }
@@ -101,6 +102,7 @@ function toggleCollect(){
             },
             error: function(){
                 //提交出错
+                _this.screen.lock();
             }
         });
     }else{
@@ -111,6 +113,7 @@ function toggleCollect(){
             data: data,
             dataType: 'json',
             success: function(data){
+                _this.screen.unlock();
                 if(data.result){
                     $(".important").addClass('on');
                 }
@@ -120,6 +123,7 @@ function toggleCollect(){
             },
             error: function(){
                 //提交出错
+                _this.screen.unlock();
             }
         });
     }
@@ -238,6 +242,7 @@ function setCustomerInfoList(){
 
     _this.bindScroll();
 
+    _this.screen.unlock();
 }
 
 function getLeftTime(date){
@@ -281,7 +286,7 @@ function getLeftTime(date){
 //获取经纪人信息
 function getCustomerInfo(){
     var _this = BrokerWeb;
-    // _this.showMask('loading', '加载中...');
+    
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerClientinfo',
         type: 'GET',
@@ -293,8 +298,8 @@ function getCustomerInfo(){
             state: _this.params.state
         },
         success: function(data){
-            // _this.hideMask('', '');
             console.log(data);
+            
             if(data.result){
                 _this.customer = data.objValue;
                 _this.setCustomerInfoList();
@@ -313,6 +318,9 @@ function getCustomerInfo(){
 //获取是否收藏
 function getCollectionInfo(){
     var _this = BrokerWeb;
+
+    _this.screen.lock();
+
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/collect/isCollect',
         type: 'GET',
@@ -323,6 +331,8 @@ function getCollectionInfo(){
         },
         success: function(data){
             _this.isCollect = data.result;
+
+            _this.getCustomerInfo();
         },
         error: function(){
             //提交出错
@@ -356,7 +366,7 @@ function main(){
     }
     
     _this.getCollectionInfo();
-    _this.getCustomerInfo();
+    
 }
 
 $.extend(BrokerWeb, {
