@@ -36,12 +36,9 @@ div {
 	top: 0;
 }
 
-#submitButton {
-		height: 20px;
-	line-height: 20px;
-}
 
-#citySelect {
+
+.citySelect {
 	position: fixed;
 	width: 100%;
 	height: 300px;
@@ -52,14 +49,14 @@ div {
 	text-align: center;
 }
 
-#citySelect  ul li {
+.citySelect  ul li {
 	height: 40px;
 	line-height: 40px;
 	font-size: .8em;
 	color: #999;
 }
 
-#citySelect  ul li.selected {
+.citySelect  ul li.selected {
 	font-size: 1.2em;
 	font-weight: bold;
 	color: #333;
@@ -67,21 +64,19 @@ div {
 	border-bottom: 1px solid #ccc;
 }
 
-#citySelect .leftSelectionDiv {
+.citySelect .leftSelectionDiv {
 	width: 50%;
 	height: 280px;
 	float: left;
 	position: relative;
 }
-
-#citySelect .rightSelectionDiv {
-    float: right;
-    height: 280px;
-    position: relative;
-    width: 50%;
+.citySelect .selectDiv {
+	width: 100%;
+	height: 280px;
+	float: left;
+	position: relative;
 }
-
-#citySelect .leftSelectionDiv .selectBG {
+.citySelect .selectDiv .selectBG {
 	height: 40px;
 	width: 100%;
 	border-top: 1px solid #999;
@@ -92,7 +87,25 @@ div {
 	margin-top: -20px;
 }
 
-#citySelect .rightSelectionDiv .selectBG {
+.citySelect .rightSelectionDiv {
+    float: right;
+    height: 280px;
+    position: relative;
+    width: 50%;
+}
+
+.citySelect .leftSelectionDiv .selectBG {
+	height: 40px;
+	width: 100%;
+	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
+	position: absolute;
+	left: 0;
+	top: 50%;
+	margin-top: -20px;
+}
+
+.citySelect .rightSelectionDiv .selectBG {
 	height: 40px;
 	width: 100%;
 	border-top: 1px solid #999;

@@ -30,10 +30,23 @@
 
         <div class="input-group border-green">
             <span class="input-group-addon text-green"><img src="img/icon_city.png" class="img-input"/>意向城市 |</span>
-            <a href="XCFCCity:900950.com" class="form-control want-city" id="recommendCity">
+
+            <span id="recommendCity" class="form-control color-999" style="line-height:24px;">
             必 填 项
-            </a>
-            <a href="XCFCCity:900950.com" class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></a>
+            </span>
+
+            <div id="citySelect" class="citySelect" style="display:none;">
+                <div class="border-bottom border-top row p10 ">
+                    <div class="col-xs-6 text-left" id="cancelCity"><div class="pl10">取消</div></div> 
+                    <div class="col-xs-6 text-right" id="confirmCity"><div class="pr10 text-green">确定</div></div>
+                </div>
+                <div id="city_list" class="selectDiv" ></div>
+            </div>
+
+            <!-- <a href="XCFCCity:900950.com" class="form-control want-city" id="recommendCity">
+            必 填 项
+            </a> -->
+            <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
         
 
@@ -45,7 +58,7 @@
             </span>
             
             
-            <div id="citySelect" style="display:none;">
+            <div id="areaSelect" class="citySelect" style="display:none;">
                 <div class="border-bottom border-top row p10 ">
                     <div class="col-xs-6 text-left" id="cancelButton"><div class="pl10">取消</div></div> 
                     <div class="col-xs-6 text-right" id="submitButton"><div class="pr10 text-green">确定</div></div>
@@ -85,10 +98,62 @@
 <script >
 $(document).ready(function(){
 
+var citySelect = {
+    loaded: function(){
+        $("#citySelect").show();
+        var citySroll = new iScroll('city_list', {
+            checkDOMChanges : true,
+            hScrollbar : false,
+            vScrollbar : false,
+            onScrollEnd: function () {
+                //40为单个li高度
+                
+                var scrollIndex = parseInt(Math.abs(this.y)/40);
+                var overflow = parseInt(Math.abs(this.y)%40);
+                console.log('onScrollEnd');
+                
+                BrokerWeb.citySelect.pullDownAction(scrollIndex, overflow);
+            }
+        });
+        setTimeout(function () { document.getElementById('city_list').style.left = '0'; }, 800);
+
+        citySroll.scrollTo(0, -1*BrokerWeb.city_y_index*40, 1000);
+    },
+    pullDownAction:function(scrollIndex, overflow){
+        console.log('scrollIndex==',scrollIndex,';;overflow==', overflow);
+        if(overflow > 20){
+            scrollIndex = scrollIndex + 1;
+            $("#city_list ul").css("margin-top", "-" + (40 - overflow) + "px");
+        } else {
+            $("#city_list ul").css("margin-top", overflow + "px");
+        }
+    
+        $("#city_list ul li").removeClass("selected");
+        $("#city_list ul li").each(function(i){
+            if((scrollIndex + 3) == i){
+                $(this).addClass("selected");
+                BrokerWeb.city_y_index = scrollIndex==0 ? BrokerWeb.city_y_index : scrollIndex;
+            }
+        });
+    },
+    confirmSelect:function(){
+       
+        var name = $("#city_list ul .selected").html();
+        var id = $("#city_list ul .selected").attr('data-id');
+        
+        BrokerWeb.setCity(name, id);
+
+        $("#citySelect").hide();
+    },
+    cancelSelect: function(){
+        $("#citySelect").hide();
+    }
+}
+
 var scrollSelection = {
 
     loaded:function(){
-        $("#citySelect").show();
+        $("#areaSelect").show();
         
         myScroll = new iScroll('area_list', {
             checkDOMChanges : true,
@@ -130,6 +195,7 @@ var scrollSelection = {
         myScrollDistrict.scrollTo(0, BrokerWeb.y_index_b*40*-1);
     },
     pullDownAction:function(scrollIndex, overflow){
+        console.log('area scrollIndex==',scrollIndex,';;overflow==', overflow);
         if(overflow > 20){
             scrollIndex = scrollIndex + 1;
             $("#area_list ul").css("margin-top", "-" + (40 - overflow) + "px");
@@ -170,13 +236,23 @@ var scrollSelection = {
         var str = '<li></li><li></li><li></li>';
         BrokerWeb.y_index_b = 0;
 
+        if(aid == 'all'){
+            $.each(area_buildings, function(k, v){
+
+                if(v.length>0){
+                    $.each(v, function(n, b){
+                        str += '<li data-id="'+b.id+'">'+b.text+'</li>';
+                    });
+                }
+            });
+        }
         if( typeof area_buildings[aid] !== 'undefined' && area_buildings[aid].length > 0){
             $.each(area_buildings[aid], function(i, bd){
                 var s = '';
-            if(typeof _this.params.bid !== 'undefined' && _this.params.bid == bd.id){
-                s = 'selected';
-                BrokerWeb.y_index_b = i;
-            }
+                if(typeof BrokerWeb.params.bid !== 'undefined' && BrokerWeb.params.bid == bd.id){
+                    s = 'selected';
+                    BrokerWeb.y_index_b = i;
+                }
                 str += '<li data-id="'+bd.id+'" class="'+s+'">'+bd.text+'</li>';
             });
         }
@@ -192,7 +268,6 @@ var scrollSelection = {
         // var area_id = $("#area_list ul .selected").attr('data-id');
         var building = $("#building_list ul .selected").html();
         var building_id = $("#building_list ul .selected").attr('data-id');
-        console.log('building_id',building, building_id);
         // $("#area_selected").html(area).attr('data-id', area_id);
         if(typeof building_id == 'undefined'){
             $("#recommendedBuilding")
@@ -211,10 +286,10 @@ var scrollSelection = {
         }
         
 
-        $("#citySelect").hide();
+        $("#areaSelect").hide();
     },
     cancelSelect: function(){
-        $("#citySelect").hide();
+        $("#areaSelect").hide();
     }
 }
 
@@ -267,7 +342,7 @@ function recommendedBuildingBlur(){
 
 //提交表单
 function submitForm(){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
 
     if(typeof _this.params.login=='undefined' || _this.params.login=='0'){
         window.location.href = 'ShouldLogin:900950.com';
@@ -302,7 +377,6 @@ function submitForm(){
         data: data,
         dataType: 'json',
         success: function(data){
-            console.log(data);
             if(data.result){
                 //清空数据
                 $("#clientName").val('');
@@ -322,9 +396,39 @@ function submitForm(){
     });
 }
 
+function setCityList(){
+    var _this = BrokerWeb;
+    var citys = _this.citys;
+
+    _this.area_buildings = {};
+
+    var str = '<li></li><li></li><li></li>';
+
+    _this.city_y_index = 0;
+  
+
+    $.each(citys, function(i, it){
+       
+        var s = '';
+        if(typeof _this.params.cname !== 'undefined' && decodeURIComponent(_this.params.cname) == it.name){
+            s = ' class="selected" ';
+
+            _this.city_y_index = i;
+        }
+
+        str += '<li data-id="'+it.id+'" '+s+'>'+it.name+'</li>';
+
+    });
+    
+    str += '<li></li><li></li><li></li>';
+
+    $('#city_list').empty().append(
+        $('<ul>').append(str) 
+    );
+}
 
 function getCitys(){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
     $.ajax({
         url: _this.apiBaseUrl + '/broker/sys/getCitys',
         type: 'GET',
@@ -333,6 +437,7 @@ function getCitys(){
             if (data.result) {
                 _this.citys = data.objValue;
                 console.log(_this.citys);
+                _this.setCityList();
             }
         },
         error: function(){
@@ -343,6 +448,7 @@ function getCitys(){
 
 //设置城市名称和城市id，通过id请求楼盘信息
 function setCity(cityName, cityID){
+    var _this = BrokerWeb;
     $("#recommendCity").removeClass('color-555').addClass('color-555').html(cityName);
     $.ajax({
         url: _this.apiBaseUrl + '/broker/sys/getAreaBuildingTree/' + cityID,
@@ -402,7 +508,7 @@ function setFromContact(name, phone){
 
 //主函数入口
 function main(){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
 
     $("#clientName").on('input blur', _this.clientNameBlur);
     $("#clientPhone").on('input blur', _this.clientPhoneBlur);
@@ -426,18 +532,31 @@ function main(){
         _this.scrollSelection.loaded();
     });
 
-    $("#formTuijian").click(function(e){      
-        if(e.target.id != 'recommendedBuilding'){
+    $('#confirmCity').click(function(){
+        _this.citySelect.confirmSelect();
+    });
+
+    $('#cancelCity').click(function(){
+        _this.citySelect.cancelSelect();
+    });
+
+    $("#formTuijian").click(function(e){  
+        console.log('e.target=', e);    
+        if(e.target.id != 'recommendedBuilding' && e.target.nodeName == 'INPUT'){
             _this.scrollSelection.cancelSelect();
+        }
+
+        if( e.target.id == 'recommendCity' ){
+            _this.scrollSelection.cancelSelect();
+            _this.citySelect.loaded();
         }
     });
 
     //参数取到城市信息
     //cid,cname
+    _this.getCitys();
     if(typeof _this.params.cid !== 'undefined' && typeof _this.params.cname !== 'undefined'){
         _this.setCity(decodeURIComponent(_this.params.cname),_this.params.cid);
-    } else {
-        _this.getCitys();
     }
 
     //参数取到楼盘信息
@@ -471,7 +590,9 @@ $.extend(BrokerWeb, {
     setCity: setCity,
     setArea: setArea,
     scrollSelection: scrollSelection,
-    getCitys: getCitys
+    getCitys: getCitys,
+    citySelect: citySelect,
+    setCityList: setCityList
 });
 
 //主函数入口

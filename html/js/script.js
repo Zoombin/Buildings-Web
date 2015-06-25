@@ -31,7 +31,7 @@ var BrokerWeb = BrokerWeb || {
         
         return {
             lock : function(msg){
-                console.log('lock',lockdiv);
+                
                 if(msg){
                     $( lockdiv ).find('h1').html(msg);
                 }else{
