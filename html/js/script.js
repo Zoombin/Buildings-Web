@@ -15,6 +15,7 @@ var BrokerWeb = BrokerWeb || {
         this.params = this.getParams();
         this.brokerid = this.params.id;
         this.recieverType = this.type;
+        this.screen = this.screen();
 
         callback();
     },
@@ -22,6 +23,26 @@ var BrokerWeb = BrokerWeb || {
     setLogin: function(id){
         this.brokerid = id;
         this.params.login = 1;
+    },
+
+    screen: function(){
+        var lockdiv = $('<div class="ui-loader ui-corner-all ui-body-loading ui-loader-verbose"><span class="ui-icon ui-icon-loading"></span><h1>加载中...</h1></div>');
+        $('body').append( $(lockdiv) ); 
+        
+        return {
+            lock : function(msg){
+                console.log('lock',lockdiv);
+                if(msg){
+                    $( lockdiv ).find('h1').html(msg);
+                }else{
+                    $( lockdiv ).find('h1').html('加载中...');
+                }
+                $( lockdiv ).show(); 
+            },
+            unlock : function(){
+                $( lockdiv ).hide();
+            }
+        };
     },
 
     getParams: function () {
