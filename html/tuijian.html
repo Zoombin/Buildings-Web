@@ -78,9 +78,9 @@
             <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
 
-        <textarea  class="form-control mt15 border" rows="5" placeholder="备注" name="recommendMark" id="recommendMark"></textarea>
+        <textarea class="form-control mt15 border" rows="5" placeholder="备注" name="recommendMark" id="recommendMark"></textarea>
 
-        <button class="btn btn-green w100 mt20" type="button" id="submit">立即推荐</button>
+        <button class="btn btn-green w100 mt20" type="button" id="submit" name="submit">立即推荐</button>
 
     </form>
 
@@ -316,10 +316,10 @@ function clientPhoneBlur(){
         hasError = true;
         $("#clientPhone_error").html('手机号码为必填项').show();
     }
-    // else if( !(/^1[3|5|6|8|9][0-9]\d{4,8}$/.test(clientPhone)) ){
-    //     hasError = true;
-    //     $("#clientPhone_error").html('请输入有效的手机号码').show();
-    // }
+    else if( !(/^1[3|5|6|8|9][0-9]\d{8,8}$/.test(clientPhone)) ){
+        hasError = true;
+        $("#clientPhone_error").html('请输入有效的手机号码').show();
+    }
     else{
         hasError = false;
         $("#clientPhone_error").html('').hide();
@@ -527,6 +527,10 @@ function main(){
     $("#recommendedBuilding").click(function(){
         _this.scrollSelection.loaded();
     });
+
+    $("#recommendMark").focus(function(){
+        location.hash = "submit";
+    })
 
     $("#recommendedBuildingArrow").click(function(){
         _this.scrollSelection.loaded();
