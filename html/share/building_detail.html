@@ -113,7 +113,7 @@
                 </tr>
                 <tr>
                     <td>产&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;权：</td>
-                    <td><span id=""></span> 年</td>
+                    <td><span id="propertyRightsName"></span></td>
                 </tr>
                 <tr>
                     <td>绿&nbsp;&nbsp;化&nbsp;&nbsp;率：</td>
@@ -241,7 +241,8 @@ function setBuildingInfo(){
     $("#discount").html(building.discount);
     $("#discountEndTime").html(building.discountEndTime);
 
-    $("#address").html(building.address);
+    //产权
+    $("#propertyRightsName").html(building.propertyRightsName);
 
     //特征
     var arr = building.buildingType.split('、');
@@ -281,6 +282,8 @@ function setBuildingInfo(){
     $("#trafficCfg").html(building.trafficCfg);
 
     $("#tel").attr('href', 'tel:'+building.hotline);
+
+    $("#address").html(building.address);
 }
 
 //顶部图片轮播
