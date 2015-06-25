@@ -46,7 +46,7 @@
             <!-- <a href="XCFCCity:900950.com" class="form-control want-city" id="recommendCity">
             必 填 项
             </a> -->
-            <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
+            <span class="input-group-addon" id="recommendCityImg"><img src="img/icon_arrow.png" class="img-input2"/></span>
         </div>
         
 
@@ -542,6 +542,10 @@ function main(){
 
     $('#cancelCity').click(function(){
         _this.citySelect.cancelSelect();
+    });
+
+    $('#recommendCityImg').click(function(){
+        _this.citySelect.loaded();
     });
 
     $("#formTuijian").click(function(e){  
