@@ -319,6 +319,7 @@ function setLayout(){
 
     var str = '';
     $.each(layout, function(n, it){
+        it.houseTypeName = it.houseTypeName != null ? it.houseTypeName : '';
         
         str = '<div class="col-xs-6">'
                     +'<div class="thumbnail">'
