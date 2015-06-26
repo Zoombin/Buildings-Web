@@ -168,6 +168,7 @@ function getExpiredList(tag){
 
 //设置用户列表信息
 function setCustomerList(list){
+    _this = BrokerWeb;
 
     var arr = [];
     $.each(list,function(i,item){
@@ -195,9 +196,13 @@ function setCustomerList(list){
     $(".bg-border").click(function(){
         console.log($(this));
         var clientId = $(this).attr('data-id');
-        window.location.href = 'CustomerDetail:900950.com' + BrokerWeb.search + '&clientId=' + clientId;
-        // window.location.href = 'customer_info.html' + BrokerWeb.search + '&clientId=' + clientId;
-
+        var href = 'CustomerDetail:900950.com' + BrokerWeb.search + '&clientId=' + clientId + '&';
+        var param = BrokerWeb.tags[BrokerWeb.tag];
+        for (key in param) {
+            href += (key + '=' + param[key]);
+        }
+        console.log('href: ' + href);
+        window.location.href = href;
     });
 }
 
@@ -278,7 +283,7 @@ function main(){
     //添加下一页事件
     $("#next").click(function(){
         ++_this.current_page;
-        _this.getCustomerList(_this.tags[_this.tag] );
+        _this.getCustomerList(_this.tags[_this.tag]);
     });
 
 }
