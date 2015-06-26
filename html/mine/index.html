@@ -9,7 +9,9 @@
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/theme.css" rel="stylesheet">
 </head>
-<body style="background-color:#fff;">
+<body leftmargin=0 topmargin=0 oncontextmenu='return false' ondragstart='return false' onselectstart ='return false' onselect='document.selection.empty()' oncopy='document.selection.empty()' onbeforecopy='return false' onmouseup='document.selection.empty()'> 
+
+<!-- <body style="background-color:#fff;"> -->
 
 <!--container -->
 <div class="container-fluid" id="container">
@@ -29,8 +31,10 @@
         </div>
         <div class="col-xs-8 text-left">
             <div class="row">
-                <div class="col-xs-9 relative">
+                <div class="col-xs-7 relative">
                     <span class="text-justify text-huge fs18" id="name" style="overflow:hidden; height:50px"></span>
+                </div>
+                <div class="col-xs-2">
                     <span class="label pos-name" id="approveState"></span>
                 </div>
                 <div class="col-xs-3">
