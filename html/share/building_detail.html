@@ -172,10 +172,10 @@
         <div class="col-xs-3 pl5">
             <div data-spy="affix" data-offset-top="60" data-offset-bottom="120">
                 <ul class="nav nav-pills nav-stacked customer-menu" id="navlist">
-                    <li class="active"><a href="#intro">楼盘介绍</a></li>
-                    <li class=""><a href="#transport">交通配套</a></li>
-                    <li class=""><a href="#layout">户型介绍</a></li>
-                    <li class=""><a href="#location">地图导航</a></li>
+                    <li id="introTag" class="active"><a href="#intro">楼盘介绍</a></li>
+                    <li id="transportTag" class=""><a href="#transport">交通配套</a></li>
+                    <li id="layoutTag" class=""><a href="#layout">户型介绍</a></li>
+                    <li id="locationTag" class=""><a href="#location">地图导航</a></li>
                 </ul>
             </div>
         </div>
@@ -369,19 +369,43 @@ function getBuildingInfo(){
     });
 }
 
+function highlightTag(tag) {
+    $("#introTag").removeClass('active');
+    $("#transportTag").removeClass('active');
+    $("#layoutTag").removeClass('active');
+    $("#locationTag").removeClass('active');
+    tag.addClass('active');
+}
+
 function main(){
     var _this = BrokerWeb;
 
     //获取信息
     _this.getBuildingInfo();
 
+    $("#introTag").click(function(){
+        _this.highlightTag($("#introTag"));
+    });
+
+    $("#transportTag").click(function(){
+        _this.highlightTag($("#transportTag"));
+    });
+
+    $("#layoutTag").click(function(){
+        _this.highlightTag($("#layoutTag"));
+    });
+
+    $("#locationTag").click(function(){
+        _this.highlightTag($("#locationTag"));
+    });
 }
 
 $.extend(BrokerWeb, {
     getBuildingInfo: getBuildingInfo,
     setBuildingInfo: setBuildingInfo,
     setTopPics: setTopPics,
-    setLayout: setLayout
+    setLayout: setLayout,
+    highlightTag: highlightTag
 });
 
 //主函数入口
