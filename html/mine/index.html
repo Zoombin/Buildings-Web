@@ -9,9 +9,8 @@
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/theme.css" rel="stylesheet">
 </head>
-<body leftmargin=0 topmargin=0 oncontextmenu='return false' ondragstart='return false' onselectstart ='return false' onselect='document.selection.empty()' oncopy='document.selection.empty()' onbeforecopy='return false' onmouseup='document.selection.empty()'> 
 
-<!-- <body style="background-color:#fff;"> -->
+<body style="background-color:#fff;">
 
 <!--container -->
 <div class="container-fluid" id="container">
@@ -60,7 +59,7 @@
     <!-- 导航部分// -->
     <div class="row bg-tabs">
         <div class="col-xs-3 text-center">
-            <div class="thumbnail ">
+            <div class="thumbnail " id="money">
                 <img src="../img/fourbtn_money.png" alt="">
                 <div class="caption">
                     <span class="text-green">佣金</span>
@@ -70,7 +69,7 @@
         </div>
         <div class="col-xs-3 text-center">
             <div class="thumbnail ">
-                <a href="MyIntegral:900950.com" class="go"><img src="../img/fourbtn_point.png" alt=""></a>
+                <a href="MyIntegral:900950.com" class="go" id="integral"><img src="../img/fourbtn_point.png" alt=""></a>
                 <div class="caption">
                     <span class="text-gray2">积分</span>
                 </div>
@@ -78,7 +77,7 @@
         </div>
         <div class="col-xs-3 text-center">
             <div class="thumbnail ">
-                <a href="MyCollect:900950.com"><img src="../img/fourbtn_fav.png" alt=""></a>
+                <a href="MyCollect:900950.com" class="go"><img src="../img/fourbtn_fav.png" alt=""></a>
                 <div class="caption">
                     <span class="text-gray2">收藏</span>
                 </div>
@@ -303,13 +302,23 @@ function main(){
     //佣金
     _this.getBrokerageSummary();
 
+    $("#money").click(function(e){
+        console.log('点击佣金');
+    });
+
     //跳转加参数
     // $("a.go").click(function(e){
     //     e.preventDefault();
     //     var href = $(e.currentTarget).attr('href');
-    //     window.location.href = href + _this.search;
+    //     window.location.href = href;
     // });
-
+    
+    $("#integral").click(function(e){
+        if (_this.broker.brokerType == 1) {//类型是1的经纪人不跳转
+            e.preventDefault();
+            window.location.href = 'ShowDialog:900950.com?msg=未授权该功能';
+        }
+    });
 
 }
 
