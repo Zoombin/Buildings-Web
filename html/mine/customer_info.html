@@ -28,7 +28,7 @@
 <script src="../js/script.js"></script>
 
 <script>
-$(document).ready(function(){    
+$(document).ready(function(){
 
 function rePush(item){
     var _this = BrokerWeb;
@@ -287,19 +287,28 @@ function getLeftTime(date){
 function getCustomerInfo(){
     var _this = BrokerWeb;
     
+    var state = _this.params.state;
+    var isVip = _this.params.isVip;
+    var data = {
+            'brokerId': _this.brokerid,
+            // clientId: 'd8697b36d83846bb9116128dcbe009eb',//TODO: TOTEST
+            'clientId': _this.params.clientId,
+            //state: _this.params.state
+        }
+    if (state) {
+        data['state'] = state;
+    }
+    if (isVip) {
+        data['isVip'] = isVip;
+    }
+
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerClientinfo',
         type: 'GET',
         dataType: 'json',
-        data: {
-            brokerId: _this.brokerid,
-            // clientId: 'd8697b36d83846bb9116128dcbe009eb',//TODO: TOTEST
-            clientId: _this.params.clientId,
-            state: _this.params.state
-        },
+        data: data,
         success: function(data){
             console.log(data);
-            
             if(data.result){
                 _this.customer = data.objValue;
                 _this.setCustomerInfoList();
@@ -366,7 +375,6 @@ function main(){
     }
     
     _this.getCollectionInfo();
-    
 }
 
 $.extend(BrokerWeb, {
