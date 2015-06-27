@@ -144,6 +144,7 @@ var citySelect = {
         BrokerWeb.setCity(name, id);
 
         $("#citySelect").hide();
+        $("#recommendedBuilding").html('');//选择城市后，之前选的楼盘要清除掉，可能选的不同城市
     },
     cancelSelect: function(){
         $("#citySelect").hide();
