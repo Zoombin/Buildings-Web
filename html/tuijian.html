@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>推荐</title>
 <meta content="yes" name="apple-mobile-web-app-capable">
-<meta name="viewport" content="width=device-width,inital-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <link href="css/bootstrap.css"  rel="stylesheet" type="text/css">
 <link href="css/test.css"  rel="stylesheet" type="text/css">
 <link href="css/theme.css?_=111"  rel="stylesheet" type="text/css">
@@ -74,8 +74,18 @@
 
         <div class="input-group border-green">
             <span class="input-group-addon text-green"><img src="img/icon_date.png" class="img-input"/>看房日期 |</span>
-            <input type="date" placeholder="选 填 项" class="form-control date-input" aria-label="" name="recommendDate" id="recommendDate">
-            <span class="input-group-addon"><img src="img/icon_arrow.png" class="img-input2"/></span>
+
+
+            <input type="date" 
+                placeholder="选 填 项" 
+                class="form-control date-input" 
+                name="recommendDate" 
+                id="recommendDate"
+                >
+                <span class="color-999" id="date_tip">选 填 项</span>
+            <span class="input-group-addon" id="recommendDateArrow">
+                <img src="img/icon_arrow.png" class="img-input2"/>
+            </span>
         </div>
 
         <textarea class="form-control mt15 border" rows="5" placeholder="备注" name="recommendMark" id="recommendMark"></textarea>
@@ -144,7 +154,6 @@ var citySelect = {
         BrokerWeb.setCity(name, id);
 
         $("#citySelect").hide();
-        $("#recommendedBuilding").html('');//选择城市后，之前选的楼盘要清除掉，可能选的不同城市
     },
     cancelSelect: function(){
         $("#citySelect").hide();
@@ -514,6 +523,23 @@ function setFromContact(name, phone){
 function main(){
     var _this = BrokerWeb;
 
+    $('#recommendDate').focus(function(){
+        $('#date_tip').hide();
+    }).blur(function(){
+        if( $('#recommendDate').val() == ''){
+            $('#date_tip').show();
+        }
+    });;
+
+    //点击日期箭头，弹出日期
+    $('#recommendDateArrow').click(function(){
+        $('#recommendDate').focus();
+    });
+    $('#date_tip').click(function(){
+
+        $('#recommendDate').focus();
+    });
+
     $("#clientName").on('input blur', _this.clientNameBlur);
     $("#clientPhone").on('input blur', _this.clientPhoneBlur);
 
@@ -562,6 +588,8 @@ function main(){
             _this.scrollSelection.cancelSelect();
             _this.citySelect.loaded();
         }
+
+
     });
 
     //参数取到城市信息
