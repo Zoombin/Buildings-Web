@@ -110,7 +110,7 @@ input[type="date"]:focus:before, input[type="date"]:valid:before {
 .border-bottom-dash{border-bottom:1px dashed #6e6e6e;}
 .border-right-dash{border-right:1px dashed #6e6e6e;}
 #building .badge{padding:3px 5px;border-radius:5px;}
-.pos-left-center{position:absolute;top:30%;}
+.pos-left-center{position:absolute;top:5px;}
 .hui{word-break:break-all; line-height:16px;margin-top:5px;}
 .label-gray{background-color:#c1c1c1;}
 .label-green{background-color:#2cb182;}
