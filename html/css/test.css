@@ -47,6 +47,11 @@ div {
 	bottom: 0;
 	z-index: 99;
 	text-align: center;
+
+	background-image: url(../img/tuijian_frame.png);
+	background-repeat: repeat-x;
+	background-position: 0 160px;
+	background-size: auto 43px; 
 }
 
 .citySelect  ul li {
@@ -60,9 +65,9 @@ div {
 	font-size: 1.2em;
 	font-weight: bold;
 	color: #333;
-	border-top:1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+
 }
+
 
 .citySelect .leftSelectionDiv {
 	width: 50%;
@@ -79,8 +84,7 @@ div {
 .citySelect .selectDiv .selectBG {
 	height: 40px;
 	width: 100%;
-	border-top: 1px solid #999;
-	border-bottom: 1px solid #999;
+
 	position: absolute;
 	left: 0;
 	top: 50%;
@@ -97,8 +101,7 @@ div {
 .citySelect .leftSelectionDiv .selectBG {
 	height: 40px;
 	width: 100%;
-	border-top: 1px solid #999;
-	border-bottom: 1px solid #999;
+
 	position: absolute;
 	left: 0;
 	top: 50%;
