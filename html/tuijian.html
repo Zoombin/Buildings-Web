@@ -379,9 +379,9 @@ function submitForm(){
         success: function(data){
             if(data.result){
                 //清空数据
-                $("#clientName").val('');
-                $("#clientPhone").val('');
-                $("#recommendedBuilding").html('').attr('data-id', '');
+                $("#clientName").val('必 填 项');
+                $("#clientPhone").val('必 填 项');
+                $("#recommendedBuilding").html('必 填 项').attr('data-id', '');
                 $("#recommendMark").val('');
                 // $("#recommendCity").html('');
                 $("#recommendDate").val('');
@@ -423,7 +423,7 @@ function setCityList(){
     str += '<li></li><li></li><li></li>';
 
     $('#city_list').empty().append(
-        $('<ul>').append(str) 
+        $('<ul>').append(str)
     );
 }
 
@@ -448,8 +448,11 @@ function getCitys(){
 
 //设置城市名称和城市id，通过id请求楼盘信息
 function setCity(cityName, cityID){
+    //清空之前的推荐楼盘
+    $("#recommendedBuilding").removeClass('color-555').removeClass('color-999').addClass('color-999').html('必 填 项').attr('data-id', '');
+
     var _this = BrokerWeb;
-    $("#recommendCity").removeClass('color-555').addClass('color-555').html(cityName);
+    $("#recommendCity").removeClass('color-999').removeClass('color-555').addClass('color-555').html(cityName);
     $.ajax({
         url: _this.apiBaseUrl + '/broker/sys/getAreaBuildingTree/' + cityID,
         type: 'POST',
