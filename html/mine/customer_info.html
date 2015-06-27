@@ -66,13 +66,13 @@ function bindScroll(){
         loop: 'false'
     });
 
-    // var arr = [];
-    // $("#container .section").each(function(){
-    //     arr.push( $(this).height() );
-    // });
-    // console.log('arr', arr, Math.max.apply(Math, arr));
+    var arr = [];
+    $("#container .section").each(function(){
+        arr.push( $(this).height() );
+    });
 
-    // $("#container").height( Math.max.apply(Math, arr) );
+    $("#container").height( Math.max.apply(Math, arr) );
+    $(".onepage-pagination").css('top', ($(window).height()*0.93) + 'px' );
 }
 
 function toggleCollect(){
@@ -160,7 +160,7 @@ function setCustomerInfoItem(item){
                     $('<div>有效日期：</div>').append(
                         $('<span></span>').html(
                             item.protectTime
-                            //item.protectTime ? _this.getLeftTime(item.protectTime) : ''
+                            // item.protectTime ? _this.getLeftTime(item.protectTime) : ''
                         )
                     ).append(
                         parseInt(item.clientStatus)>0 ? '' :
