@@ -157,13 +157,13 @@ function setCustomerInfoItem(item){
                         $('<span></span>').html( item.buildingRatio )
                     )
                 ).append(
-                    $('<div>有效日期：</div>').append(
+                    $('<div style="white-space:nowrap;">有效日期：</div>').append(
                         $('<span></span>').html(
                             item.protectTime
                             // item.protectTime ? _this.getLeftTime(item.protectTime) : ''
                         )
                     ).append(
-                        parseInt(item.clientStatus)>0 ? '' :
+                        // parseInt(item.clientStatus)>0 ? '' :
                         $('<span class="label label-green ml5 re-push">重新推荐</span>').click(function(){
                             BrokerWeb.rePush(item);
                         })

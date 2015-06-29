@@ -106,27 +106,27 @@
     </div>
 
     <div class="row bg-money">
-        <div class="col-xs-4 border-right p0 mymoney" data-id="notgot">
+        <div class="col-xs-4 border-right p0 mymoney" data-href="Commission_waitFor:900950.com">
             <div class="thumbnail ">
-                <a href="Commission_waitFor:900950.com"><img src="../img/ico_money_1.png" alt="" style="height:25px"></a>
+                <img src="../img/ico_money_1.png" alt="" style="height:25px">
                 <div class="caption text-center">
                     <div class="fs12">待提佣(元)</div>
                     <div class="text-red" id="money_notgot"></div>
                 </div>
             </div>
         </div>
-        <div class="col-xs-4 border-right p0 mymoney" data-id="getting">
+        <div class="col-xs-4 border-right p0 mymoney" data-href="Commission_ing:900950.com">
             <div class="thumbnail ">
-                <a href="Commission_ing:900950.com"><img src="../img/ico_money_2.png" alt="" style="height:25px"></a>
+                <img src="../img/ico_money_2.png" alt="" style="height:25px">
                 <div class="caption text-center">
                     <div class="fs12">发放中(元)</div>
                     <div class="text-yellow" id="money_getting"></div>
                 </div>
             </div>
         </div>
-        <div class="col-xs-4 p0 mymoney" data-id="got">
+        <div class="col-xs-4 p0 mymoney" data-href="Commission_already:900950.com">
             <div class="thumbnail ">
-                <a href="Commission_already:900950.com"><img src="../img/ico_money_3.png" alt="" style="height:25px"></a>
+                <img src="../img/ico_money_3.png" alt="" style="height:25px">
                 <div class="caption text-center">
                     <div class="fs12">已提佣(元)</div>
                     <div class="text-green" id="money_got"></div>
@@ -300,11 +300,10 @@ function main(){
     });
 
     //跳转加参数
-    // $("a.go").click(function(e){
-    //     e.preventDefault();
-    //     var href = $(e.currentTarget).attr('href');
-    //     window.location.href = href;
-    // });
+    $(".mymoney").click(function(){
+        var href = $(this).attr('data-href');
+        window.location.href = href;
+    });
     
     $("#integral").click(function(e){
         if (_this.broker.brokerType == 1) {//类型是1的经纪人不跳转
