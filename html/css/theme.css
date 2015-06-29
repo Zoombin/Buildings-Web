@@ -497,7 +497,13 @@ input[type="date"]:focus:before, input[type="date"]:valid:before {
 
 
 .pos-name{position:absolute; top:20px; margin-left:5px;}
-.pos-news{position:absolute; top:-5px; margin-left:-10px; padding: 5px 7px; font-size: 10px;}
+.pos-news{
+    position:absolute; 
+    top: -8px;
+    margin-left: -5px;
+    padding: 2px 4px;
+    font-size: 6px;
+}
 .text-gray2{color:#607078;}
 .text-gray-news{color:#646464;}
 
@@ -511,6 +517,13 @@ input[type="date"]:focus:before, input[type="date"]:valid:before {
     left: 130px;
     top: 8px;
     z-index: 2;
+}
+.user_name{
+    text-align: justify;
+
+    line-height: 24px;
+    font-size: 20px;
+    overflow: hidden;
 }
 
 /* bootstrap */

@@ -15,28 +15,21 @@
 <!--container -->
 <div class="container-fluid" id="container">
 
-    <div>
-        <div class="col-xs-10">
-        </div>
-        <div class="col-xs-2 pt15">
-            <a href="MySetting:900950.com"><img id="settings" src="../img/btn_setting.png" style="height:24px"></a>
-        </div>
-    </div>
+
     
     <!-- 头像部分// -->
     <div class="row text-center bg-user pb20"  id="top">
         <div class="col-xs-4 pr0">
             <img id="photosrc" src="../img/fourbtn_account.png" class="img img-circle img-user" alt="" />
         </div>
-        <div class="col-xs-8 text-left">
-            <div class="row">
-                <div class="col-xs-7 relative">
-                    <span class="text-justify text-huge fs18" id="name" style="overflow:hidden; height:50px"></span>
+        <div class="col-xs-8 text-left pt15">
+            <div class="row pb10 pt30">
+                <div class="col-xs-8">
+                    <div class="user_name " id="name"> </div>
+                    <div><span class="label" id="approveState"></span></div>
                 </div>
-                <div class="col-xs-2">
-                    <span class="label pos-name" id="approveState"></span>
-                </div>
-                <div class="col-xs-3">
+                <div class="col-xs-4 text-center">
+                    <a href="MySetting:900950.com"><img id="settings" src="../img/btn_setting.png" style="height:24px"></a>
                 </div>
             </div>
             <div class="row">
@@ -45,7 +38,7 @@
                     <div>当前排名：<span id="rank"></span></div>
                 </div>
 
-                <div class="col-xs-4 pl0">
+                <div class="col-xs-4 text-center" style="margin-top:-10px;">
                     <a href="MyMessage:900950.com">
                         <img src="../img/btn_news.png" class="img img-news" style="height: 30px">
                         <span class="bg-danger badge pos-news" id="msg_num" style="display:none;"></span>
@@ -174,7 +167,7 @@ function getMyUnreadMsgNum(){
         },
         success: function(data){
             if(data.result){
-                // data.objValue=1;
+                 
                 if(data.objValue==0){
                     $("#msg_num").hide();
                 }else{

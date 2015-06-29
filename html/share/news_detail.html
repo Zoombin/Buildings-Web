@@ -75,6 +75,7 @@ function setNewsInfo(){
     news.items.sort(_this.sortItems);
 
     $.each(news.items, function(i, item){
+        
         //1是文字，2是图片
         if(item.attachType==1){
             $("#news_list").append(
@@ -83,7 +84,7 @@ function setNewsInfo(){
                 $('<p class="text-indent text-gray-news">').html(item.content)
             );
         }
-        if(item.attachType==2){
+        if(item.attachType==4){
             $("#news_list").append(
                 $('<img class="img-responsive img-fullscreen mb10 mt10">').attr('src', item.content)
             );
