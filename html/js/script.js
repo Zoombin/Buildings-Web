@@ -1,6 +1,7 @@
 //ajax错误提示
 $( document ).ajaxError(function() {
-  alert( "网络请求错误，请确认你的网络连接正常。" );
+    window.location.href = 'ShowDialog:900950.com?msg=网络请求错误，请确认你的网络连接正常。';
+    return;
 });
 // 去掉左右空格
 String.prototype.trim = function() { return this.replace(/\s+/g,""); }   
