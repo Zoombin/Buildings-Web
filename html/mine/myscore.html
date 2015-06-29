@@ -58,6 +58,10 @@ function setScoreList(){
         console.log(date,_this.getDate(date),_this.getYear(date));
 
         var item = list[date];
+        //根据时间正序排序
+        item.sort(function(a,b){
+            return Date.parse(a) - Date.parse(b);
+        });
 
         var its = $('<div class="col-xs-8 ">');
 
