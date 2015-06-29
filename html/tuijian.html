@@ -374,26 +374,39 @@ function submitForm(){
 
     var recommendDate = $("#recommendDate").val().trim();
     var api = '';
+    var msg = '';
     if( recommendDate){
         api = '/broker/rest/broker/beSpeakedClientByBroker';
         data.bespeakMark = data.recommendMark;
         delete data.recommendMark;
+        msg = '预约中...';
     }else{
         api = '/broker/rest/broker/brokerRecommendClient';
+        msg = '推荐中...';
     }
+
+    _this.screen.lock(msg);
+
     $.ajax({
         url: _this.apiBaseUrl + api,
         type: 'POST',
         data: data,
         dataType: 'json',
         success: function(data){
+
+            _this.screen.unlock();
+
             if(data.result){
                 //清空数据
-                $("#clientName").val('必 填 项');
-                $("#clientPhone").val('必 填 项');
-                $("#recommendedBuilding").html('必 填 项').attr('data-id', '');
+                $("#clientName").val('');
+                $("#clientPhone").val('');
+                $("#recommendedBuilding").attr('class', 'form-control')
+                    .addClass('color-999')
+                    .html('必 填 项').attr('data-id', '');
                 $("#recommendMark").val('');
-                // $("#recommendCity").html('');
+                // $("#recommendCity").attr('class', 'form-control')
+                //     .addClass('color-999')
+                //     .html('必 填 项').attr('data-id', '');
                 $("#recommendDate").val('');
                 window.location.href = 'ShowDialog:900950.com?msg=提交成功';
             } else {
