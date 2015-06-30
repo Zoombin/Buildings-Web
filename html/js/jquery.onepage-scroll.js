@@ -61,11 +61,11 @@
 
             if (deltaX >= 30) {
               $this.trigger("swipeLeft");
-              alert('swipe left');
+              //alert('swipe left');
             }
             if (deltaX <= -30) {
               $this.trigger("swipeRight");
-              alert('swipe right');
+              //alert('swipe right');
             }
             if (deltaY >= 50) {
               $this.trigger("swipeUp");
@@ -75,6 +75,7 @@
             }
             if (Math.abs(deltaX) >= 30 || Math.abs(deltaY) >= 50) {
               $this.unbind('touchmove', touchmove);
+              $this.unbind('touchstart', touchstart);
               //alert('unbind');
             }
           }
