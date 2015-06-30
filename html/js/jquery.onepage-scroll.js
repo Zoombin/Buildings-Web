@@ -52,16 +52,19 @@
           }
         }
 
+
         function touchmove(event) {
           var touches = event.originalEvent.touches;
           if (touches && touches.length) {
             var deltaX = startX - touches[0].pageX;
             var deltaY = startY - touches[0].pageY;
 
-            if (deltaX >= 50) {
+            // alert('deltaX:' + deltaX);
+            // alert('deltaY:' + deltaY);
+            if (deltaX >= 10) {
               $this.trigger("swipeLeft");
             }
-            if (deltaX <= -50) {
+            if (deltaX <= -10) {
               $this.trigger("swipeRight");
             }
             if (deltaY >= 50) {
@@ -89,7 +92,7 @@
         topPos = 0,
         leftPos = 0,
         lastAnimation = 0,
-        quietPeriod = 100,
+        quietPeriod = 500,
         paginationList = "";
 
     $.fn.transformPage = function(settings, pos, index) {
