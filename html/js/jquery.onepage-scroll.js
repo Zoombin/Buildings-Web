@@ -59,12 +59,12 @@
             var deltaX = startX - touches[0].pageX;
             var deltaY = startY - touches[0].pageY;
 
-            alert('deltaX:' + deltaX);
-            alert('deltaY:' + deltaY);
-            if (deltaX >= 10) {
+            //alert('deltaX:' + deltaX + '  deltaY:' + deltaY);
+
+            if (deltaX >= 5) {
               $this.trigger("swipeLeft");
             }
-            if (deltaX <= -10) {
+            if (deltaX <= -5) {
               $this.trigger("swipeRight");
             }
             if (deltaY >= 50) {
