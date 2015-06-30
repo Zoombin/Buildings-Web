@@ -143,9 +143,9 @@ function setCustomerInfoItem(item){
                 $('<div></div>').append(
                     $('<span class="text-mid text-333" id="name"></span>')//客户姓名
                         .html(client.name)
-                ).append(
-                    $('<img src="" class="img-line-mid" id="photosrc" />') //客户性别
-                        .attr('src','../img/account_ico_' + (client.gender!='null' && client.gender ? 'male' : 'female') + '.png')
+                // ).append(
+                //     $('<img src="" class="img-line-mid" id="photosrc" />') //客户性别
+                //         .attr('src','../img/account_ico_' + (client.gender!='null' && client.gender ? 'male' : 'female') + '.png')
                 ).append(
                     $('<span class="text-green" id="phone"></span>')//客户电话
                         .html(_this.phoneAddSpace(client.phone) )
