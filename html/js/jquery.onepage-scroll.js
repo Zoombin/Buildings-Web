@@ -61,11 +61,11 @@
 
             if (deltaX >= 10) {
               $this.trigger("swipeLeft");
-              alert('swipe left');
+              //alert('swipe left');
             }
             if (deltaX <= -10) {
               $this.trigger("swipeRight");
-              alert('swipe right');
+              //alert('swipe right');
             }
             if (deltaY >= 50) {
               $this.trigger("swipeUp");
