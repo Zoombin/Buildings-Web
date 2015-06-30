@@ -63,14 +63,16 @@ function rePush(item){
 function bindScroll(){
     $("#container").onepage_scroll({
         direction: 'horizontal',
-        loop: 'false'
+        loop: 'false',
+        //status = "on",
+        keyboard: true
     });
 
     var arr = [];
     $("#container .section").each(function(){
         arr.push( $(this).height() );
     });
-    
+
     var max_h = Math.max.apply(Math, arr);
     var win_h = $(window).height();
 
