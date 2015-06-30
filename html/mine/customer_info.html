@@ -71,11 +71,14 @@ function bindScroll(){
         arr.push( $(this).height() );
     });
 
-    var max_h = Math.max.apply(Math, arr);
-    var win_h = $(window).height();
+    $("#container").height( Math.max.apply(Math, arr) );
+    $(".onepage-pagination").css('top', ($(window).height()*0.93) + 'px' );
 
-    $("#container").height( max_h > win_h ? max_h : win_h );
-    $(".onepage-pagination").css('top', ( win_h * 0.93 ) + 'px' );
+    // var max_h = Math.max.apply(Math, arr);
+    // var win_h = $(window).height();
+
+    // $("#container").height( max_h > win_h ? max_h : win_h );
+    // $(".onepage-pagination").css('top', ( win_h * 0.93 ) + 'px' );
 }
 
 function toggleCollect(){
