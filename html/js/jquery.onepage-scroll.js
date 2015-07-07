@@ -59,21 +59,22 @@
             var deltaX = startX - touches[0].pageX;
             var deltaY = startY - touches[0].pageY;
 
-            if (deltaX >= 10) {
+
+            if (deltaX > 10) {
               $this.trigger("swipeLeft");
               //alert('swipe left');
             }
-            if (deltaX <= -10) {
+            if (deltaX < -10) {
               $this.trigger("swipeRight");
               //alert('swipe right');
             }
-            if (deltaY >= 50) {
+            if (deltaY > 10) {
               $this.trigger("swipeUp");
             }
-            if (deltaY <= -50) {
+            if (deltaY < -10) {
               $this.trigger("swipeDown");
             }
-            if (Math.abs(deltaX) >= 10 || Math.abs(deltaY) >= 50) {
+            if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
               $this.unbind('touchmove', touchmove);
               //$this.unbind('touchstart', touchstart);
               //alert('unbind');
@@ -98,6 +99,7 @@
         paginationList = "";
 
     $.fn.transformPage = function(settings, pos, index) {
+      console.log('pos=', pos, index);
       if (typeof settings.beforeMove == 'function') settings.beforeMove(index);
 
       // Just a simple edit that makes use of modernizr to detect an IE8 browser and changes the transform method into
@@ -111,14 +113,18 @@
           $(this).animate({top: toppos+'px'},settings.animationTime);
         }
     	} else{
+        
+        var w = $(this).width();
+        var i = pos/100;
+
     	  $(this).css({
-    	    "-webkit-transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + pos + "%, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
+    	    "-webkit-transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + i*w + "px, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
          "-webkit-transition": "all " + settings.animationTime + "ms " + settings.easing,
-         "-moz-transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + pos + "%, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
+         "-moz-transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + i*w + "px, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
          "-moz-transition": "all " + settings.animationTime + "ms " + settings.easing,
-         "-ms-transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + pos + "%, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
+         "-ms-transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + i*w + "px, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
          "-ms-transition": "all " + settings.animationTime + "ms " + settings.easing,
-         "transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + pos + "%, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
+         "transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + i*w + "px, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
          "transition": "all " + settings.animationTime + "ms " + settings.easing
     	  });
     	}
