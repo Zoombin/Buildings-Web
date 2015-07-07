@@ -278,13 +278,10 @@ function setCustomerInfoList(){
     var client = _this.customer.client;
 
     $.each(_this.customer.clientBuildingRelations, function(i, item){
-        console.log(i,'i');
+      
         $('#container').append(_this.setCustomerInfoItem(item)); 
     });
-    $.each(_this.customer.clientBuildingRelations, function(i, item){
-        console.log(i,'i');
-        $('#container').append(_this.setCustomerInfoItem(item)); 
-    });
+ 
 
     _this.bindScroll();
     _this.screen.unlock();
