@@ -42,12 +42,16 @@ function rePush(item){
 
     var api = '/broker/rest/broker/brokerRecommendClient';
     
+    _this.screen.lock();
+
     $.ajax({
         url: _this.apiBaseUrl + api,
         type: 'POST',
         data: data,
         dataType: 'json',
         success: function(data){
+            _this.screen.unlock();
+
             if(data.result){
                 window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             }else{
@@ -56,6 +60,7 @@ function rePush(item){
         },
         error: function(){
             //window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
+            _this.screen.unlock();
         }
     });
 }
@@ -67,12 +72,18 @@ function bindScroll(){
     });
 
     var arr = [];
+    var www = [];
     $("#container .section").each(function(){
         arr.push( $(this).height() );
+        www.push( $(this).attr('style') );
     });
+
+    // alert(arr.toString() + ';;' + www.toString() + ';;' + document.getElementById('container').scrollWidth );
+    // alert( www.toString() );
 
     var max_h = Math.max.apply(Math, arr);
     var win_h = $(window).height();
+
 
     $("#container").height( max_h > win_h ? max_h : win_h );
     $(".onepage-pagination").css('top', ( win_h * 0.93 ) + 'px' );
@@ -109,7 +120,7 @@ function toggleCollect(){
             }
         });
     }else{
-        console.log('class no on');
+        
         $.ajax({
             url: _this.apiBaseUrl + '/broker/rest/collect/collect/1',
             type: 'POST',
@@ -302,13 +313,17 @@ function getCustomerInfo(){
         data['isVip'] = isVip;
     }
 
+    _this.screen.lock();
+
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerClientinfo',
         type: 'GET',
         dataType: 'json',
         data: data,
         success: function(data){
-            console.log(data);
+            
+            _this.screen.unlock();
+
             if(data.result){
                 _this.customer = data.objValue;
                 _this.setCustomerInfoList();
@@ -317,7 +332,7 @@ function getCustomerInfo(){
             }
         },
         error: function(){
-            // _this.hideMask('', '');
+            _this.screen.unlock();
             //提交出错
         }
 

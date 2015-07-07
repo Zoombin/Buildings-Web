@@ -117,12 +117,17 @@ function goto(){
 //获取经纪人信息
 function getBrokerInfo(){
     var _this = BrokerWeb;
+
+    _this.screen.unlock();
+
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerInfo?id=' + _this.brokerid,
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            console.log(data);
+            
+            _this.screen.unlock();
+            
             if(data.result){
                 _this.broker = data.objValue;
                 $("#photosrc").attr('src', _this.broker.photosrc);
@@ -132,7 +137,7 @@ function getBrokerInfo(){
             }
         },
         error: function(){
-            //提交出错
+            _this.screen.unlock();
         }
     });
 }

@@ -101,12 +101,17 @@ function sortItems(a,b){
 //获取资讯信息
 function getNewsInfo(){
     var _this = BrokerWeb;
+
+    _this.screen.lock();
+
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/news/queryNewsInfoMorePic/' + _this.params.nid,
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            console.log(data);
+
+            _this.screen.unlock();
+            
             if(data.result){
                 _this.news = data.objValue;
                 
@@ -114,12 +119,12 @@ function getNewsInfo(){
 
 
             }else{
-                alert('获取信息失败');
+                
             }
 
         },
         error: function(){
-            //提交出错
+            _this.screen.unlock();
         }
 
     });

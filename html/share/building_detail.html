@@ -345,12 +345,17 @@ function setLayout(){
 //获取经纪人信息
 function getBuildingInfo(){
     var _this = BrokerWeb;
+
+    _this.screen.lock();
+    
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/building/queryBuildingInfo/' + _this.params.bid,
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            console.log(data);
+
+            _this.screen.unlock();
+
             if(data.result){
                 _this.building = data.objValue;
                 
@@ -363,7 +368,7 @@ function getBuildingInfo(){
 
         },
         error: function(){
-            //提交出错
+            _this.screen.unlock();
         }
 
     });

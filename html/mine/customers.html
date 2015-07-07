@@ -127,6 +127,7 @@ function getExpiredList(tag){
         url = _this.apiBaseUrl + '/broker/rest/broker/getRecommendedFailureClientByBrokerId';
     }
 
+    _this.screen.lock();
 
     $.ajax({
         url: url,
@@ -134,7 +135,9 @@ function getExpiredList(tag){
         dataType: 'json',
         data: params,
         success: function(data){
-            console.log(data);
+
+            _this.screen.unlock();
+
             if(data.result){
                 if(data.paramMap==null){
                     data.paramMap = {};
@@ -161,7 +164,7 @@ function getExpiredList(tag){
             }
         },
         error: function(){
-            //提交出错
+            _this.screen.unlock();
         }
     });
 }
@@ -215,6 +218,7 @@ function getCustomerList(param){
         pageSize: _this.pageSize
     },param);
 
+    _this.screen.lock();
 
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/brokerClientList/' + _this.current_page,
@@ -222,7 +226,9 @@ function getCustomerList(param){
         dataType: 'json',
         data: params,
         success: function(data){
-            console.log(data);
+            
+            _this.screen.unlock();
+
             if(data.result){
                 var total = data.paramMap.totalSize;
                 
@@ -244,7 +250,7 @@ function getCustomerList(param){
             }
         },
         error: function(){
-            //提交出错
+            _this.screen.unlock();
         }
 
     });

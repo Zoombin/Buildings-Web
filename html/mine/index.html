@@ -157,6 +157,7 @@ $(document).ready(function(){
 //未读消息数
 function getMyUnreadMsgNum(){
     var _this = BrokerWeb;
+
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/msg/getMyUnreadMsgNum',
         type: 'GET',
@@ -166,6 +167,7 @@ function getMyUnreadMsgNum(){
             receiverType: 1
         },
         success: function(data){
+
             if(data.result){
                  
                 if(data.objValue==0){
@@ -183,7 +185,6 @@ function getMyUnreadMsgNum(){
             }
         },
         error: function(){
-            //提交出错
         }
 
     });
@@ -192,12 +193,17 @@ function getMyUnreadMsgNum(){
 //获取经纪人信息
 function getBrokerInfo(){
     var _this = BrokerWeb;
+
+    _this.screen.lock();
+
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerInfo?id=' + _this.brokerid,
         type: 'GET',
         dataType: 'json',
         success: function(data){
-            console.log(data);
+            
+            _this.screen.unlock();
+            
             if(data.result){
                 _this.broker = data.objValue;
                 _this.setBrokerInfo();
@@ -206,7 +212,7 @@ function getBrokerInfo(){
             }
         },
         error: function(){
-            //提交出错
+            _this.screen.unlock();
         }
     });
 }
