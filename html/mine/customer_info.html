@@ -65,36 +65,6 @@ function rePush(item){
     });
 }
 
-function has3d() {
-    if (!window.getComputedStyle) {
-        return false;
-    }
-
-    var el = document.createElement('p'), 
-        has3d,
-        transforms = {
-            'webkitTransform':'-webkit-transform',
-            'OTransform':'-o-transform',
-            'msTransform':'-ms-transform',
-            'MozTransform':'-moz-transform',
-            'transform':'transform'
-        };
-
-    // Add it to the body to get the computed style.
-    document.body.insertBefore(el, null);
-
-    for (var t in transforms) {
-        if (el.style[t] !== undefined) {
-            el.style[t] = "translate3d(1px,1px,1px)";
-            has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
-        }
-    }
-
-    document.body.removeChild(el);
-
-    return (has3d !== undefined && has3d.length > 0 && has3d !== "none");
-}
-
 function bindScroll(){
     $("#container").onepage_scroll({
         direction: 'horizontal',
@@ -102,14 +72,10 @@ function bindScroll(){
     });
 
     var arr = [];
-    var www = [];
     $("#container .section").each(function(){
         arr.push( $(this).height() );
-        www.push( $(this).attr('style') );
     });
 
-    // alert(arr.toString() + ';;' + www.toString() + ';;' + document.getElementById('container').scrollWidth );
-    // alert( has3d());
 
     var max_h = Math.max.apply(Math, arr);
     var win_h = $(window).height();
@@ -344,7 +310,7 @@ function getCustomerInfo(){
         data['isVip'] = isVip;
     }
 
-    _this.screen.lock();
+    // _this.screen.lock();
 
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerClientinfo',
@@ -353,7 +319,7 @@ function getCustomerInfo(){
         data: data,
         success: function(data){
             
-            _this.screen.unlock();
+            // _this.screen.unlock();
 
             if(data.result){
                 _this.customer = data.objValue;

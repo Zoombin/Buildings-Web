@@ -3,6 +3,10 @@ $( document ).ajaxError(function() {
     window.location.href = 'ShowDialog:900950.com?msg=网络请求错误，请确认你的网络连接正常。';
     return;
 });
+$.ajaxSetup({
+    //30秒超时
+    timeout: 30000
+})
 // 去掉左右空格
 String.prototype.trim = function() { return this.replace(/\s+/g,""); }   
 
@@ -27,7 +31,7 @@ var BrokerWeb = BrokerWeb || {
     },
 
     screen: function(){
-        var lockdiv = $('<div class="ui-loader ui-corner-all ui-body-loading ui-loader-verbose"><span class="ui-icon ui-icon-loading"></span><h1>加载中...</h1></div>');
+        var lockdiv = $('<div class="load-wrapper"><div class="ui-loader ui-corner-all ui-body-loading ui-loader-verbose"><span class="ui-icon ui-icon-loading"></span><h1>加载中...</h1></div></div>');
         $('body').append( $(lockdiv) ); 
         
         return {
