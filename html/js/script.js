@@ -32,8 +32,7 @@ var BrokerWeb = BrokerWeb || {
 
     screen: function(){
         var lockdiv = $('<div class="load-wrapper"><div class="ui-loader ui-corner-all ui-body-loading ui-loader-verbose"><span class="ui-icon ui-icon-loading"></span><h1>加载中...</h1></div></div>');
-        $('body').append( $(lockdiv) ); 
-        $( lockdiv ).hide();
+        $('body').append( $(lockdiv) );
         
         return {
             lock : function(msg){ 
