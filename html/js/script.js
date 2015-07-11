@@ -2,32 +2,78 @@
 $( document ).ajaxError(function() {
     window.location.href = 'ShowDialog:900950.com?msg=网络请求错误，请确认你的网络连接正常。';
     return;
+})
+//token过期
+.ajaxSuccess(function(event, request, config, data){
+    
+    if(!data.result && data.paramMap.resultCode==='500002'){
+        window.location.href = 'ShouldLogin:900950.com';
+        return;
+    }
 });
+
 $.ajaxSetup({
+    
+    dataType: 'json',
     //30秒超时
     timeout: 30000
-})
+
+});
+
+
+
 // 去掉左右空格
 String.prototype.trim = function() { return this.replace(/\s+/g,""); }   
 
 var BrokerWeb = BrokerWeb || {
     apiBaseUrl: 'http://218.4.117.11:8093',
-    brokerid: 0,
     params: {},
     search: '',
-
+    token: '',
+    brokerid: '',
     init: function(callback){
+        // this.login();
         this.params = this.getParams();
+        this.token = this.params.token;
         this.brokerid = this.params.id;
         this.recieverType = this.type;
         this.screen = this.screen();
 
+
         callback();
     },
 
-    setLogin: function(id){
+    setLogin: function(id, token){
         this.brokerid = id;
         this.params.login = 1;
+        if(typeof token !== 'undefined'){
+            this.token = token;
+        }
+        
+    },
+
+    login: function(user, callback){
+        user = {
+            phone:'18501735208',
+            password: '111111'
+        };
+
+        $.ajax({
+            url: BrokerWeb.apiBaseUrl + '/broker/rest/cubp/getToken',
+            type: 'POST',
+            data: user,
+            success: function(resp){
+                console.info('login resp==', resp);
+                if(resp.result){
+                   BrokerWeb.token = resp.value; 
+
+                   if(typeof callback === 'function'){
+                        callback();
+                   }
+                }
+                
+            }
+        });
     },
 
     screen: function(){

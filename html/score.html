@@ -91,53 +91,56 @@
 $(document).ready(function(){
 
 function dayMark() {
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/broker/dayMark/' + _this.brokerid,
-        type: 'GET',
-        dataType: 'json',
+        url: _this.apiBaseUrl + '/broker/rest/cubp/jifenJournal',
+        type: 'POST',
+        data: {
+            token: _this.token,
+            brokerId: _this.brokerid,
+            type: 6,//"1": APP注册, "6": 每日签到, "9": 分享文章
+
+        },
         success: function(data){
             _this.getBrokerScore();
+            _this.checkMarked();
             window.location.href = 'ShowDialog:900950.com?msg=签到成功';
         },
-        error: function(){
-            //提交出错
+        beforeSend: function(){
+            _this.screen.lock();
+        },
+        complete: function(){
+            _this.screen.unlock();
         }
     });
 }
 
 //经纪人积分信息
 function getBrokerScore(){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerIntegral/' + _this.brokerid,
+        url: _this.apiBaseUrl + '/broker/rest/cubp/jifenGet?token=' + _this.token,
         type: 'GET',
-        dataType: 'json',
         success: function(data){
             if(data.result){
-                console.log(data);
-                $("#total").html(data.objValue.integrals);
+                console.log('积分信息', data);
+                $("#total").html(data.objValue.jifen.jifen);
                 $("#today").html(data.objValue.integral);
                 //data.objValue.isMark = 1;
-                if(parseInt(data.objValue.isMark)){
-                    $("#login").addClass('active');
-                    $("#dayMarkStatus").html('已完成');
-                    $("#dayMarkStatus").removeClass('themecolor');
-                    $("#dayMark").unbind('click');
-                }else{
-                    $("#login").removeClass('active');
-                    $("#dayMarkStatus").html('签到');
-                }
+                
             }
         },
-        error: function(){
-            //提交出错
+        beforeSend: function(){
+            _this.screen.lock();
+        },
+        complete: function(){
+            _this.screen.unlock();
         }
     });
 }
 
 function getIntegralCfg(){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
     $.ajax({
         url: _this.apiBaseUrl + '/broker/rest/cubp/getIntegralCfg/',
         type: 'GET',
@@ -153,18 +156,49 @@ function getIntegralCfg(){
                 }
             }
         },
-        error: function(){
-            //提交出错
+        beforeSend: function(){
+            _this.screen.lock();
+        },
+        complete: function(){
+            _this.screen.unlock();
+        }
+    });   
+}
+
+//是否签到
+function checkMarked(){
+    var _this = BrokerWeb;
+    $.ajax({
+        url: _this.apiBaseUrl + '/broker/rest/cubp/isQianDao?brokerId=' + _this.token,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data){
+            console.log(data);
+            if(parseInt(data.result)){
+                $("#login").addClass('active');
+                $("#dayMarkStatus").html('已完成');
+                $("#dayMarkStatus").removeClass('themecolor');
+                $("#dayMark").unbind('click');
+            }else{
+                $("#login").removeClass('active');
+                $("#dayMarkStatus").html('签到');
+            }
+        },
+        beforeSend: function(){
+            _this.screen.lock();
+        },
+        complete: function(){
+            _this.screen.unlock();
         }
     });   
 }
 
 //主函数入口
-function main(brokerid){
-    _this = BrokerWeb;
+function main(){
+    var _this = BrokerWeb;
 
     //判断是否登录
-    if(typeof _this.params.login=='undefined' || _this.params.login=='0'){
+    if(typeof _this.params.token === 'undefined' || _this.params.token == ''){
         window.location.href = 'ShouldLogin:900950.com';
     }
 
@@ -175,12 +209,16 @@ function main(brokerid){
 
     //签到加多少分是动态的
     _this.getIntegralCfg();
+
+    //是否签到
+    _this.checkMarked();
 }
 
 $.extend(BrokerWeb, {
     getBrokerScore: getBrokerScore,
     getIntegralCfg: getIntegralCfg,
-    dayMark: dayMark
+    dayMark: dayMark,
+    checkMarked: checkMarked
 });
 
 //主函数入口

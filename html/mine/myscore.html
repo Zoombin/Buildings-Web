@@ -34,7 +34,7 @@
 </html>
 <script src="../js/jquery.js"></script>
 <script src="../js/script.js"></script>
-
+<script src="../js/lodash.min.js"></script>
 <script>
 $(document).ready(function(){
 
@@ -42,12 +42,14 @@ $(document).ready(function(){
 function setScoreList(){
     var _this = BrokerWeb;
     var list = _this.scoreList;
+    list = _.groupBy(list, function(n){
+        return n.journalTime.split(' ')[0];
+    });
+    
 
     //存放所有的日期
-    var keys = [];
-    for(var d in list){
-        keys.push(d);
-    }
+    var keys = _.keys(list);
+    
 
     //根据日期降序排序
     keys.sort(function(a,b){
@@ -69,7 +71,7 @@ function setScoreList(){
             
             var score_num = $('<div class="score_num">')
                 .addClass(i==0?'':'mt15')
-                .html(v.sourceType);
+                .html(v.desc);
         
 
             if(item.length > 1){
@@ -83,7 +85,7 @@ function setScoreList(){
                 }
 
             }else{
-                console.log('bbb');
+               
                 score_num.prepend(
                     $('<img>').addClass('img_line_one').attr('src','../img/score_line_1.png')
                 );
@@ -91,7 +93,7 @@ function setScoreList(){
 
             score_num.append(
                 $('<span class="pull-right text-green">')
-                    .html( '+' + v.integral)
+                    .html( '+' + v.jifen)
             );
             its.append(score_num);
             
@@ -124,23 +126,24 @@ function setScoreList(){
 function getBrokerScoreList(){
     var _this = BrokerWeb;
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/broker/getIntegral',
+        url: _this.apiBaseUrl + '/broker/rest/cubp/jifenGetDetail',
         type: 'GET',
         data: {
-            id: _this.brokerid
+            token: _this.token
         },
-        dataType: 'json',
         success: function(data){
             console.log(data);
             if(data.result){
-                _this.scoreList = data.objValue[0];
+
+                _this.scoreList = data.objValue.journals;
                 _this.setScoreList();
-            }else{
-                window.location.href = 'ShowDialog:900950.com?msg=获取信息失败';
             }
         },
-        error: function(){
-            //提交出错
+        beforeSend: function(){
+            _this.screen.lock();
+        },
+        complete: function(){
+            _this.screen.unlock();
         }
     });
 }
@@ -149,16 +152,18 @@ function getBrokerScoreList(){
 function getBrokerScore(){
     _this = BrokerWeb;
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/broker/getBrokerIntegral/' + _this.brokerid,
+        url: _this.apiBaseUrl + '/broker/rest/cubp/jifenGet?token=' + _this.token,
         type: 'GET',
-        dataType: 'json',
         success: function(data){
             if(data.result){
-                $("#total").html(data.objValue.integrals);
+                $("#total").html(data.objValue.jifen.jifen);
             }
         },
-        error: function(){
-            //提交出错
+        beforeSend: function(){
+            _this.screen.lock();
+        },
+        complete: function(){
+            _this.screen.unlock();
         }
 
     });
@@ -169,7 +174,7 @@ function main(){
     var _this = BrokerWeb;
 
     //判断是否登录
-    if(typeof _this.params.login=='undefined' || _this.params.login=='0'){
+    if(typeof _this.params.token === 'undefined' || _this.params.token == ''){
         window.location.href = 'ShouldLogin:900950.com';
     }
 

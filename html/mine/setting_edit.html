@@ -121,21 +121,21 @@ function checkDupPassword(){
 
 //修改密码
 function updatePassword(){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
 
     if( !_this.checkOldPassword() || !_this.checkNewPassword() || !_this.checkDupPassword() ){
         return;
     }
 
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/broker/updatePassword',
+        url: _this.apiBaseUrl + '/broker/rest/cubp/modifyPwd',
         type: 'POST',
         data: {
-            username: _this.params.tel,//手机号码
-            oldpassword: $("#oldpwd").val(),
-            newpassword: $("#newpwd").val()
+            token: _this.params.token,
+            oldPassword: $("#oldpwd").val(),
+            newPassword: $("#newpwd").val()
         },
-        dataType: 'json',
+        
         success: function(data){
             if(data.result){
                 window.location.href = 'UpdateSuccess:900950.com';
@@ -143,8 +143,11 @@ function updatePassword(){
                 window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             }
         },
-        error: function(){
-            //提交出错
+        beforeSend: function(){
+            _this.screen.lock();
+        },
+        complete: function(){
+            _this.screen.unlock();
         }
     });
 }
@@ -170,22 +173,22 @@ function checkNickname(){
 
 //修改昵称
 function updateNickname(){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
 
     if( !_this.checkNickname() ){
         return;
     }
 
     var data = {
-        id: _this.brokerid,
-        name: $("#nickname").val()
+        token: _this.token,
+        nickName: $("#nickname").val()
     };
 
+
     $.ajax({
-        url: _this.apiBaseUrl + '/broker/rest/broker/updateBroker',
+        url: _this.apiBaseUrl + '/broker/rest/cubp/modify',
         type: 'POST',
         data: data,
-        dataType: 'json',
         success: function(data){
             console.log(data);
             if(data.result){
@@ -195,8 +198,11 @@ function updateNickname(){
                 window.location.href = 'ShowDialog:900950.com?msg=' + data.value;
             }
         },
-        error: function(){
-            //提交出错
+        beforeSend: function(){
+            _this.screen.lock();
+        },
+        complete: function(){
+            _this.screen.unlock();
         }
 
     });
@@ -205,10 +211,10 @@ function updateNickname(){
 
 //主函数入口
 function main(brokerid, phone){
-    _this = BrokerWeb;
+    var _this = BrokerWeb;
 
     //判断是否登录
-    if(typeof _this.params.login=='undefined' || _this.params.login=='0'){
+    if(typeof _this.params.token === 'undefined' || _this.params.token == ''){
         window.location.href = 'ShouldLogin:900950.com';
     }
 
