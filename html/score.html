@@ -20,10 +20,10 @@
             <div class="text-gray2">总积分：</div>
             <div class="text-huge text-green" id="total"></div> 
         </div>
-        <div class="col-xs-6">
+<!--         <div class="col-xs-6">
             <div class="text-gray2" >今日累计积分：</div>
             <div class="text-huge text-green" id="today"></div> 
-        </div>
+        </div> -->
     </div>
     <!-- //头像部分 -->
     <!-- 内容部分// -->
@@ -125,7 +125,7 @@ function getBrokerScore(){
             if(data.result){
                 console.log('积分信息', data);
                 $("#total").html(data.objValue.jifen.jifen);
-                $("#today").html(data.objValue.integral);
+                //$("#today").html(data.objValue.integral);
                 //data.objValue.isMark = 1;
                 
             }
