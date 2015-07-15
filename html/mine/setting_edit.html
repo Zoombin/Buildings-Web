@@ -132,6 +132,7 @@ function updatePassword(){
         type: 'POST',
         data: {
             token: _this.params.token,
+            brokerId: _this.params.id,
             oldPassword: $("#oldpwd").val(),
             newPassword: $("#newpwd").val()
         },
@@ -181,7 +182,8 @@ function updateNickname(){
 
     var data = {
         token: _this.token,
-        nickName: $("#nickname").val()
+        nickName: $("#nickname").val(),
+        brokerId: _this.params.id
     };
 
 
